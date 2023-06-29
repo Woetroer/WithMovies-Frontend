@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\assets"
   ],
-  "SelectedNode": "\\C:\\Users\\Woetroe\\Source\\Repos\\withmovies-frontend",
+  "SelectedNode": "\\src\\app\\app.component.html",
   "PreviewInSolutionExplorer": false
 }
