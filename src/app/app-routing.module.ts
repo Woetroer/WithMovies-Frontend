@@ -1,19 +1,26 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, provideRouter, withComponentInputBinding } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { PickAMovieComponent } from './pick-a-movie/pick-a-movie.component';
 import { ProfileComponent } from './profile/profile.component';
+import { HomeComponent } from './home/home.component';
+import { ExploreComponent } from './explore/explore.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent},
-  { path: 'Register', component: RegisterComponent},
-  { path: 'PickAMovie', component: PickAMovieComponent},
-  { path: 'Profile', component: ProfileComponent},
+    { path: "", component: HomeComponent, title: "Home", data: { "showInNavigationBar": true } },
+    { path: "explore", component: ExploreComponent, title: "Explore", data: { "showInNavigationBar": true } },
+    { path: 'login', component: LoginComponent },
+    { path: 'Register', component: RegisterComponent },
+    { path: 'PickAMovie', component: PickAMovieComponent },
+    { path: 'Profile', component: ProfileComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule],
+    exports: [RouterModule],
+    providers: [
+        provideRouter(routes, withComponentInputBinding()),
+    ]
 })
 export class AppRoutingModule { }
