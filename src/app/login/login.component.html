@@ -1,9 +1,23 @@
 
-<form class="flex-container">
+<form class="flex-container" [formGroup]="loginForm">
     <div class="loginheader">Login</div>
-    <label for="watchertag">Watcher Tag or E-mail:</label>
-    <input type="text" name="watchertag"><br><br>
+    <label for="userInfo">Watcher Tag or E-mail:
+    </label>
+    <input type="text" name="userInfo" formControlName="userInfo" required>
+    <div *ngIf="userInfo?.invalid && 
+    (userInfo?.dirty || userInfo?.touched)">
+    <small class="text-danger" *ngIf="userInfo?.errors?.['required']">This field is required.</small>
+    </div>
+    <br><br>
     <label for="password">Password:</label>
-    <input type="password" name="password"><br><br>
+    <input type="password" name="password" formControlName="password" required>
+    <div *ngIf="password?.invalid && 
+    (password?.dirty || password?.touched)">
+    <small class="text-danger" *ngIf="password?.errors?.['required']">This field is required.</small>
+    <small class="text-danger" *ngIf="password?.errors?.['pattern']">
+        A password must be a minimum of 8 characters long and contain at least one uppercase character, one lowercase character, a number and a special character.
+    </small>
+    </div>
+    <br><br>
     <input type="submit" value="Login">
 </form>
