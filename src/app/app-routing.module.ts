@@ -7,8 +7,6 @@ import {
 } from "@angular/router";
 import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
-import { PickAMovieComponent } from "./pick-a-movie/pick-a-movie.component";
-import { ProfileComponent } from "./profile/profile.component";
 import { HomeComponent } from "./home/home.component";
 import { ExploreComponent } from "./explore/explore.component";
 
@@ -26,9 +24,7 @@ const routes: Routes = [
         data: { showInNavigationBar: true },
     },
     { path: "login", component: LoginComponent },
-    { path: "Register", component: RegisterComponent },
-    { path: "PickAMovie", component: PickAMovieComponent },
-    { path: "Profile", component: ProfileComponent },
+    { path: "register", component: RegisterComponent },
 ];
 
 @NgModule({
