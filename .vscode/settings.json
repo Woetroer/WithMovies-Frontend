@@ -1,0 +1,11 @@
+{
+    "Workspace_Formatter.excludePattern": [
+        "**/build",
+        "**/.*",
+        "**/.vscode",
+        "**/node_modules",
+        "**/*.yml",
+        "**/package.json",
+        "**/package-lock.json"
+    ]
+}
