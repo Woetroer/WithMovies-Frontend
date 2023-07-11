@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+    selector: "app-register",
+    templateUrl: "./register.component.html",
+    styleUrls: ["./register.component.scss"],
 })
+
 export class RegisterComponent {
 registerForm = new FormGroup({
     watchertag: new FormControl('', Validators.required),
@@ -17,3 +18,4 @@ registerForm = new FormGroup({
   get emailaddress() {return this.registerForm.get('emailaddress');}
   get password() {return this.registerForm.get('password');}
   }
+
