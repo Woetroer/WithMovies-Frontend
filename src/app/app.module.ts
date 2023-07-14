@@ -13,6 +13,8 @@ import { NavigationBarComponent } from "./navigation-bar/navigation-bar.componen
 import { ExploreComponent } from "./explore/explore.component";
 import { CommonModule } from "@angular/common";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { MovieDetailsPageComponent } from './movie-details-page/movie-details-page.component';
+import { HttpClientModule } from  '@angular/common/http';
 
 @NgModule({
     declarations: [
@@ -25,6 +27,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
         HomeComponent,
         NavigationBarComponent,
         ExploreComponent,
+        MovieDetailsPageComponent,
     ],
     imports: [
         CommonModule,
@@ -33,6 +36,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
         FormsModule,
         ReactiveFormsModule,
         FontAwesomeModule,
+        HttpClientModule
     ],
     providers: [],
     bootstrap: [AppComponent],

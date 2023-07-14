@@ -9,6 +9,7 @@ import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
 import { HomeComponent } from "./home/home.component";
 import { ExploreComponent } from "./explore/explore.component";
+import { MovieDetailsPageComponent } from "./movie-details-page/movie-details-page.component";
 
 const routes: Routes = [
     {
@@ -25,6 +26,7 @@ const routes: Routes = [
     },
     { path: "login", component: LoginComponent },
     { path: "register", component: RegisterComponent },
+    { path: "movie/:id", component: MovieDetailsPageComponent },
 ];
 
 @NgModule({
