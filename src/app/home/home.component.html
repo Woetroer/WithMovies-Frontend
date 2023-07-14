@@ -1,37 +1,11 @@
 <main>
     <h1 class="header">My Watchlist</h1>
-    <div class="items-wrapper">
+    <div class="items-wrapper"> 
         <div class="items">
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
+            <div *ngFor="let movie of movies" class="item" style="--url: url('https://image.tmdb.org/t/p/w500//cezWGskPY5x7GaglTTRN4Fugfb8.jpg' + 'movie.posterPath')">
+                <h1>{{movie.title}}</h1>
+                <h2>{{movie.tagLine}}</h2>
+            </div>
         </div>
     </div>
     <h1 class="header">Your friends recommended you</h1>
