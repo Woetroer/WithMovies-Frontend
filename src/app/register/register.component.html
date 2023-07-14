@@ -1,19 +1,15 @@
 <form class="flex-container" [formGroup]="registerForm">
-    <div class="registerheader">Register</div>
+    <div class="header">Register</div>
     <label for="watchertag">Watcher Tag:</label>
-    <input type="text" name="watchertag" formcontrolname="watchertag" required />
-    <div class="alert alert-danger" *ngIf="
-            watchertag?.invalid && (watchertag?.dirty || watchertag?.touched)
-        ">
-        <small class="text-danger" *ngIf="watchertag?.errors?.['required']">This field is required.</small>
+    <input type="text" name="watchertag" formControlName="watchertag" placeholder="FbiAgent" required
+        [class.error]="watchertag?.invalid && (watchertag?.dirty || watchertag?.touched)" id="watchertag" />
+    <div class="error-message">
+        <div *ngIf="watchertag?.errors?.['required']">This field is required.</div>
     </div>
-    <br /><br />
     <label for="emailaddress">E-mail address:</label>
-    <input type="text" name="emailaddress" formcontrolname="emailaddress" required />
-    <div class="alert alert-danger" *ngIf="
-            emailaddress?.invalid &&
-            (emailaddress?.dirty || emailaddress?.touched)
-        ">
+    <input type="text" name="emailaddress" formControlName="emailaddress" placeholder="agent10284@fbi.gov" required
+        [class.error]="emailaddress?.invalid && (emailaddress?.dirty || emailaddress?.touched)" id="emailaddress" />
+    <div class="error-message">
         <div *ngIf="emailaddress?.errors?.['required']">
             This field is required.
         </div>
@@ -21,19 +17,21 @@
             This is not a valid email address.
         </div>
     </div>
-    <br /><br />
     <label for="password" name="password">Password:</label>
-    <input type="password" name="password" formcontrolname="password" required />
-    <div *ngIf="password?.invalid && (password?.dirty || password?.touched)">
-        <div class="text-danger" *ngIf="password?.errors?.['required']">
+    <input type="password" name="password" formControlName="password" placeholder="ImWatchingYou123#" required
+        [class.error]="password?.invalid && (password?.dirty || password?.touched)" id="password" />
+    <div class="error-message">
+        <div *ngIf="password?.errors?.['required']">
             This field is required.
         </div>
-        <div class="text-danger" *ngIf="password?.errors?.['pattern']">
+        <div *ngIf="password?.errors?.['pattern']">
             A password must be a minimum of 8 characters long and contain at
             least one uppercase character, one lowercase character, a number and
             a special character.
         </div>
     </div>
-    <br /><br />
-    <input type="submit" value="Register" />
+    <div class="buttons">
+        <a [routerLink]="['/login']" class="alt-page-link">Login</a>
+        <input type="submit" value="Register" />
+    </div>
 </form>

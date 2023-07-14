@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { Router } from "@angular/router";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
@@ -10,12 +9,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 export class LoginComponent {
     loginForm = new FormGroup({
         userInfo: new FormControl("", Validators.required),
-        password: new FormControl("", [
-            Validators.required,
-            Validators.pattern(
-                "^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
-            ),
-        ]),
+        password: new FormControl("", [Validators.required]),
     });
     get password() {
         return this.loginForm.get("password");
