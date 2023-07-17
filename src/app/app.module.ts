@@ -16,6 +16,7 @@ import { CommonModule } from "@angular/common";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { SearchbarComponent } from "./searchbar/searchbar.component";
 import { HttpClientModule } from "@angular/common/http";
+import { MovieCardComponent } from './movie-card/movie-card.component';
 
 @NgModule({
     declarations: [
@@ -30,6 +31,7 @@ import { HttpClientModule } from "@angular/common/http";
         NavigationBarComponent,
         ExploreComponent,
         SearchbarComponent,
+        MovieCardComponent,
     ],
     imports: [
         CommonModule,

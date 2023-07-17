@@ -1,0 +1,4 @@
+<div class="movie-card" [routerLink]="['/movie', movie.id]" [ngStyle]="{'--url': 'url(' + poster + ')'}"
+    [id]="'movie-card-' + movie.id">
+    <h1>{{movie.title}}</h1>
+</div>

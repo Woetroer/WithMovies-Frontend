@@ -1,6 +1,8 @@
 @import "../../styles.scss";
 
 .searchbar {
+    position: relative;
+
     padding: 8px;
     width: 32px;
     height: 32px;
@@ -14,8 +16,6 @@
     color: $background;
 
     cursor: pointer;
-
-    overflow: hidden;
 
     transition: width 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 
@@ -61,10 +61,53 @@
 
         .search-input {
             display: initial;
-            padding: 0 12px;
+            padding: 0 8px;
 
             transition: padding-left 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86),
                 padding-right 0.5s cubic-bezier(0.95, 0.05, 0.795, 0.035);
         }
+
+        &.has-suggestions .suggestions {
+            display: initial;
+            height: 200px;
+            opacity: 1;
+        }
+    }
+}
+
+.suggestions {
+    display: none;
+    opacity: 0;
+    height: 0;
+
+    position: absolute;
+    top: 48px;
+    right: 0;
+
+    width: 300px;
+
+    background-color: $secondary-button;
+    color: $text;
+
+    transition: opacity 0.3s cubic-bezier(0.19, 1, 0.22, 1),
+        height 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+
+    overflow: auto;
+
+    border: solid 2px $secondary-button;
+    z-index: 9999;
+}
+
+.suggestions-inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.suggestion {
+    padding: 8px 12px;
+
+    &:hover {
+        background-color: $primary-button;
+        color: $background;
     }
 }

@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { faClose, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { KeywordService } from "../services/keyword.service";
 
 @Component({
     selector: "app-searchbar",
@@ -12,7 +13,14 @@ export class SearchbarComponent {
     closeIcon = faClose;
     icon = this.searchIcon;
 
-    timer?: number;
+    iconTimer?: number;
+    submitTimer?: number;
+
+    searchValue = "";
+
+    suggestions: string[] = [];
+
+    constructor(private keywordService: KeywordService) {}
 
     toggle() {
         this.open = !this.open;
@@ -23,16 +31,44 @@ export class SearchbarComponent {
             });
         }
 
-        if (this.timer) {
-            clearTimeout(this.timer);
-            this.timer = undefined;
+        if (this.iconTimer) {
+            clearTimeout(this.iconTimer);
+            this.iconTimer = undefined;
         }
 
         // Set icon after 40 milliseconds, this makes the animation exactly
         // 23.868x better (objectively)
-        this.timer = setTimeout(() => {
+        this.iconTimer = setTimeout(() => {
             this.icon = this.open ? this.closeIcon : this.searchIcon;
-            this.timer = undefined;
+            this.iconTimer = undefined;
         }, 40) as any;
+    }
+
+    searchKeydown() {
+        if (this.submitTimer) {
+            clearTimeout(this.submitTimer);
+            this.submitTimer = undefined;
+        }
+
+        // Set icon after 40 milliseconds, this makes the animation exactly
+        // 23.868x better (objectively)
+        this.submitTimer = setTimeout(() => {
+            this.searchSubmit();
+            this.submitTimer = undefined;
+        }, 200) as any;
+    }
+
+    searchSubmit() {
+        this.suggestions = [];
+
+        let value = this.searchValue.trim();
+
+        if (value.length < 3) {
+            return;
+        }
+
+        this.suggestions = this.keywordService.findSuggestions(value.trim());
+        console.log("Suggestions: ", this.suggestions);
+        console.log("Keywords: ", this.keywordService.findKeywords(value));
     }
 }
