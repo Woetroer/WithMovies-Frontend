@@ -52,6 +52,43 @@ div.profile {
     color: $background;
 
     cursor: pointer;
+
+    &:hover{
+        background-color: rgba(0, 0, 0, 0.080);
+    }
+
+    &.clicked{
+        background-color: rgba(0, 0, 0, 0.080);
+    }
+}
+
+.dropdown{
+    display: none;
+    position: absolute;
+    background-color: $primary-button;
+    border: rgb(0, 0, 0) 2px solid;
+    color: black;
+    right: 0px;
+    top: 77px;
+    width: 10%;
+    border-radius: 0px 0px 0px 16px;
+    h1{
+        margin-left: 35px;
+        text-decoration: underline;
+        font-size: 12px;
+        user-select: none;
+        &:hover{
+            cursor: pointer;
+            color: rgba(0, 0, 0, 0.75);
+        }
+    }
+
+    &.open{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        opacity: 1;
+    }
 }
 
 a.logo {

@@ -11,6 +11,7 @@ import { PickAMovieComponent } from "./pick-a-movie/pick-a-movie.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { HomeComponent } from "./home/home.component";
 import { ExploreComponent } from "./explore/explore.component";
+import { SettingsComponent } from "./settings/settings.component";
 
 const routes: Routes = [
     {
@@ -29,6 +30,7 @@ const routes: Routes = [
     { path: "Register", component: RegisterComponent },
     { path: "PickAMovie", component: PickAMovieComponent },
     { path: "Profile", component: ProfileComponent },
+    { path: "Settings", component: SettingsComponent }
 ];
 
 @NgModule({
