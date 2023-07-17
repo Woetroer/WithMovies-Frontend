@@ -1,0 +1,70 @@
+@import "../../styles.scss";
+
+.searchbar {
+    padding: 8px;
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 5000px;
+    box-shadow: inset 0px 0px 0px 2px $background;
+    color: $background;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    transition: width 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+
+    .search-icon {
+        transform: none;
+        transform-origin: center;
+        transition: transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+
+    .search-input {
+        flex: 1 1 auto;
+
+        background: transparent;
+        border: none;
+
+        font-size: inherit;
+        font-family: inherit;
+
+        height: 100%;
+        max-width: calc(100% - 32px);
+        box-sizing: border-box;
+
+        padding: 0;
+
+        transition: padding-left 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86),
+            padding-right 0.1s linear;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &.open {
+        cursor: initial;
+
+        width: 300px;
+
+        .search-icon {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+            transform: rotate(90deg);
+        }
+
+        .search-input {
+            display: initial;
+            padding: 0 12px;
+
+            transition: padding-left 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86),
+                padding-right 0.5s cubic-bezier(0.95, 0.05, 0.795, 0.035);
+        }
+    }
+}

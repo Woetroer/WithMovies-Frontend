@@ -1,14 +1,11 @@
 <nav class="navbar">
     <ul class="navbar-links">
-        <li
-            *ngFor="let route of this.routes"
-            class="navbar-link"
-            [class.active]="activeRoute == route.path"
-        >
+        <li *ngFor="let route of this.routes" class="navbar-link" [class.active]="activeRoute == route.path">
             <a [routerLink]="[route.path]" tabindex="0">{{ route.title }}</a>
         </li>
     </ul>
     <div class="spacer"></div>
+    <app-searchbar></app-searchbar>
     <div class="profile">
         <fa-icon [icon]="faUser" />
     </div>

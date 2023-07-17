@@ -14,6 +14,7 @@ import { NavigationBarComponent } from "./navigation-bar/navigation-bar.componen
 import { ExploreComponent } from "./explore/explore.component";
 import { CommonModule } from "@angular/common";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { SearchbarComponent } from './searchbar/searchbar.component';
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
         HomeComponent,
         NavigationBarComponent,
         ExploreComponent,
+        SearchbarComponent,
     ],
     imports: [
         CommonModule,
