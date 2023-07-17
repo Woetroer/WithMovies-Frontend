@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\assets"
   ],
-  "SelectedNode": "\\C:\\Users\\thijm\\Source\\Repos\\withmovies-frontend",
+  "SelectedNode": "\\src\\app",
   "PreviewInSolutionExplorer": false
 }
