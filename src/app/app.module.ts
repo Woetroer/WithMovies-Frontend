@@ -14,7 +14,8 @@ import { NavigationBarComponent } from "./navigation-bar/navigation-bar.componen
 import { ExploreComponent } from "./explore/explore.component";
 import { CommonModule } from "@angular/common";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { SearchbarComponent } from './searchbar/searchbar.component';
+import { SearchbarComponent } from "./searchbar/searchbar.component";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
     declarations: [
@@ -37,6 +38,7 @@ import { SearchbarComponent } from './searchbar/searchbar.component';
         FormsModule,
         ReactiveFormsModule,
         FontAwesomeModule,
+        HttpClientModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
