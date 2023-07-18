@@ -16,6 +16,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { SearchbarComponent } from "./searchbar/searchbar.component";
 import { HttpClientModule } from "@angular/common/http";
 import { MovieCardComponent } from './movie-card/movie-card.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import { MovieCardComponent } from './movie-card/movie-card.component';
         ReactiveFormsModule,
         FontAwesomeModule,
         HttpClientModule,
+        NgChartsModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
