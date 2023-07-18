@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { Router } from "@angular/router";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
@@ -7,4 +6,15 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
     templateUrl: "./login.component.html",
     styleUrls: ["./login.component.scss"],
 })
-export class LoginComponent {}
+export class LoginComponent {
+    loginForm = new FormGroup({
+        userInfo: new FormControl("", Validators.required),
+        password: new FormControl("", [Validators.required]),
+    });
+    get password() {
+        return this.loginForm.get("password");
+    }
+    get userInfo() {
+        return this.loginForm.get("userInfo");
+    }
+}
