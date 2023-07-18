@@ -13,7 +13,9 @@ import { NavigationBarComponent } from "./navigation-bar/navigation-bar.componen
 import { ExploreComponent } from "./explore/explore.component";
 import { CommonModule } from "@angular/common";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { HttpClientModule } from '@angular/common/http';
+import { SearchbarComponent } from "./searchbar/searchbar.component";
+import { HttpClientModule } from "@angular/common/http";
+import { MovieCardComponent } from './movie-card/movie-card.component';
 
 @NgModule({
     declarations: [
@@ -26,6 +28,8 @@ import { HttpClientModule } from '@angular/common/http';
         HomeComponent,
         NavigationBarComponent,
         ExploreComponent,
+        SearchbarComponent,
+        MovieCardComponent,
     ],
     imports: [
         CommonModule,
@@ -34,7 +38,7 @@ import { HttpClientModule } from '@angular/common/http';
         FormsModule,
         ReactiveFormsModule,
         FontAwesomeModule,
-        HttpClientModule
+        HttpClientModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
