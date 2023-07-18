@@ -10,6 +10,8 @@ import { RegisterComponent } from "./register/register.component";
 import { HomeComponent } from "./home/home.component";
 import { ExploreComponent } from "./explore/explore.component";
 import { SettingsComponent } from "./settings/settings.component";
+import { ProfileComponent } from "./profile/profile.component";
+
 
 const routes: Routes = [
     {
@@ -26,7 +28,6 @@ const routes: Routes = [
     },
     { path: "login", component: LoginComponent },
     { path: "Register", component: RegisterComponent },
-    { path: "PickAMovie", component: PickAMovieComponent },
     { path: "Profile", component: ProfileComponent },
     { path: "Settings", component: SettingsComponent }
 ];
