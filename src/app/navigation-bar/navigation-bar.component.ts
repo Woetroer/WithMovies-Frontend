@@ -35,7 +35,8 @@ export class NavigationBarComponent {
         });
     }
 
-    toggleDropdown(){
+    toggleDropdown(event: Event) {
+        event.stopPropagation();
         this.open = !this.open;
     }
 }

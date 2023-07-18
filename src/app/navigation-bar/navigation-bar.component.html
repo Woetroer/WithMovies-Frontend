@@ -5,13 +5,13 @@
         </li>
     </ul>
     <div class="spacer"></div>
-    <div class="profile" (click)="toggleDropdown()" [class.clicked]="open">
+    <div class="profile" (click)="toggleDropdown($event)" [class.clicked]="open">
         <fa-icon [icon]="faUser" />
     </div>
-    <div class="dropdown" [class.open]="open">
-        <h1 routerLink="/Profile" (click)="toggleDropdown()">Profile</h1>
-        <h1 routerLink="/Settings" (click)="toggleDropdown()">Account Settings</h1>
-        <h1 (click)="toggleDropdown()">Option 3</h1>
+    <div class="dropdown" [class.open]="open" (window:click)="open ? toggleDropdown($event) : null">
+        <button routerLink="/Profile">Profile</button>
+        <button routerLink="/Settings">Account Settings</button>
+        <button>Logout</button>
     </div>
     <a [routerLink]="['/']" class="logo" tabindex="-1"></a>
 </nav>

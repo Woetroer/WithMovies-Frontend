@@ -38,7 +38,7 @@ div.spacer {
     flex: 1;
 }
 
-a.profile {
+div.profile {
     padding: 8px;
     width: 32px;
     height: 32px;
@@ -52,41 +52,41 @@ a.profile {
     color: $background;
 
     cursor: pointer;
-
-    &:hover{
-        background-color: rgba(0, 0, 0, 0.080);
-    }
-
-    &.clicked{
-        background-color: rgba(0, 0, 0, 0.080);
-    }
 }
 
-.dropdown{
+.dropdown {
     display: none;
     position: absolute;
-    background-color: $primary-button;
-    border: rgb(0, 0, 0) 2px solid;
-    color: black;
     right: 0px;
-    top: 77px;
-    width: 10%;
+    top: 76px;
+    width: 200px;
+
+    color: black;
+    background-color: $primary-button;
     border-radius: 0px 0px 0px 16px;
-    h1{
-        margin-left: 35px;
-        text-decoration: underline;
-        font-size: 12px;
-        user-select: none;
-        &:hover{
-            cursor: pointer;
-            color: rgba(0, 0, 0, 0.75);
+
+    overflow: none;
+
+    button {
+        cursor: pointer;
+
+        font-size: inherit;
+        text-align: start;
+
+        background: none;
+        border: none;
+
+        padding: 8px 12px;
+
+        &:hover {
+            background-color: $secondary-button;
+            color: $primary-button;
         }
     }
 
-    &.open{
+    &.open {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
         opacity: 1;
     }
 }
