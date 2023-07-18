@@ -50,3 +50,85 @@ app-root {
 
     overflow: auto;
 }
+
+label {
+    color: inherit;
+
+    width: 400px;
+}
+
+input {
+    background-color: $secondary-button;
+    border-color: lighten($secondary-button, 10%);
+    color: $text;
+
+    font-size: 16px;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+    border-width: 2px;
+    border-style: solid;
+    padding: 12px 14px;
+    width: 400px;
+    margin: 8px 0 16px 0;
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 4px;
+
+    cursor: pointer;
+    color: $secondary-button;
+    background-color: $primary-button;
+}
+
+form {
+    .header {
+        font-size: 48px;
+        text-align: center;
+
+        margin: 32px 0;
+    }
+
+    .buttons {
+        margin-top: 32px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+    }
+
+    .alt-page-link {
+        display: block;
+
+        color: white;
+
+        &:visited {
+            color: white;
+        }
+    }
+
+    .error-message {
+        display: none;
+    }
+
+    .error {
+        border-color: #ec3434;
+
+        + .error-message {
+            display: block;
+
+            width: 400px;
+            color: #ec3434;
+
+            transform: translateY(-10px);
+        }
+    }
+}

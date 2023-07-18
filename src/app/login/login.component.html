@@ -1,0 +1,20 @@
+<form class="flex-container" [formGroup]="loginForm">
+    <div class="header">Login</div>
+    <label for="userInfo">Watcher Tag or E-mail:
+    </label>
+    <input type="text" name="userInfo" formControlName="userInfo" placeholder="FbiAgent" required
+        [class.error]="userInfo?.invalid && (userInfo?.dirty || userInfo?.touched)" id="userInfo" />
+    <div class="error-message">
+        <div *ngIf="userInfo?.errors?.['required']">This field is required.</div>
+    </div>
+    <label for="password">Password:</label>
+    <input type="password" name="password" formControlName="password" placeholder="ImWatchingYou123#" required
+        [class.error]="password?.invalid && (password?.dirty || password?.touched)" id="password" />
+    <div class="error-message">
+        <div *ngIf="password?.errors?.['required']">This field is required.</div>
+    </div>
+    <div class="buttons">
+        <a [routerLink]="['/register']" class="alt-page-link">Register</a>
+        <input type="submit" value="Login">
+    </div>
+</form>
