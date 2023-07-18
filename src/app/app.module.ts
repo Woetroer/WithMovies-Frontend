@@ -14,6 +14,11 @@ import { ExploreComponent } from "./explore/explore.component";
 import { CommonModule } from "@angular/common";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { HttpClientModule } from '@angular/common/http';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() { 
+    return localStorage.getItem("Jwt"); 
+  }
 
 @NgModule({
     declarations: [
@@ -28,6 +33,13 @@ import { HttpClientModule } from '@angular/common/http';
         ExploreComponent,
     ],
     imports: [
+        JwtModule.forRoot({
+            config: {
+              tokenGetter: tokenGetter,
+              allowedDomains: ["localhost:4200"],
+              disallowedRoutes: []
+            }
+          }),
         CommonModule,
         BrowserModule,
         AppRoutingModule,
