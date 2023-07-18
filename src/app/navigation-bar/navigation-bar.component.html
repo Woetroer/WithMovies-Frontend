@@ -6,8 +6,8 @@
     </ul>
     <div class="spacer"></div>
     <app-searchbar></app-searchbar>
-    <div class="profile">
+    <a class="profile" [routerLink]="['/register']">
         <fa-icon [icon]="faUser" />
-    </div>
+    </a>
     <a [routerLink]="['/']" class="logo" tabindex="-1"></a>
 </nav>

@@ -1,1 +1,37 @@
-<p>register works!</p>
+<form class="flex-container" [formGroup]="registerForm">
+    <div class="header">Register</div>
+    <label for="watchertag">Watcher Tag:</label>
+    <input type="text" name="watchertag" formControlName="watchertag" placeholder="FbiAgent" required
+        [class.error]="watchertag?.invalid && (watchertag?.dirty || watchertag?.touched)" id="watchertag" />
+    <div class="error-message">
+        <div *ngIf="watchertag?.errors?.['required']">This field is required.</div>
+    </div>
+    <label for="emailaddress">E-mail address:</label>
+    <input type="text" name="emailaddress" formControlName="emailaddress" placeholder="agent10284@fbi.gov" required
+        [class.error]="emailaddress?.invalid && (emailaddress?.dirty || emailaddress?.touched)" id="emailaddress" />
+    <div class="error-message">
+        <div *ngIf="emailaddress?.errors?.['required']">
+            This field is required.
+        </div>
+        <div *ngIf="emailaddress?.errors?.['email']">
+            This is not a valid email address.
+        </div>
+    </div>
+    <label for="password" name="password">Password:</label>
+    <input type="password" name="password" formControlName="password" placeholder="ImWatchingYou123#" required
+        [class.error]="password?.invalid && (password?.dirty || password?.touched)" id="password" />
+    <div class="error-message">
+        <div *ngIf="password?.errors?.['required']">
+            This field is required.
+        </div>
+        <div *ngIf="password?.errors?.['pattern']">
+            A password must be a minimum of 8 characters long and contain at
+            least one uppercase character, one lowercase character, a number and
+            a special character.
+        </div>
+    </div>
+    <div class="buttons">
+        <a [routerLink]="['/login']" class="alt-page-link">Login</a>
+        <input type="submit" value="Register" />
+    </div>
+</form>
