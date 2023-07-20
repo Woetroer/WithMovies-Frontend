@@ -9,6 +9,9 @@ import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
 import { HomeComponent } from "./home/home.component";
 import { ExploreComponent } from "./explore/explore.component";
+import { SettingsComponent } from "./settings/settings.component";
+import { ProfileComponent } from "./profile/profile.component";
+
 
 const routes: Routes = [
     {
@@ -24,7 +27,9 @@ const routes: Routes = [
         data: { showInNavigationBar: true },
     },
     { path: "login", component: LoginComponent },
-    { path: "register", component: RegisterComponent },
+    { path: "Register", component: RegisterComponent },
+    { path: "Profile", component: ProfileComponent },
+    { path: "Settings", component: SettingsComponent }
 ];
 
 @NgModule({

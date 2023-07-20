@@ -43,7 +43,7 @@ app-root {
     overflow: hidden;
 }
 
-::ng-deep app-root > :not(router-outlet) {
+::ng-deep app-root > :not(router-outlet):not(app-navigation-bar) {
     display: block;
 
     max-height: calc(100vh - 76px);
@@ -131,4 +131,15 @@ form {
             transform: translateY(-10px);
         }
     }
+}
+
+::placeholder {
+    color: $secondary-button;
+    opacity: 0.8;
+}
+
+:-ms-input-placeholder,
+::-ms-input-placeholder {
+    color: $background;
+    opacity: 0.8;
 }

@@ -13,6 +13,9 @@ import { NavigationBarComponent } from "./navigation-bar/navigation-bar.componen
 import { ExploreComponent } from "./explore/explore.component";
 import { CommonModule } from "@angular/common";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { SearchbarComponent } from "./searchbar/searchbar.component";
+import { HttpClientModule } from "@angular/common/http";
+import { MovieCardComponent } from './movie-card/movie-card.component';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 
@@ -31,6 +34,8 @@ export function tokenGetter() {
         HomeComponent,
         NavigationBarComponent,
         ExploreComponent,
+        SearchbarComponent,
+        MovieCardComponent,
     ],
     imports: [
         JwtModule.forRoot({
@@ -46,7 +51,7 @@ export function tokenGetter() {
         FormsModule,
         ReactiveFormsModule,
         FontAwesomeModule,
-        HttpClientModule
+        HttpClientModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

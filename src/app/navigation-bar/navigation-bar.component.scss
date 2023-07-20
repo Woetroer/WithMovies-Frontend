@@ -38,7 +38,7 @@ div.spacer {
     flex: 1;
 }
 
-a.profile {
+div.profile {
     padding: 8px;
     width: 32px;
     height: 32px;
@@ -52,6 +52,43 @@ a.profile {
     color: $background;
 
     cursor: pointer;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    right: 0px;
+    top: 76px;
+    width: 200px;
+
+    color: black;
+    background-color: $primary-button;
+    border-radius: 0px 0px 0px 16px;
+
+    overflow: none;
+
+    button {
+        cursor: pointer;
+
+        font-size: inherit;
+        text-align: start;
+
+        background: none;
+        border: none;
+
+        padding: 8px 12px;
+
+        &:hover {
+            background-color: $secondary-button;
+            color: $primary-button;
+        }
+    }
+
+    &.open {
+        display: flex;
+        flex-direction: column;
+        opacity: 1;
+    }
 }
 
 a.logo {

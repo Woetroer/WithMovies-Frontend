@@ -7,14 +7,20 @@ import { IMoviePreview } from "src/interfaces/MoviePreview";
     templateUrl: "./home.component.html",
     styleUrls: ["./home.component.scss"],
 })
-export class HomeComponent implements OnInit{
-    movies!: IMoviePreview[];
-    constructor(private _movieService:MovieService) {}
+export class HomeComponent implements OnInit {
+    movies: IMoviePreview[] = [];
+
+    constructor(private movieService: MovieService) {}
 
     ngOnInit(): void {
-        this.getPopularMovies();
+        if (this.movies.length == 0) {
+            this.getPopularMovies();
+        }
     }
+
     getPopularMovies() {
-        this._movieService.getPopularMovies().subscribe((Response) => {this.movies = Response, console.log(this.movies)})
+        this.movieService.getPopularMovies().subscribe((res) => {
+            this.movies = res;
+        });
     }
 }
