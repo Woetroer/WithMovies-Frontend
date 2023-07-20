@@ -15,6 +15,7 @@ function removeFirstSlash(str: string) {
 export class NavigationBarComponent {
     public activeRoute: string;
     public routes: Route[];
+    public open: boolean = false;
 
     public faUser = faUser;
 
@@ -32,5 +33,10 @@ export class NavigationBarComponent {
                 this.activeRoute = removeFirstSlash(event.url);
             }
         });
+    }
+
+    toggleDropdown(event: Event) {
+        event.stopPropagation();
+        this.open = !this.open;
     }
 }
