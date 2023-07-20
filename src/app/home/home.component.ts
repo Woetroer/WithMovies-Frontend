@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { MovieService } from "../services/movie.service";
-import { IMoviePreview } from "src/interfaces/IMoviePreview";
+import { IMoviePreview } from "src/interfaces/MoviePreview";
 
 @Component({
     selector: "app-home",

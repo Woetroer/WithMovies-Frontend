@@ -10,14 +10,14 @@ import { Router } from "@angular/router";
 })
 export class LoginComponent {
     loginForm = new FormGroup({
-        userInfo: new FormControl("", Validators.required),
+        username: new FormControl("", Validators.required),
         password: new FormControl("", [Validators.required]),
     });
     get password() {
         return this.loginForm.get("password");
     }
-    get userInfo() {
-        return this.loginForm.get("userInfo");
+    get username() {
+        return this.loginForm.get("username");
     }
 
     constructor(private _authService:AuthService, private _router:Router) {}
