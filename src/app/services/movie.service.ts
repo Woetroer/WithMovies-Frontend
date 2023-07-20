@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../environments/environment";
-import { IMoviePreview } from "src/interfaces/IMoviePreview";
+import { MoviePreview } from "src/interfaces/MoviePreview";
 import { Observable } from "rxjs";
 import { SearchQuery } from "../searchbar/SeachQuery";
 import { KeywordService } from "./keyword.service";
@@ -10,8 +10,8 @@ import { KeywordService } from "./keyword.service";
     providedIn: "root",
 })
 export class MovieService {
-    private popularMovies?: IMoviePreview[];
-    private searchCache: Map<SearchQuery, IMoviePreview[]> = new Map();
+    private popularMovies?: MoviePreview[];
+    private searchCache: Map<SearchQuery, MoviePreview[]> = new Map();
 
     constructor(
         private httpClient: HttpClient,
@@ -21,13 +21,13 @@ export class MovieService {
     getPopularMovies(forceReload: boolean = false) {
         // Already fetched once, so return the cached list
         if (this.popularMovies && !forceReload) {
-            return new Observable<IMoviePreview[]>((subscriber) => {
+            return new Observable<MoviePreview[]>((subscriber) => {
                 subscriber.next(this.popularMovies);
                 subscriber.complete();
             });
         }
 
-        let observable = this.httpClient.get<IMoviePreview[]>(
+        let observable = this.httpClient.get<MoviePreview[]>(
             environment.apiUrl + "movie/getpopularmovies"
         );
 

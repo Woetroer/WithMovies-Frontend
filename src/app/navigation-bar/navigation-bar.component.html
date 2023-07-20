@@ -11,7 +11,7 @@
     <div class="dropdown" [class.open]="open" (window:click)="open ? toggleDropdown($event) : null">
         <button routerLink="/Profile">Profile</button>
         <button routerLink="/Settings">Account Settings</button>
-        <button>Logout</button>
+        <button (click)="logout()">Logout</button>
     </div>
     <a [routerLink]="['/']" class="logo" tabindex="-1"></a>
 </nav>

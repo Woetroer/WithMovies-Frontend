@@ -7,13 +7,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UserService {
 
-  constructor(private _http:HttpClient) {}  
+  constructor(private _http:HttpClient, ) {}  
 
   changeUsername(userName: string) {
-    return this._http.put(environment.apiUrl + "user/change-username", userName)
+    return this._http.put(environment.apiUrl + "user/change-username/" + encodeURIComponent(userName), "")
   }
 
   changeEmail(email: string) {
-    return this._http.put(environment.apiUrl + "user/change-email", email)
+    return this._http.put(environment.apiUrl + "user/change-email/"+ encodeURIComponent(email), "")
   }
 }

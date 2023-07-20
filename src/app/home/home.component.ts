@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { MovieService } from "../services/movie.service";
-import { IMoviePreview } from "src/interfaces/MoviePreview";
+import { MoviePreview } from "src/interfaces/MoviePreview";
 
 @Component({
     selector: "app-home",
@@ -8,7 +8,7 @@ import { IMoviePreview } from "src/interfaces/MoviePreview";
     styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
-    movies: IMoviePreview[] = [];
+    movies: MoviePreview[] = [];
 
     constructor(private movieService: MovieService) {}
 

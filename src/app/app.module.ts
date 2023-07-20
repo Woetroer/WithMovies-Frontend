@@ -16,7 +16,6 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { SearchbarComponent } from "./searchbar/searchbar.component";
 import { HttpClientModule } from "@angular/common/http";
 import { MovieCardComponent } from './movie-card/movie-card.component';
-import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 
 export function tokenGetter() { 
@@ -41,7 +40,7 @@ export function tokenGetter() {
         JwtModule.forRoot({
             config: {
               tokenGetter: tokenGetter,
-              allowedDomains: ["localhost:4200"],
+              allowedDomains: ["localhost:5186"],
               disallowedRoutes: []
             }
           }),

@@ -1,1 +1,18 @@
-<p>settings works!</p>
+<div class="container">
+    <h1>Account settings</h1>
+    <div class="info">
+        <span>Email:</span>
+        <div class="current-info">
+            <div></div>
+            <input #emailAddress id="emailAddress" [(ngModel)]="email" [readonly]="isReadOnly">
+            <button (click)="changeInfo('emailAddress')" *ngIf="email == currentEmail; else editing">
+                <fa-icon [icon]="faEdit"/>
+            </button>
+            <ng-template #editing><button (click)="saveInfo('emailAddress')"><fa-icon [icon]="faSave"/></button></ng-template>
+        </div>
+    </div>
+    <div class="info">
+        <span>Username:</span>
+        <p>{{username}}</p>
+    </div>
+</div>
