@@ -1,0 +1,16 @@
+<div>
+    <input class="WatcherTagField" type="text" name="Watchertag" onfocus="if(this.value=='WatcherTag'){this.value='';}"
+    onblur="if(this.value==''){this.value='WatcherTag';}"
+    value="WatcherTag" [(ngModel)]="targetWatcherTag"/>
+    <input class="EmailField" type="text" name="Email" onfocus="if(this.value=='Email'){this.value='';}"
+    onblur="if(this.value==''){this.value='Email';}"
+    value="Email" [(ngModel)]="targetEmail"/>
+</div>
+    
+<div>
+    <button  (click)="popup(adminFunctionService.BlockUser)">Toggleable: Block User</button>
+    <button  (click)="popup(adminFunctionService.RevokeReviewRightUser)">Toggleable: User's Review Rights</button>
+    <button  (click)="popup(adminFunctionService.DeleteUser)">Definitive: Delete User</button>
+</div>
+
+
