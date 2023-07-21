@@ -14,7 +14,6 @@ import { ExploreComponent } from "./explore/explore.component";
 import { CommonModule } from "@angular/common";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { MovieDetailsPageComponent } from './movie-details-page/movie-details-page.component';
-import { HttpClientModule } from  '@angular/common/http';
 import { SearchbarComponent } from "./searchbar/searchbar.component";
 import { HttpClientModule } from "@angular/common/http";
 import { MovieCardComponent } from './movie-card/movie-card.component';

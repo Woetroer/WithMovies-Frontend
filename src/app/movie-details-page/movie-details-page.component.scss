@@ -204,3 +204,34 @@ main {
         background-color: rgba(80, 80, 80, 0.7);
     }
 }
+
+.sub-header{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.genre{
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.genre{
+    display: inline-block;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+}
+
+.production-companies{
+    // display: flex;
+    // flex-direction: column;
+    // flex-wrap: nowrap;
+}
+
+.production-company{
+    display: inline-block;
+    cursor: pointer;
+}
