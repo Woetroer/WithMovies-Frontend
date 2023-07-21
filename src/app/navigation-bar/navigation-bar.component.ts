@@ -41,4 +41,8 @@ export class NavigationBarComponent {
     logout(){
         this._authService.logout();
     }
+
+    isLoggedIn(){
+        return this._authService.isLoggedIn();
+    }
 }

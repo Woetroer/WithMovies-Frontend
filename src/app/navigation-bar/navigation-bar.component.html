@@ -8,7 +8,7 @@
     <div class="profile" (click)="toggleDropdown($event)" [class.clicked]="open">
         <fa-icon [icon]="faUser" />
     </div>
-    <div class="dropdown" [class.open]="open" (window:click)="open ? toggleDropdown($event) : null">
+    <div *ngIf="isLoggedIn()" class="dropdown" [class.open]="open" (window:click)="open ? toggleDropdown($event) : null">
         <button routerLink="/Profile">Profile</button>
         <button routerLink="/Settings">Account Settings</button>
         <button (click)="logout()">Logout</button>
