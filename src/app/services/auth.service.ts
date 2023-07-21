@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { Router } from '@angular/router';
+import { AuthenticatedResponse } from 'src/interfaces/AuthenticatedResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -23,12 +24,14 @@ export class AuthService {
   }
 
   logout(){
-    localStorage.removeItem("Jwt");
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("refreshToken");
     this._router.navigateByUrl("/login")
   }
 
-  setAccessToken(token: string) {
-    localStorage.setItem("Jwt", token.toString());
+  setTokens(response: AuthenticatedResponse) {
+    localStorage.setItem("jwt", response.accessToken);
+    localStorage.setItem("refreshToken", response.refreshToken);
   }
 
   getUsername(){

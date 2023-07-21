@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
+import { AuthenticatedResponse } from "src/interfaces/AuthenticatedResponse";
 
 @Component({
     selector: "app-login",
@@ -25,8 +26,8 @@ export class LoginComponent {
     submit(){
       this._authService.login(this.loginForm.getRawValue()).subscribe(
         {
-          next: (response) => {
-            this._authService.setAccessToken((<any>response).token);
+          next: (response: any) => {
+            this._authService.setTokens(response);
             this._router.navigate(['/'])
           },
           error: () => {

@@ -22,7 +22,6 @@ export class SettingsComponent implements OnInit{
         this.username = this._authService.getUsername();
         this.currentEmail = this._authService.getEmail();
         this.email = this.currentEmail;
-        console.log(this.username, this.email)
     }
 
     changeInfo(id: string){
@@ -32,10 +31,9 @@ export class SettingsComponent implements OnInit{
         element?.focus();
     }
 
-    saveInfo(id: string){
-        const element = document.getElementById(id);
+    saveInfo(){
         if(this.email != null){
-            this._userService.changeEmail(this.email).subscribe(() => {this.email = this._authService.getEmail()})
+            this._userService.changeEmail(this.email).subscribe((Response) => {console.log(Response.toString())})
             this.isReadOnly = false;
         }
     }
