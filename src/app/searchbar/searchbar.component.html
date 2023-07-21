@@ -1,14 +1,18 @@
 <div class="searchbar" (mousedown)="open ? null : toggle()" [class.open]="open"
     [class.has-suggestions]="suggestions.length > 0">
     <input type="text" name="search-input" id="search-input" class="search-input" placeholder="Search..."
-        (blur)="open ? toggle() : null" (focus)="open ? null : toggle()" (ngModelChange)="searchKeydown()"
-        [(ngModel)]="searchValue">
+        (window:mousedown)="open ? toggle() : null" (focus)="open ? null : toggle()" (ngModelChange)="searchKeydown()"
+        [(ngModel)]="searchValue" (mousedown)="$event.stopPropagation()">
 
     <fa-icon [icon]="icon" class="search-icon"></fa-icon>
 
     <div class="suggestions">
         <div class="suggestions-inner">
-            <label for="search-input" class="suggestion" *ngFor="let s of suggestions;">{{ s }}</label>
+            <button for="search-input" class="suggestion" *ngFor="let s of suggestions;"
+                (mousedown)="suggestionClicked($event, s)">
+                <span *ngFor="let c of s.keyword.split(''); index as i"
+                    [class.highlighted]="s.matches[i] == c">{{c}}</span>
+            </button>
         </div>
     </div>
 </div>

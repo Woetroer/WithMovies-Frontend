@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { faClose, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { KeywordService } from "../services/keyword.service";
+import { KeywordSuggestion } from "src/interfaces/KeywordSuggestion";
 
 @Component({
     selector: "app-searchbar",
@@ -18,7 +19,9 @@ export class SearchbarComponent {
 
     searchValue = "";
 
-    suggestions: string[] = [];
+    suggestions: KeywordSuggestion[] = [];
+
+    lastClickedSuggestionWordCount?: number = undefined;
 
     constructor(private keywordService: KeywordService) {}
 
@@ -45,6 +48,8 @@ export class SearchbarComponent {
     }
 
     searchKeydown() {
+        this.lastClickedSuggestionWordCount = undefined;
+
         if (this.submitTimer) {
             clearTimeout(this.submitTimer);
             this.submitTimer = undefined;
@@ -55,7 +60,7 @@ export class SearchbarComponent {
         this.submitTimer = setTimeout(() => {
             this.searchSubmit();
             this.submitTimer = undefined;
-        }, 200) as any;
+        }, 400) as any;
     }
 
     searchSubmit() {
@@ -67,8 +72,28 @@ export class SearchbarComponent {
             return;
         }
 
-        this.suggestions = this.keywordService.findSuggestions(value.trim());
-        console.log("Suggestions: ", this.suggestions);
-        console.log("Keywords: ", this.keywordService.findKeywords(value));
+        this.keywordService
+            .findSuggestions(value.trim())
+            .subscribe(
+                (s) =>
+                    (this.suggestions = s.sort((a, b) => b.weight - a.weight))
+            );
+    }
+
+    suggestionClicked(event: Event, suggestion: KeywordSuggestion) {
+        event.stopPropagation();
+
+        let wordCount = suggestion.keyword.split(" ").length;
+
+        this.searchValue =
+            this.searchValue
+                .trim()
+                .split(" ")
+                .slice(0, -(this.lastClickedSuggestionWordCount ?? wordCount))
+                .join(" ") +
+            " " +
+            suggestion.keyword;
+
+        this.lastClickedSuggestionWordCount = wordCount;
     }
 }
