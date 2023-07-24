@@ -20,8 +20,7 @@ export interface IMovieDto {
     productionCountries?: (string | null)[],
     releaseDate?: Date,
     revenue: number,
-    // TODO: Find out way to parse runtime
-    Runtime?: { start: number, end: number, },
+    runtime: number,
     spokenLanguages?: (string)[],
     status: MovieStatus,
     voteAverage: number,

@@ -26,6 +26,7 @@ const routes: Routes = [
         title: "Explore",
         data: { showInNavigationBar: true },
     },
+    { path: "movie/:id", component: MovieDetailsPageComponent },
     { path: "login", component: LoginComponent },
     { path: "register", component: RegisterComponent },
 ];

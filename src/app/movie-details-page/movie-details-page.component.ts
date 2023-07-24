@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { IMovieDto } from 'src/interfaces/IMovieDto';
-import { MovieService } from '../movie.service';
+import { MovieService } from '../services/movie.service';
 import { faStar, faUsersLine } from '@fortawesome/free-solid-svg-icons';
 import { ImageQuality, MovieImageType, TmdbService } from '../services/tmdb.service';
 
@@ -27,6 +27,7 @@ export class MovieDetailsPageComponent {
   public languageNames?: string;
   public genreNames!: string;
   public budgetDisplay: string = "";
+  public runtimeDisplay: string = "";
 
   private languageNameProvider =  new Intl.DisplayNames(['en'], { type: 'language' });
 
@@ -42,12 +43,12 @@ export class MovieDetailsPageComponent {
       
       this.movie = movie;
       this.companyNames = [...this.movie.productionCompanies ?? []].map((c) => c.name).join(", ");
-      console.log(this.movie.productionCompanies);
       this.dateOfRelease = new Date(movie.releaseDate as any).toLocaleDateString();
       this.languageNames = [...movie.spokenLanguages ?? []].map(l => this.languageNameProvider.of(l)).join(', ');
       this.genreNames  = this.movieService.getGenreNames(movie.genres as any);
-      this.movieService.convertMStoHM(movie.Runtime as any);
+      this.movieService.convertMStoHM(movie.runtime as any);
       this.budgetDisplay = new Intl.NumberFormat(["en-US"], { style: "currency", currency: "USD" }).format(this.movie.budget);
+      this.runtimeDisplay = this.movieService.convertMStoHM(this.movie.runtime);
     });
 
     this.tmdbService.getMovieImage(this.id, MovieImageType.Poster, ImageQuality.Original).subscribe((poster) => this.posterPath = poster);
