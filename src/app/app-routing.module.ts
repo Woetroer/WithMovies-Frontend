@@ -12,6 +12,7 @@ import { ExploreComponent } from "./explore/explore.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { AnalyticsComponent } from "./analytics/analytics.component";
+import { MovieDetailsPageComponent } from "./movie-details-page/movie-details-page.component";
 const routes: Routes = [
     {
         path: "",
@@ -25,11 +26,9 @@ const routes: Routes = [
         title: "Explore",
         data: { showInNavigationBar: true },
     },
+    { path: "movie/:id", component: MovieDetailsPageComponent },
     { path: "login", component: LoginComponent },
     { path: "register", component: RegisterComponent },
-    { path: "Profile", component: ProfileComponent },
-    { path: "Settings", component: SettingsComponent },
-    { path: "analytics", component:AnalyticsComponent }
 ];
 
 @NgModule({
