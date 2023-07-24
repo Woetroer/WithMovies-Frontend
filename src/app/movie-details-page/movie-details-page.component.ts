@@ -24,8 +24,11 @@ export class MovieDetailsPageComponent {
   public companyNames = "";
 
   public dateOfRelease = "";
-  public languageNames = new Intl.DisplayNames(['en'], { type: 'language' });
+  public languageNames?: string;
   public genreNames!: string;
+  public budgetDisplay: string = "";
+
+  private languageNameProvider =  new Intl.DisplayNames(['en'], { type: 'language' });
 
   @Input("id") set setId(newId: number) {
     this.id = newId;
@@ -39,10 +42,12 @@ export class MovieDetailsPageComponent {
       
       this.movie = movie;
       this.companyNames = [...this.movie.productionCompanies ?? []].map((c) => c.name).join(", ");
+      console.log(this.movie.productionCompanies);
       this.dateOfRelease = new Date(movie.releaseDate as any).toLocaleDateString();
-      this.languageNames.of(movie.spokenLanguages as any);
+      this.languageNames = [...movie.spokenLanguages ?? []].map(l => this.languageNameProvider.of(l)).join(', ');
       this.genreNames  = this.movieService.getGenreNames(movie.genres as any);
       this.movieService.convertMStoHM(movie.Runtime as any);
+      this.budgetDisplay = new Intl.NumberFormat(["en-US"], { style: "currency", currency: "USD" }).format(this.movie.budget);
     });
 
     this.tmdbService.getMovieImage(this.id, MovieImageType.Poster, ImageQuality.Original).subscribe((poster) => this.posterPath = poster);
@@ -54,7 +59,9 @@ export class MovieDetailsPageComponent {
   }
 
   giveRating() {
-    console.log("Rated " + this.lastHovered);
+    
+    let rating = this.lastHovered;
+
   }
 
   getCollectionName(original: string) {

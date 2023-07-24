@@ -36,5 +36,8 @@ export class MovieService {
     getGenreNames(genre: Genre){
       return Genre[genre]
     }
-
+    
+    createReview() {
+      
+    }
 }
