@@ -62,6 +62,7 @@ input {
     border-color: lighten($secondary-button, 10%);
     color: $text;
 
+    font-family: inherit;
     font-size: 16px;
 }
 
