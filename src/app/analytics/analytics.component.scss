@@ -1,0 +1,26 @@
+@import "../../styles.scss";
+
+.grid-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    padding: 16px;
+    gap: 16px;
+}
+
+.item {
+    height: 300px;
+
+    box-shadow: inset 0px 0px 0px 1px aqua;
+}
+
+.item.trending-genres {
+    grid-area: 1/1/2/3;
+}
+
+.item.user-growth{
+    grid-area: 1/3/2/6;
+}
+
+.item.highest-rating-film{
+    grid-area: 2/1/2/6;
+}

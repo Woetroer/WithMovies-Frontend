@@ -28,6 +28,7 @@
     .search-input {
         flex: 1 1 auto;
 
+        color: $background;
         background: transparent;
         border: none;
 
@@ -38,6 +39,7 @@
         max-width: calc(100% - 32px);
         box-sizing: border-box;
 
+        margin: 0;
         padding: 0;
 
         transition: padding-left 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86),
@@ -93,6 +95,7 @@
         height 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 
     overflow: auto;
+    overflow-x: hidden;
 
     border: solid 2px $secondary-button;
     z-index: 9999;
@@ -104,10 +107,24 @@
 }
 
 .suggestion {
+    text-align: left;
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+
+    background-color: $secondary-button;
+    border: none;
+
     padding: 8px 12px;
 
+    cursor: pointer;
+
     &:hover {
-        background-color: $primary-button;
-        color: $background;
+        background-color: lighten($secondary-button, 10%);
+    }
+
+    .highlighted {
+        font-weight: 700;
+        color: $primary-button;
     }
 }
