@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { environment } from '../environments/environment';
-import GenrePreference from './GenrePreference';
 
 @Component({
     selector: 'app-preference',
