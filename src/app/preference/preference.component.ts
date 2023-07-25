@@ -26,11 +26,6 @@ export class PreferenceComponent {
     }
 
     sendPreferences() {
-        this.recommendationService.sendPreferences(this.preferences).subscribe((res) => {this.info = res;});
-
-            for (const key in this.info){
-                const value = this.info[key]
-                this.displayInfo = this.displayInfo + (key + ":" + value);
-            }
+        this.recommendationService.sendPreferences(this.preferences).subscribe((res) => {this.info = res; console.log({...this.info})});
     }
 }

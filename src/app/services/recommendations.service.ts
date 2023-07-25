@@ -5,19 +5,13 @@ import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class RecommendationsService {
 
-    constructor(private httpClient: HttpClient) {}
+    constructor(private httpClient: HttpClient) { }
 
-      sendPreferences(preferences:Record<string, boolean>){
-        this.httpClient.post<any>(environment.apiUrl + "recommendation/sendPreferences", {preferences})
-
-        
-        return new Observable<Record<string, boolean>>((subscriber) => {
-          subscriber.next(preferences);
-          subscriber.complete();
-        })
-      }
+    sendPreferences(preferences: Record<string, boolean>) {
+        return this.httpClient.post<any>(environment.apiUrl + "recommendation/sendPreferences", { preferences })
+    }
 }

@@ -1,22 +1,13 @@
 <div class="grid-container"> 
     <div>
         <li class="item.genres" style="list-style-type: none;" *ngFor='let genre of genres'>
-            <div *ngIf="genre == 'Adult'" class="item.adult-runtime">Adult
-                        <input type="checkbox"  (toggle)="checked(genre)" [checked]="preferences[genre]">
-                        <span class="checkmark"></span>
-                        <div style="margin-top: 16px;">
-                            Maximum Runtime in minutes:
-                            <input type="range" min="45" max="150" class="slider" id="RuntimeRange" value="60" oninput="rangeValue.innerText = this.value"><p id="rangeValue">60</p>
-                        </div>
-                   
-                    </div>
-            <div *ngIf="genre != 'Adult'" >{{genre}}
-                <input type="checkbox" (toggle)="checked(genre)" [checked]="preferences[genre]">
-                <span class="checkmark"></span>
-            </div>
+            <input type="checkbox" [id]="'checkbox-' + genre" (toggle)="checked(genre)" [checked]="preferences[genre]">
+            <label [for]="'checkbox-' + genre">
+                {{ genre }}
+            </label>
         </li>
     </div>
-    <input type="button" onclick="sendPreferences()">
+    <input type="button" (click)="sendPreferences()">
     <div>{{displayInfo}}
     </div>
 </div>
