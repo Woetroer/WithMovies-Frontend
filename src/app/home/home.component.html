@@ -8,6 +8,12 @@
 </main>
 
 <main *ngIf="isLoggedIn">
+    <h1 class="header" *ngIf="movies.get('trending-recommended')?.length">Recommended for you</h1>
+    <div class="items-wrapper" *ngIf="movies.get('trending-recommended')?.length">
+        <div class="items">
+            <app-movie-card *ngFor="let movie of movies.get('trending-recommended')!" [movie]="movie"></app-movie-card>
+        </div>
+    </div>
     <h1 class="header" *ngIf="movies.get('watchlist')?.length">My List</h1>
     <div class="items-wrapper" *ngIf="movies.get('watchlist')?.length">
         <div class="items">
@@ -18,12 +24,6 @@
     <div class="items-wrapper" *ngIf="movies.get('friends')?.length">
         <div class="items">
             <app-movie-card *ngFor="let movie of movies.get('friends')!" [movie]="movie"></app-movie-card>
-        </div>
-    </div>
-    <h1 class="header" *ngIf="movies.get('trending-recommended')?.length">My Watchlist</h1>
-    <div class="items-wrapper" *ngIf="movies.get('trending-recommended')?.length">
-        <div class="items">
-            <app-movie-card *ngFor="let movie of movies.get('trending-recommended')!" [movie]="movie"></app-movie-card>
         </div>
     </div>
 </main>
