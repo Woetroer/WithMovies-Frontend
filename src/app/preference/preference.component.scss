@@ -7,28 +7,28 @@
     padding: 16px;
     gap: 16px;
 }
+
 .item{
     box-shadow: inset 0px 0px 0px 1px orange;
+}
+
+.item.adult-runtime{
+    display: grid;
+    grid-row-start: 2;
+    padding: 16px;
+    gap: 16px;
+}
+
+.item.genres{
+    display: grid;
+    padding: 16px;
+    gap: 16px;
 }
 
 .checkmark {
     height: 25px;
     width: 25px;
     background-color: #eee;
-}
-
-.item.genres{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 16px;
-    gap: 16px;
-}
-
-.item.adult-runtime{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 16px;
-    gap: 16px;
 }
 
 .slider{
