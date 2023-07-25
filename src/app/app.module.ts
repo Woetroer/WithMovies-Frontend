@@ -18,6 +18,7 @@ import { SearchbarComponent } from "./searchbar/searchbar.component";
 import { HttpClientModule } from "@angular/common/http";
 import { MovieCardComponent } from './movie-card/movie-card.component';
 import { NgChartsModule } from 'ng2-charts';
+import { MovieCollectionBannerComponent } from './movie-collection-banner/movie-collection-banner.component';
 
 @NgModule({
     declarations: [
@@ -33,6 +34,7 @@ import { NgChartsModule } from 'ng2-charts';
         MovieDetailsPageComponent,
         SearchbarComponent,
         MovieCardComponent,
+        MovieCollectionBannerComponent,
     ],
     imports: [
         CommonModule,

@@ -7,6 +7,7 @@ import {
     MovieImageType,
     TmdbService,
 } from "../services/tmdb.service";
+import { GenreDescriptions } from "src/interfaces/Genre";
 
 @Component({
     selector: "app-movie-details-page",
@@ -26,17 +27,14 @@ export class MovieDetailsPageComponent {
     public lastHovered: number = 0;
     public activeStar: number = 0;
 
-    public companyNames = "";
-
     public dateOfRelease = "";
-    public languageNames?: string;
-    public genreNames!: string;
     public budgetDisplay: string = "";
     public runtimeDisplay: string = "";
 
-    private languageNameProvider = new Intl.DisplayNames(["en"], {
-        type: "language",
-    });
+    public genreNames = GenreDescriptions;
+
+    public regionName = new Intl.DisplayNames(["en"], { type: "region" });
+    public languageName = new Intl.DisplayNames(["en"], { type: "language" });
 
     public popupOpen = false;
     public ratingScore = 0;
@@ -57,18 +55,11 @@ export class MovieDetailsPageComponent {
             .getMovieDetails(this.id)
             .subscribe((movie: IMovieDto) => {
                 this.movie = movie;
-                this.companyNames = [...(this.movie.productionCompanies ?? [])]
-                    .map((c) => c.name)
-                    .join(", ");
-                this.dateOfRelease = new Date(
-                    movie.releaseDate as any
-                ).toLocaleDateString();
-                this.languageNames = [...(movie.spokenLanguages ?? [])]
-                    .map((l) => this.languageNameProvider.of(l))
-                    .join(", ");
-                this.genreNames = this.movieService.getGenreNames(
-                    movie.genres as any
-                );
+                this.movie.productionCountries?.filter((c) => c != undefined);
+
+                if (this.movie.releaseDate)
+                    this.movie.releaseDate = new Date(this.movie.releaseDate);
+
                 this.movieService.convertMStoHM(movie.runtime as any);
                 this.budgetDisplay = new Intl.NumberFormat(["en-US"], {
                     style: "currency",
@@ -86,7 +77,7 @@ export class MovieDetailsPageComponent {
                 ImageQuality.Original
             )
             .subscribe((poster) => (this.posterPath = poster));
-    
+
         this.tmdbService
             .getMovieImage(
                 this.id,
@@ -99,8 +90,7 @@ export class MovieDetailsPageComponent {
     onHoverStar(index: number) {
         this.lastHovered = index;
 
-        if (!this.popupOpen)
-            this.activeStar = this.lastHovered;
+        if (!this.popupOpen) this.activeStar = this.lastHovered;
     }
 
     giveRating() {
@@ -116,18 +106,11 @@ export class MovieDetailsPageComponent {
         let ogVoteScore = this.movie!.voteAverage * this.movie!.voteCount;
         this.movie!.voteCount += 1;
 
-        this.movie!.voteAverage = (ogVoteScore + this.ratingScore) / this.movie!.voteCount;
+        this.movie!.voteAverage =
+            (ogVoteScore + this.ratingScore) / this.movie!.voteCount;
 
-        this.movieService.review(this.id, this.ratingScore, this.ratingMessage).subscribe();
-    }
-
-    getCollectionName(original: string) {
-        let words = original.split(" ");
-        if (
-            words.at(0)?.toLocaleLowerCase() != "the" &&
-            words.at(-1)?.toLocaleLowerCase() == "collection"
-        )
-            return "the " + original;
-        return original;
+        this.movieService
+            .review(this.id, this.ratingScore, this.ratingMessage)
+            .subscribe();
     }
 }

@@ -1,0 +1,6 @@
+<div class="collection" [ngStyle]="{'--bg-image': 'url(https://image.tmdb.org/t/p/w500' + 
+    (collection.backdropPath ?? collection.posterPath) + ')'}">
+    <h1 class="collection-title">Part of {{ collectionName() }}</h1>
+    <a [routerLink]="['/collection/' + collection.id]" class="view-collection-button">View
+        Collection</a>
+</div>

@@ -41,26 +41,60 @@
 
 <div class="content-wrapper">
     <main *ngIf="movie">
-        <p class="movie-description">{{movie.overview}}</p>
+        <div class="details">
+            <section>
+                <h3 class="section-title">Overview</h3>
+                <div class="section-content">
+                    {{movie.overview}}
+                </div>
+            </section>
 
-        <div class="collection" *ngIf="movie.belongsToCollection" [ngStyle]="{'--bg-image': 'url(https://image.tmdb.org/t/p/w500' + 
-            (movie.belongsToCollection.backdropPath ?? movie.belongsToCollection.posterPath) + ')'}">
-            <h1 class="collection-title">Part of {{ getCollectionName(movie.belongsToCollection.name) }}</h1>
-            <a [routerLink]="['/collection/' + movie.belongsToCollection.id]" class="view-collection-button">View
-                Collection</a>
+            <app-movie-collection-banner [collection]="movie.belongsToCollection"
+                *ngIf="movie.belongsToCollection"></app-movie-collection-banner>
         </div>
+        <div class="sidebar">
+            <div *ngIf="movie.cast">Cast:</div>
+            <div *ngIf="movie.cast">
+                <div *ngFor="let cast of movie.cast">Actor: {{cast.name}} playing as {{cast.character}}</div>
+            </div>
 
-        <div class="details">Details:
-            <div class="cast" *ngFor="let cast of movie?.cast">Actor: {{cast.name}} playing as {{cast.character}}</div>
-            <div class="genres">Genres: {{genreNames}}
+            <div *ngIf="movie.genres">Genres:</div>
+            <div *ngIf="movie.genres" class="list">
+                <div *ngFor="let genre of movie.genres" class="genre">
+                    {{ genreNames[genre] }}
+                </div>
             </div>
-            <div class="productioncountries">Country of origin: {{movie.productionCountries}}</div>
-            <div class="language">Spoken language(s): {{this.languageNames}}</div>
-            <div class="production-companies">Production companies: {{companyNames}}
+
+            <div *ngIf="movie.productionCountries">Produced in:</div>
+            <div *ngIf="movie.productionCountries" class="list">
+                <div *ngFor="let country of movie.productionCountries">
+                    {{ regionName.of(country!) }}
+                </div>
             </div>
-            <div class="release-date">Release date: {{dateOfRelease}}</div>
-            <div class="budget">Budget: {{budgetDisplay}}</div>
-            <div class="original-title">Also known as: {{movie.originalTitle}}</div>
+
+            <div *ngIf="movie.spokenLanguages">Language{{
+                movie.spokenLanguages.length == 1 ? '' : 's' }}:</div>
+            <div *ngIf="movie.spokenLanguages" class="list">
+                <div *ngFor="let language of movie.spokenLanguages">
+                    {{ languageName.of(language) }}
+                </div>
+            </div>
+
+            <div *ngIf="movie.productionCompanies">Produced by:</div>
+            <div *ngIf="movie.productionCompanies" class="list">
+                <div *ngFor="let company of movie.productionCompanies">
+                    {{ company.name }}
+                </div>
+            </div>
+
+            <div *ngIf="movie.releaseDate">Release date:</div>
+            <div *ngIf="movie.releaseDate">{{ movie.releaseDate.toLocaleDateString() }}</div>
+
+            <div>Budget:</div>
+            <div>{{budgetDisplay}}</div>
+
+            <div *ngIf="movie.originalTitle">Also known as:</div>
+            <div *ngIf="movie.originalTitle">{{movie.originalTitle}}</div>
         </div>
     </main>
 </div>
