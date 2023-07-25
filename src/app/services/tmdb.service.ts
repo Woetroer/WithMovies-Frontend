@@ -103,14 +103,12 @@ export class TmdbService {
         this.requestCounter -= 1;
         if (this.requestCounter < 0) {
             return new Observable<ITmdbImagesResponse>((subscriber) => {
-                console.log("Rate limited, trying again in 1sec");
-
                 setTimeout(() => {
                     this.getMovieImages(id, forceReload).subscribe((res) => {
                         subscriber.next(res);
                         subscriber.complete();
                     });
-                }, 1000);
+                }, 100);
             });
         }
 

@@ -7,8 +7,10 @@ header {
 
     background-image: linear-gradient(
             to bottom,
-            rgba(0, 0, 0, 0.3),
-            rgba(0, 0, 0, 0.6)
+            rgba(0, 0, 0, 0.7),
+            rgba(0, 0, 0, 0.3) 10%,
+            rgba(0, 0, 0, 0.5) 90%,
+            rgba(0, 0, 0, 0.7)
         ),
         var(--bg-image);
     background-size: cover;
@@ -23,7 +25,10 @@ header {
     grid-template-columns: 300px 1fr;
     gap: 96px;
 
-    filter: drop-shadow(-4px 6px 12px rgba(34, 34, 35, 0.5));
+    filter: drop-shadow(-4px 6px 12px rgba(34, 34, 35, 0.7)),
+            drop-shadow(0px 0px 4px rgba(34, 34, 35, 0.7));
+    text-shadow: -4px 6px 12px rgba(34, 34, 35, 0.3),
+                0px 0px 6px rgba(34, 34, 35, 0.3);
 }
 
 .left {
@@ -76,6 +81,10 @@ hr {
 main {
     width: 1024px;
     padding: 32px 0 64px 0;
+
+    >p {
+        margin: 0;
+    }
 }
 
 .movie-description {
@@ -123,6 +132,8 @@ main {
             --progress: calc(max(0.0, (var(--rating) / 2.0) - #{$i - 1}.0) * 100%);
             mask-image: linear-gradient(to right, white var(--progress), transparent calc(var(--progress) + 0.001%));
             color: $accent;
+
+            transition: color 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
     }
 
@@ -215,6 +226,9 @@ main {
     cursor: pointer;
     user-select: none;
 
+    box-shadow: -1px 2px 8px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(2px);
+
     &:hover {
         background-color: rgba(80, 80, 80, 0.7);
     }
@@ -225,7 +239,6 @@ main {
     flex-wrap: nowrap;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
 }
 
 .genre {
@@ -251,12 +264,23 @@ main {
     cursor: pointer;
 }
 
+@keyframes rating-popup {
+    0% {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    100% {
+        transform: none;
+        opacity: 1;
+    }
+}
+
 .rating-popup {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 8px);
     left: 0;
 
-    background-color: $primary-button;
+    background-color: $text;
     color: $background;
 
     padding: 16px 24px;
@@ -266,6 +290,8 @@ main {
     flex-direction: column;
 
     gap: 16px;
+
+    animation: rating-popup 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 
     .rating-popup-title {
         font-size: 16px;
@@ -278,7 +304,7 @@ main {
 
         padding: 8px 12px;
 
-        background-color: $text;
+        background-color: darken($text, 15%);
         color: $background;
 
         font-family: inherit;

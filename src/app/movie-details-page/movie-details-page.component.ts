@@ -24,6 +24,7 @@ export class MovieDetailsPageComponent {
     public backdropPath: string = "";
 
     public lastHovered: number = 0;
+    public activeStar: number = 0;
 
     public companyNames = "";
 
@@ -85,6 +86,7 @@ export class MovieDetailsPageComponent {
                 ImageQuality.Original
             )
             .subscribe((poster) => (this.posterPath = poster));
+    
         this.tmdbService
             .getMovieImage(
                 this.id,
@@ -96,12 +98,27 @@ export class MovieDetailsPageComponent {
 
     onHoverStar(index: number) {
         this.lastHovered = index;
+
+        if (!this.popupOpen)
+            this.activeStar = this.lastHovered;
     }
 
     giveRating() {
-        this.ratingScore = this.lastHovered;
+        this.activeStar = this.lastHovered;
+        this.ratingScore = this.activeStar;
 
         this.popupOpen = true;
+    }
+
+    submitRating() {
+        this.popupOpen = false;
+
+        let ogVoteScore = this.movie!.voteAverage * this.movie!.voteCount;
+        this.movie!.voteCount += 1;
+
+        this.movie!.voteAverage = (ogVoteScore + this.ratingScore) / this.movie!.voteCount;
+
+        this.movieService.review(this.id, this.ratingScore, this.ratingMessage).subscribe();
     }
 
     getCollectionName(original: string) {

@@ -18,9 +18,10 @@ $weights: (
 
 @each $weight, $suffix in $weights {
     @font-face {
+        font-style: normal;
         font-family: "Lexend";
         font-weight: $weight;
-        src: "/assets/fonts/Lexend-#{$suffix}.ttf" format("ttf");
+        src: url(/assets/fonts/Lexend-#{$suffix}.ttf);
     }
 }
 

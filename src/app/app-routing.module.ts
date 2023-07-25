@@ -9,9 +9,6 @@ import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
 import { HomeComponent } from "./home/home.component";
 import { ExploreComponent } from "./explore/explore.component";
-import { SettingsComponent } from "./settings/settings.component";
-import { ProfileComponent } from "./profile/profile.component";
-import { AnalyticsComponent } from "./analytics/analytics.component";
 import { MovieDetailsPageComponent } from "./movie-details-page/movie-details-page.component";
 const routes: Routes = [
     {

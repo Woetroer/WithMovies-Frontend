@@ -38,6 +38,15 @@ export class MovieService {
         return observable;
     }
 
+    review(movieId: number, rating: number, message: string | undefined) {
+        message = message?.trim();
+
+        if (message?.length == 0)
+            message = undefined;
+
+        return this.httpClient.post(environment.apiUrl + "review/create", { movieId, rating, message });
+    }
+
     getMovieDetails(id: number) {
         return this.httpClient.get<IMovieDto>(environment.apiUrl + "Movie/" + id.toString());
     }

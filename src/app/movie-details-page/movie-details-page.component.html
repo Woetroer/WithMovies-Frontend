@@ -9,11 +9,11 @@
                 <a class="rating-score" [routerLink]="['/movie/' + id + '/reviews']">{{(movie.voteAverage *
                     0.5).toFixed(1)}}/5</a>
                 <div class="stars" (click)="giveRating()" [class.active]="popupOpen">
-                    <fa-icon [icon]="faStar" (mousemove)="onHoverStar(1)" [class.active]="lastHovered >= 1"></fa-icon>
-                    <fa-icon [icon]="faStar" (mousemove)="onHoverStar(2)" [class.active]="lastHovered >= 2"></fa-icon>
-                    <fa-icon [icon]="faStar" (mousemove)="onHoverStar(3)" [class.active]="lastHovered >= 3"></fa-icon>
-                    <fa-icon [icon]="faStar" (mousemove)="onHoverStar(4)" [class.active]="lastHovered >= 4"></fa-icon>
-                    <fa-icon [icon]="faStar" (mousemove)="onHoverStar(5)" [class.active]="lastHovered >= 5"></fa-icon>
+                    <fa-icon [icon]="faStar" (mousemove)="onHoverStar(1)" [class.active]="activeStar >= 1"></fa-icon>
+                    <fa-icon [icon]="faStar" (mousemove)="onHoverStar(2)" [class.active]="activeStar >= 2"></fa-icon>
+                    <fa-icon [icon]="faStar" (mousemove)="onHoverStar(3)" [class.active]="activeStar >= 3"></fa-icon>
+                    <fa-icon [icon]="faStar" (mousemove)="onHoverStar(4)" [class.active]="activeStar >= 4"></fa-icon>
+                    <fa-icon [icon]="faStar" (mousemove)="onHoverStar(5)" [class.active]="activeStar >= 5"></fa-icon>
                 </div>
                 -
                 <a class="rating-count" [routerLink]="['/movie/' + id + '/reviews']">{{ movie.voteCount }} reviews</a>
@@ -22,8 +22,8 @@
                     <textarea name="rating-message" id="rating-message" cols="30" rows="3"
                         [(ngModel)]="ratingMessage"></textarea>
                     <div class="buttons">
-                        <button class="secondary">Cancel</button>
-                        <button class="primary">Submit</button>
+                        <button class="secondary" (click)="popupOpen = false">Cancel</button>
+                        <button class="primary" (click)="submitRating()">Submit</button>
                     </div>
                 </div>
             </div>
@@ -54,13 +54,13 @@
             <div class="cast" *ngFor="let cast of movie?.cast">Actor: {{cast.name}} playing as {{cast.character}}</div>
             <div class="genres">Genres: {{genreNames}}
             </div>
-            <div class="productioncountries">Country of origin: {{movie?.productionCountries}}</div>
+            <div class="productioncountries">Country of origin: {{movie.productionCountries}}</div>
             <div class="language">Spoken language(s): {{this.languageNames}}</div>
             <div class="production-companies">Production companies: {{companyNames}}
             </div>
             <div class="release-date">Release date: {{dateOfRelease}}</div>
             <div class="budget">Budget: {{budgetDisplay}}</div>
-            <div class="original-title">Also known as: {{movie?.originalTitle}}</div>
+            <div class="original-title">Also known as: {{movie.originalTitle}}</div>
         </div>
     </main>
 </div>
