@@ -96,8 +96,8 @@
             <div>Revenue:</div>
             <div>{{ currency.format(movie.revenue) }}</div>
 
-            <div *ngIf="movie.originalTitle">Also known as:</div>
-            <div *ngIf="movie.originalTitle">{{movie.originalTitle}}</div>
+            <div *ngIf="movie.originalTitle && movie.originalTitle != movie.title">Also known as:</div>
+            <div *ngIf="movie.originalTitle && movie.originalTitle != movie.title">{{movie.originalTitle}}</div>
         </div>
     </main>
 </div>
