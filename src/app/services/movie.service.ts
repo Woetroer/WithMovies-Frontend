@@ -7,51 +7,59 @@ import { SearchQuery } from "../searchbar/SeachQuery";
 import { KeywordService } from "./keyword.service";
 import { IMovieDto } from "src/interfaces/IMovieDto";
 import { Genre } from "src/interfaces/Genre";
+import { IndexRange, LazyLoadedArray } from "src/LazyLoadedArray";
+import { AuthService } from "./auth.service";
+import { toObservable } from "src/ToObservable";
 
 @Injectable({
     providedIn: "root",
 })
 export class MovieService {
-    private popularMovies?: MoviePreview[];
-    private searchCache: Map<SearchQuery, MoviePreview[]> = new Map();
+    trendingMovies: LazyLoadedArray<MoviePreview>;
+    trendingRecommendedMovies: LazyLoadedArray<MoviePreview>;
+    friendMovies: LazyLoadedArray<MoviePreview>;
+    watchlist: LazyLoadedArray<MoviePreview>;
 
-    constructor(
-        private httpClient: HttpClient,
-        private keywordService: KeywordService
-    ) {}
-
-    getPopularMovies(forceReload: boolean = false) {
-        // Already fetched once, so return the cached list
-        if (this.popularMovies && !forceReload) {
-            return new Observable<MoviePreview[]>((subscriber) => {
-                subscriber.next(this.popularMovies);
-                subscriber.complete();
-            });
-        }
-
-        let observable = this.httpClient.get<MoviePreview[]>(
-            environment.apiUrl + "movie/getpopularmovies"
+    constructor(private httpClient: HttpClient) {
+        this.trendingMovies = new LazyLoadedArray(this._getTrending);
+        this.trendingRecommendedMovies = new LazyLoadedArray(
+            this._getTrendingRecommended
         );
+        this.friendMovies = new LazyLoadedArray(this._getTrending);
+        this.watchlist = new LazyLoadedArray(this._getTrending);
+    }
 
-        observable.subscribe((movies) => (this.popularMovies = movies));
+    private _getTrending(range: IndexRange) {
+        return this.httpClient.get<MoviePreview[]>(
+            environment.apiUrl +
+                `movie/trending/${range.start}/${range.count()}`
+        );
+    }
 
-        return observable;
+    private _getTrendingRecommended(range: IndexRange) {
+        return this.httpClient.get<MoviePreview[]>(
+            environment.apiUrl +
+                `movie/trending/recommended/${range.start}/${range.count()}`
+        );
     }
 
     getMovieDetails(id: number) {
-        return this.httpClient.get<IMovieDto>(environment.apiUrl + "Movie/" + id.toString());
+        return this.httpClient.get<IMovieDto>(
+            environment.apiUrl + "Movie/" + id.toString()
+        );
     }
-    
+
     convertMStoHM(milliseconds: number) {
         let dateTime = new Date(milliseconds);
         let hours = dateTime.getHours();
         let minutes = dateTime.getMinutes();
 
-
-        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        return `${hours.toString().padStart(2, "0")}:${minutes
+            .toString()
+            .padStart(2, "0")}`;
     }
 
     getGenreNames(genre: Genre) {
-        return Genre[genre]
+        return Genre[genre];
     }
 }
