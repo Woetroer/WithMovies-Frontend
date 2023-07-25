@@ -18,6 +18,8 @@
     margin-top: 20px;
 
     >span{
+        text-decoration: underline;
+        padding: 8px;
         font-size: 22px;
         font-weight: bold;
     }
@@ -48,3 +50,10 @@
         }
     }
 }
+
+.error-message {
+    margin-top: 10px;
+    color: #ec3434;
+}
+
+

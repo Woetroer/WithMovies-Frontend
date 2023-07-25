@@ -1,18 +1,31 @@
 <div class="container">
     <h1>Account settings</h1>
+
     <div class="info">
         <span>Email:</span>
         <div class="current-info">
-            <div></div>
-            <input #emailAddress id="emailAddress" [(ngModel)]="email" [readonly]="isReadOnly">
-            <button (click)="changeInfo('emailAddress')" *ngIf="email == currentEmail; else editing">
+            <input #emailAddress id="emailAddress" [class.error]="emailError" [(ngModel)]="email" [readonly]="isReadOnly" >
+            <button (click)="changeInfo('emailAddress')" *ngIf="email == currentEmail">
                 <fa-icon [icon]="faEdit"/>
             </button>
-            <ng-template #editing><button (click)="saveInfo()"><fa-icon [icon]="faSave"/></button></ng-template>
+            <button (click)="saveInfo('email')" *ngIf="email != currentEmail" ><fa-icon [icon]="faSave"/></button>
         </div>
     </div>
+    <div class="error-message">
+        <div>{{emailError}}</div>
+    </div>
+
     <div class="info">
         <span>Username:</span>
-        <p>{{username}}</p>
+        <div class="current-info">
+            <input id="username" [class.error]="usernameError" [(ngModel)]="username" [readonly]="isReadOnly" >
+            <button (click)="changeInfo('username')" *ngIf="username == currentUsername">
+                <fa-icon [icon]="faEdit"/>
+            </button>
+            <button (click)="saveInfo('username')" *ngIf="username != currentUsername" ><fa-icon [icon]="faSave"/></button>
+        </div>
+    </div>
+    <div class="error-message">
+        <div>{{usernameError}}</div>
     </div>
 </div>

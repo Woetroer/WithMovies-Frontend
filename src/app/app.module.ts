@@ -19,7 +19,7 @@ import { MovieCardComponent } from './movie-card/movie-card.component';
 import { JwtModule } from '@auth0/angular-jwt';
 
 export function tokenGetter() { 
-    return localStorage.getItem("Jwt"); 
+    return localStorage.getItem("jwt"); 
   }
 
 @NgModule({
