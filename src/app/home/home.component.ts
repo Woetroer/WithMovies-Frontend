@@ -3,7 +3,7 @@ import { MovieService } from "../services/movie.service";
 import { MoviePreview } from "src/interfaces/MoviePreview";
 import { AuthService } from "../services/auth.service";
 import { Observable } from "rxjs";
-import { IndexRange, LazyLoadedArray } from "src/LazyLoadedArray";
+import { LazyLoadedArray } from "src/LazyLoadedArray";
 
 type MovieKind = "trending" | "trending-recommended" | "friends" | "watchlist";
 
@@ -32,20 +32,20 @@ export class HomeComponent {
         this.movies.set("watchlist", this.movies.get("watchlist") ?? []);
 
         if (this.isLoggedIn) {
-            this.movieService.trendingRecommendedMovies
-                .getRange(new IndexRange(0, 10))
+            this.movieService
+                .getTrendingRecommended(0, 10)
                 .subscribe((res) =>
                     this.movies.set("trending-recommended", res)
                 );
-            this.movieService.friendMovies
-                .getRange(new IndexRange(0, 10))
+            this.movieService
+                .getFriendMovies(0, 10)
                 .subscribe((res) => this.movies.set("friends", res));
-            this.movieService.watchlist
-                .getRange(new IndexRange(0, 10))
+            this.movieService
+                .getWatchlist(0, 10)
                 .subscribe((res) => this.movies.set("watchlist", res));
         } else {
-            this.movieService.trendingMovies
-                .getRange(new IndexRange(0, 10))
+            this.movieService
+                .getTrending(0, 10)
                 .subscribe((res) => this.movies.set("trending", res));
         }
     }

@@ -15,31 +15,71 @@ import { toObservable } from "src/ToObservable";
     providedIn: "root",
 })
 export class MovieService {
+    static client: HttpClient;
+
     trendingMovies: LazyLoadedArray<MoviePreview>;
     trendingRecommendedMovies: LazyLoadedArray<MoviePreview>;
     friendMovies: LazyLoadedArray<MoviePreview>;
     watchlist: LazyLoadedArray<MoviePreview>;
 
     constructor(private httpClient: HttpClient) {
-        this.trendingMovies = new LazyLoadedArray(this._getTrending);
+        MovieService.client = httpClient;
+
+        this.trendingMovies = new LazyLoadedArray(MovieService._getTrending);
         this.trendingRecommendedMovies = new LazyLoadedArray(
-            this._getTrendingRecommended
+            MovieService._getTrendingRecommended
         );
-        this.friendMovies = new LazyLoadedArray(this._getTrending);
-        this.watchlist = new LazyLoadedArray(this._getTrending);
+        this.friendMovies = new LazyLoadedArray(MovieService._getTrending);
+        this.watchlist = new LazyLoadedArray(MovieService._getTrending);
     }
 
-    private _getTrending(range: IndexRange) {
-        return this.httpClient.get<MoviePreview[]>(
-            environment.apiUrl +
-                `movie/trending/${range.start}/${range.count()}`
+    public getTrending(start: number, limit: number) {
+        return toObservable(
+            this.trendingMovies.getRange(new IndexRange(start, start + limit))
         );
     }
 
-    private _getTrendingRecommended(range: IndexRange) {
-        return this.httpClient.get<MoviePreview[]>(
-            environment.apiUrl +
-                `movie/trending/recommended/${range.start}/${range.count()}`
+    private static _getTrending(range: IndexRange) {
+        return new Promise<MoviePreview[]>((res) =>
+            MovieService.client
+                .get<MoviePreview[]>(
+                    environment.apiUrl +
+                        `movie/trending/${range.start}/${range.count()}`
+                )
+                .subscribe(res)
+        );
+    }
+
+    public getTrendingRecommended(start: number, limit: number) {
+        return toObservable(
+            this.trendingRecommendedMovies.getRange(
+                new IndexRange(start, start + limit)
+            )
+        );
+    }
+
+    private static _getTrendingRecommended(range: IndexRange) {
+        return new Promise<MoviePreview[]>((res) =>
+            MovieService.client
+                .get<MoviePreview[]>(
+                    environment.apiUrl +
+                        `movie/trending/recommended/${
+                            range.start
+                        }/${range.count()}`
+                )
+                .subscribe(res)
+        );
+    }
+
+    public getFriendMovies(start: number, limit: number) {
+        return toObservable(
+            this.friendMovies.getRange(new IndexRange(start, start + limit))
+        );
+    }
+
+    public getWatchlist(start: number, limit: number) {
+        return toObservable(
+            this.watchlist.getRange(new IndexRange(start, start + limit))
         );
     }
 

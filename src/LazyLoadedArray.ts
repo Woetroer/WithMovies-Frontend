@@ -2,8 +2,6 @@
  * Imported from CoolChat
  */
 
-import { Observable } from "rxjs";
-
 export class IndexRange {
     public start: number;
     public end: number;
@@ -13,55 +11,65 @@ export class IndexRange {
         this.end = Math.max(start, end);
     }
 
-    public count = () => this.end - this.start;
+    public count() {
+        return this.end - this.start;
+    }
 
-    public contains = (index: number) =>
-        index >= this.start && index < this.end;
+    public contains(index: number) {
+        return index >= this.start && index < this.end;
+    }
 
-    public intersects = (other: IndexRange) =>
-        this.contains(other.start) ||
-        this.contains(other.end) ||
-        other.start < this.start == other.end > this.end;
+    public intersects(other: IndexRange) {
+        return (
+            this.contains(other.start) ||
+            this.contains(other.end) ||
+            other.start < this.start == other.end > this.end
+        );
+    }
 
-    public clamped = (range: IndexRange) =>
-        new IndexRange(
+    public clamped(range: IndexRange) {
+        return new IndexRange(
             Math.max(this.start, range.start),
             Math.min(this.end, range.end)
         );
+    }
 
-    public inflated = (by: number) =>
-        new IndexRange(this.start - by, this.end + by);
+    public inflated(by: number) {
+        return new IndexRange(this.start - by, this.end + by);
+    }
 
-    public unsafeMerge = (other: IndexRange) =>
-        new IndexRange(
+    public unsafeMerge(other: IndexRange) {
+        return new IndexRange(
             Math.min(this.start, other.start),
             Math.max(this.end, other.end)
         );
+    }
 
-    public unsafeSplit = (at: number) => [
-        new IndexRange(this.start, at),
-        new IndexRange(at, this.end),
-    ];
+    public unsafeSplit(at: number) {
+        return [new IndexRange(this.start, at), new IndexRange(at, this.end)];
+    }
 
-    public unsafeSplitByRange = (range: IndexRange) => [
-        this.unsafeSplit(range.start)[0],
-        this.unsafeSplit(range.end)[1],
-    ];
+    public unsafeSplitByRange(range: IndexRange) {
+        return [
+            this.unsafeSplit(range.start)[0],
+            this.unsafeSplit(range.end)[1],
+        ];
+    }
 
-    public split = (at: number) => {
+    public split(at: number) {
         if (!this.contains(at)) return undefined;
 
         return this.unsafeSplit(at);
-    };
+    }
 
-    public splitByRange = (range: IndexRange) => {
+    public splitByRange(range: IndexRange) {
         if (!this.contains(range.start) || !this.contains(range.end))
             return undefined;
 
         return this.unsafeSplitByRange(range);
-    };
+    }
 
-    public subtract = (range: IndexRange) => {
+    public subtract(range: IndexRange) {
         const hasStart = this.inflated(-1).contains(range.start);
         const hasEnd = this.inflated(-1).contains(range.end);
 
@@ -76,12 +84,13 @@ export class IndexRange {
         } else {
             return [this];
         }
-    };
+    }
 
-    public shift = (by: number) =>
-        new IndexRange(this.start + by, this.end + by);
+    public shift(by: number) {
+        return new IndexRange(this.start + by, this.end + by);
+    }
 
-    public static optimized = (ranges: IndexRange[]) => {
+    public static optimized(ranges: IndexRange[]) {
         ranges = [...ranges]
             .sort((a, b) => a.start - b.start)
             .filter((r) => r.count() > 0);
@@ -103,7 +112,7 @@ export class IndexRange {
         }
 
         return ranges;
-    };
+    }
 }
 
 export class IndexRangeMask {
@@ -116,7 +125,7 @@ export class IndexRangeMask {
     }
 
     // Returns `this.base` with all the cutouts subtracted
-    public getActiveRanges = () => {
+    public getActiveRanges() {
         this.mergeCutouts();
 
         let active = [this.base];
@@ -128,22 +137,22 @@ export class IndexRangeMask {
         }
 
         return active;
-    };
+    }
 
-    public subtract = (range: IndexRange) => {
+    public subtract(range: IndexRange) {
         if (!this.base.intersects(range)) return;
 
         this.cutouts.push(range.clamped(this.base));
-    };
+    }
 
-    private mergeCutouts = () => {
+    private mergeCutouts() {
         this.cutouts = IndexRange.optimized(this.cutouts);
-    };
+    }
 }
 
 export declare type LazyLoadCallback<T> = (
     range: IndexRange
-) => Observable<Array<T>>;
+) => PromiseLike<Array<T>>;
 
 export class LazyLoadedArray<T> {
     private map: Map<number, T[]>;
@@ -157,7 +166,7 @@ export class LazyLoadedArray<T> {
         this.loadCallback = loadCallback;
     }
 
-    public pushFront = (value: T) => {
+    public pushFront(value: T) {
         if (this.map.has(0)) {
             const firstItem = [value, ...this.map.get(0)!];
 
@@ -173,9 +182,9 @@ export class LazyLoadedArray<T> {
         }
 
         this.updateLoadedRanges();
-    };
+    }
 
-    public pushBack = (value: T) => {
+    public pushBack(value: T) {
         const highestKey = [...this.map.keys()].sort((a, b) => a - b).at(-1);
 
         if (highestKey != undefined) {
@@ -188,58 +197,56 @@ export class LazyLoadedArray<T> {
             this.loadedRanges[0] = new IndexRange(0, 1);
             this.updateLoadedRanges();
         }
-    };
+    }
 
-    public getRange = (range: IndexRange) => {
-        this.ensureLoaded(range);
+    public async getRange(range: IndexRange) {
+        await this.ensureLoaded(range);
         return this.unsafeGetRange(range);
-    };
+    }
 
-    private unsafeGetRange = (range: IndexRange) => {
+    private unsafeGetRange(range: IndexRange) {
         const keyWithRange = this.getMapKeyContaining(range.start);
         return new Array(...this.map.get(keyWithRange)!).slice(
             range.start - keyWithRange,
             range.end - keyWithRange
         );
-    };
+    }
 
-    private getMapKeyContaining = (num: number) => {
+    private getMapKeyContaining(num: number) {
         const keys: number[] = new Array(...this.map.keys());
         const key = keys
             .filter((k) => k <= num)
             .reduce((k, a) => Math.max(k, a), 0);
         return key;
-    };
+    }
 
-    private ensureLoaded = (range: IndexRange) => {
-        return new Observable((sub) => {
-            const loadMask = this.getLoadMask(range);
+    private async ensureLoaded(range: IndexRange) {
+        const loadMask = this.getLoadMask(range);
 
-            if (loadMask.length <= 0) return;
+        if (loadMask.length <= 0) return;
 
-            const fetched = await Promise.all(loadMask.map(this.loadCallback));
+        const fetched = await Promise.all(loadMask.map(this.loadCallback));
 
-            for (let i = 0; i < fetched.length; i++) {
-                const slice = loadMask[i];
-                const data = fetched[i];
+        for (let i = 0; i < fetched.length; i++) {
+            const slice = loadMask[i];
+            const data = fetched[i];
 
-                this.map.set(slice.start, data);
-                this.loadedRanges.push(slice);
-            }
+            this.map.set(slice.start, data);
+            this.loadedRanges.push(slice);
+        }
 
-            this.updateLoadedRanges();
-        });
-    };
+        this.updateLoadedRanges();
+    }
 
-    private getLoadMask = (range: IndexRange) => {
+    private getLoadMask(range: IndexRange) {
         const mask = new IndexRangeMask(range);
 
         for (const cutout of this.loadedRanges) mask.subtract(cutout);
 
         return mask.getActiveRanges();
-    };
+    }
 
-    private updateLoadedRanges = () => {
+    private updateLoadedRanges() {
         this.loadedRanges = IndexRange.optimized(this.loadedRanges);
 
         // Update map to follow loadedRanges
@@ -248,9 +255,9 @@ export class LazyLoadedArray<T> {
             newMap.set(range.start, this.unsafeGetRange(range));
 
         this.map = newMap;
-    };
+    }
 
-    private shiftMap = (by: number) => {
+    private shiftMap(by: number) {
         const newMap = new Map<number, T[]>();
         for (const [key, value] of this.map.entries()) {
             newMap.set(key + by, value);
@@ -259,11 +266,12 @@ export class LazyLoadedArray<T> {
 
         for (let i = 0; i < this.loadedRanges.length; i++)
             this.loadedRanges[i] = this.loadedRanges[i].shift(by);
-    };
+    }
 
-    private getTotalRange = () =>
-        new IndexRange(
+    private getTotalRange() {
+        return new IndexRange(
             this.loadedRanges.at(0)?.start ?? 0,
             this.loadedRanges.at(-1)?.end ?? 0
         );
+    }
 }
