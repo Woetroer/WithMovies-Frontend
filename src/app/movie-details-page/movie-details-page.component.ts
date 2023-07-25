@@ -27,12 +27,12 @@ export class MovieDetailsPageComponent {
     public lastHovered: number = 0;
     public activeStar: number = 0;
 
-    public dateOfRelease = "";
-    public budgetDisplay: string = "";
-    public runtimeDisplay: string = "";
-
     public genreNames = GenreDescriptions;
 
+    public currency = new Intl.NumberFormat(["en-US"], {
+        style: "currency",
+        currency: "USD",
+    });
     public regionName = new Intl.DisplayNames(["en"], { type: "region" });
     public languageName = new Intl.DisplayNames(["en"], { type: "language" });
 
@@ -59,15 +59,6 @@ export class MovieDetailsPageComponent {
 
                 if (this.movie.releaseDate)
                     this.movie.releaseDate = new Date(this.movie.releaseDate);
-
-                this.movieService.convertMStoHM(movie.runtime as any);
-                this.budgetDisplay = new Intl.NumberFormat(["en-US"], {
-                    style: "currency",
-                    currency: "USD",
-                }).format(this.movie.budget);
-                this.runtimeDisplay = this.movieService.convertMStoHM(
-                    this.movie.runtime
-                );
             });
 
         this.tmdbService

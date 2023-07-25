@@ -91,7 +91,10 @@
             <div *ngIf="movie.releaseDate">{{ movie.releaseDate.toLocaleDateString() }}</div>
 
             <div>Budget:</div>
-            <div>{{budgetDisplay}}</div>
+            <div>{{ currency.format(movie.budget) }}</div>
+
+            <div>Revenue:</div>
+            <div>{{ currency.format(movie.revenue) }}</div>
 
             <div *ngIf="movie.originalTitle">Also known as:</div>
             <div *ngIf="movie.originalTitle">{{movie.originalTitle}}</div>
