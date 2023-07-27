@@ -1,31 +1,52 @@
 <div class="container">
     <h1>Account settings</h1>
 
-    <div class="info">
+    <form [formGroup]="emailForm" class="info">
         <span>Email:</span>
         <div class="current-info">
-            <input #emailAddress id="emailAddress" [class.error]="emailError" [(ngModel)]="email" [readonly]="isReadOnly" >
+            <input #emailAddress id="emailAddress" [class.error]="emailError || emailField?.invalid && (emailField?.dirty || emailField?.touched)" 
+            [(ngModel)]="email" [readonly]="isReadOnly" maxlength="30" type="text" name="email" formControlName="email" required>
             <button (click)="changeInfo('emailAddress')" *ngIf="email == currentEmail">
                 <fa-icon [icon]="faEdit"/>
             </button>
             <button (click)="saveInfo('email')" *ngIf="email != currentEmail" ><fa-icon [icon]="faSave"/></button>
         </div>
-    </div>
+    </form>
     <div class="error-message">
+        <div *ngIf="emailField?.errors?.['required']">
+            This field is required.
+        </div>
+        <div *ngIf="emailField?.errors?.['email']">
+            This is not a valid email address.
+        </div>
         <div>{{emailError}}</div>
     </div>
 
-    <div class="info">
+    <form [formGroup]="usernameForm" class="info">
         <span>Username:</span>
         <div class="current-info">
-            <input id="username" [class.error]="usernameError" [(ngModel)]="username" [readonly]="isReadOnly" >
+            <input id="username" [class.error]="usernameError || usernameField?.invalid && (usernameField?.dirty || usernameField?.touched)" 
+            [(ngModel)]="username" [readonly]="isReadOnly" maxlength="20" type="text" name="username" formControlName="username" required>
             <button (click)="changeInfo('username')" *ngIf="username == currentUsername">
                 <fa-icon [icon]="faEdit"/>
             </button>
             <button (click)="saveInfo('username')" *ngIf="username != currentUsername" ><fa-icon [icon]="faSave"/></button>
         </div>
-    </div>
+    </form>
     <div class="error-message">
+        <div *ngIf="usernameField?.errors?.['minlength']">Username should at least contain 5 characters</div>
+        <div *ngIf="usernameField?.errors?.['required']">This field is required.</div>
         <div>{{usernameError}}</div>
     </div>
+
+    <button class="reset-password-btn" (click)="togglePasswordForm()">Reset Password</button>
+    <form class="password-form" *ngIf="displayPasswordForm">
+        <label>Old Password:</label>
+        <input type="text" name="oldPassword" formControlName="oldPassword" placeholder="Old password" required/>
+    
+        <label>New Password:</label>
+        <input type="text" name="newPassword" formControlName="newPassword" placeholder="New password" required/>
+
+        <button (click)="resetPassword()">Save</button>
+    </form>     
 </div>
