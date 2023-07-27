@@ -9,23 +9,19 @@ import { RecommendationsService } from '../services/recommendations.service';
 })
 export class PreferenceComponent {
     genres = environment.genres;
-    info: Record<string, boolean> = {};
-    displayInfo: string = ""
 
-    preferences: Record<string, boolean> = {};
+    preferences: boolean[] = [];
 
     constructor(private recommendationService: RecommendationsService) {
-        for (const genre of this.genres) {
-            this.preferences[genre] = false;
-        }
+        this.preferences = new Array(20).fill(false);
     }
 
 
-    checked(genre: string) {
+    checked(genre: number) {
         this.preferences[genre] = !this.preferences[genre];
     }
 
     sendPreferences() {
-        this.recommendationService.sendPreferences(this.preferences).subscribe((res) => {this.info = res; console.log({...this.info})});
+        this.recommendationService.sendPreferences(this.preferences).subscribe();
     }
 }

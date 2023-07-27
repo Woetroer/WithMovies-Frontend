@@ -1,13 +1,11 @@
 <div class="grid-container"> 
     <div>
-        <li class="item.genres" style="list-style-type: none;" *ngFor='let genre of genres'>
-            <input type="checkbox" [id]="'checkbox-' + genre" (toggle)="checked(genre)" [checked]="preferences[genre]">
+        <li class="item.genres" style="list-style-type: none;" *ngFor='let genre of genres, index as i'>
+            <input type="checkbox" [id]="'checkbox-' + genre" (toggle)="checked(i)" [checked]="preferences[i]">
             <label [for]="'checkbox-' + genre">
                 {{ genre }}
             </label>
         </li>
     </div>
     <input type="button" (click)="sendPreferences()">
-    <div>{{displayInfo}}
-    </div>
 </div>

@@ -9,7 +9,7 @@ export class RecommendationsService {
 
     constructor(private httpClient: HttpClient) { }
 
-    sendPreferences(preferences: Record<string, boolean>) {
+    sendPreferences(preferences: boolean[]) {
         return this.httpClient.post<any>(environment.apiUrl + "recommendation/preferences", { preferences })
     }
 }
