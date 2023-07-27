@@ -9,6 +9,7 @@ import { RecommendationsService } from '../services/recommendations.service';
 })
 export class PreferenceComponent {
     genres = environment.genres;
+    adult: boolean = false;
 
     preferences: boolean[] = [];
 
@@ -21,7 +22,11 @@ export class PreferenceComponent {
         this.preferences[genre] = !this.preferences[genre];
     }
 
+    checkedAdult(){
+        this.adult = !this.adult
+    }
+
     sendPreferences() {
-        this.recommendationService.sendPreferences(this.preferences).subscribe();
+        this.recommendationService.sendPreferences(this.preferences, this.adult).subscribe();
     }
 }

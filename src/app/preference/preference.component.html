@@ -7,5 +7,11 @@
             </label>
         </li>
     </div>
-    <input type="button" (click)="sendPreferences()">
+    <div>
+        <input type="button" value="Done" (click)="sendPreferences()">
+    </div>
+    <div>
+        <input type="checkbox" [id]="'checkbox-'+ adult" (toggle)="checkedAdult()" [checked]="adult">
+        <label [for]="'checkbox-' + adult">Adult</label>
+    </div>
 </div>
