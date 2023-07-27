@@ -22,7 +22,10 @@ export class MovieService {
     friendMovies: LazyLoadedArray<MoviePreview>;
     watchlist: LazyLoadedArray<MoviePreview>;
 
-    constructor(private httpClient: HttpClient) {
+    constructor(
+        private httpClient: HttpClient,
+        private authService: AuthService
+    ) {
         MovieService.client = httpClient;
 
         this.trendingMovies = new LazyLoadedArray(MovieService._getTrending);
@@ -85,7 +88,10 @@ export class MovieService {
 
     getMovieDetails(id: number) {
         return this.httpClient.get<IMovieDto>(
-            environment.apiUrl + "Movie/" + id.toString()
+            environment.apiUrl +
+                "Movie/" +
+                id.toString() +
+                (this.authService.isLoggedIn() ? "/authorized" : "")
         );
     }
 

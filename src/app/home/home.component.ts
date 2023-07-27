@@ -33,7 +33,7 @@ export class HomeComponent {
 
         if (this.isLoggedIn) {
             this.movieService
-                .getTrendingRecommended(0, 10)
+                .getTrendingRecommended(0, 50)
                 .subscribe((res) =>
                     this.movies.set("trending-recommended", res)
                 );

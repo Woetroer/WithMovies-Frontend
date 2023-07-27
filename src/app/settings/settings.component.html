@@ -4,11 +4,12 @@
     <div class="info">
         <span>Email:</span>
         <div class="current-info">
-            <input #emailAddress id="emailAddress" [class.error]="emailError" [(ngModel)]="email" [readonly]="isReadOnly" >
+            <input #emailAddress id="emailAddress" [class.error]="emailError" [(ngModel)]="email"
+                [readonly]="isReadOnly">
             <button (click)="changeInfo('emailAddress')" *ngIf="email == currentEmail">
-                <fa-icon [icon]="faEdit"/>
+                <fa-icon [icon]="faEdit" />
             </button>
-            <button (click)="saveInfo('email')" *ngIf="email != currentEmail" ><fa-icon [icon]="faSave"/></button>
+            <button (click)="saveInfo('email')" *ngIf="email != currentEmail"><fa-icon [icon]="faSave" /></button>
         </div>
     </div>
     <div class="error-message">
@@ -18,11 +19,12 @@
     <div class="info">
         <span>Username:</span>
         <div class="current-info">
-            <input id="username" [class.error]="usernameError" [(ngModel)]="username" [readonly]="isReadOnly" >
+            <input id="username" [class.error]="usernameError" [(ngModel)]="username" [readonly]="isReadOnly">
             <button (click)="changeInfo('username')" *ngIf="username == currentUsername">
-                <fa-icon [icon]="faEdit"/>
+                <fa-icon [icon]="faEdit" />
             </button>
-            <button (click)="saveInfo('username')" *ngIf="username != currentUsername" ><fa-icon [icon]="faSave"/></button>
+            <button (click)="saveInfo('username')" *ngIf="username != currentUsername"><fa-icon
+                    [icon]="faSave" /></button>
         </div>
     </div>
     <div class="error-message">
