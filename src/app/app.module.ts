@@ -16,6 +16,7 @@ import { MovieDetailsPageComponent } from "./movie-details-page/movie-details-pa
 import { SearchbarComponent } from "./searchbar/searchbar.component";
 import { HttpClientModule } from "@angular/common/http";
 import { AdminPageComponent } from "./admin-page/admin-page.component";
+import { PreferenceComponent } from "./preference/preference.component";
 import { MovieCardComponent } from "./movie-card/movie-card.component";
 import { NgChartsModule } from "ng2-charts";
 import { JwtModule } from "@auth0/angular-jwt";
@@ -38,6 +39,7 @@ export function tokenGetter() {
         SearchbarComponent,
         MovieCardComponent,
         AdminPageComponent,
+        PreferenceComponent,
     ],
     imports: [
         JwtModule.forRoot({

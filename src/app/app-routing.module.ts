@@ -11,6 +11,7 @@ import { HomeComponent } from "./home/home.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { AnalyticsComponent } from "./analytics/analytics.component";
+import { PreferenceComponent } from "./preference/preference.component";
 import { MovieDetailsPageComponent } from "./movie-details-page/movie-details-page.component";
 import { AuthGuard } from "./guards/auth.guard";
 
@@ -36,6 +37,8 @@ const routes: Routes = [
         component: AdminPageComponent,
         canActivate: [AuthGuard],
     },
+    { path: "analytics", component: AnalyticsComponent },
+    { path: "preference", component: PreferenceComponent },
 ];
 
 @NgModule({
