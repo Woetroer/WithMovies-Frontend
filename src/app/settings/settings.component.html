@@ -11,7 +11,7 @@
             <button (click)="changeInfo('emailAddress')" *ngIf="email == currentEmail">
                 <fa-icon [icon]="faEdit" />
             </button>
-            <button (click)="saveInfo('email')" *ngIf="email != currentEmail"><fa-icon [icon]="faSave" /></button>
+            <button (click)="saveInfo('email')" *ngIf="email != currentEmail" [disabled]="!emailForm.valid"><fa-icon [icon]="faSave"/></button>
         </div>
     </form>
     <div class="error-message">
@@ -34,8 +34,7 @@
             <button (click)="changeInfo('username')" *ngIf="username == currentUsername">
                 <fa-icon [icon]="faEdit" />
             </button>
-            <button (click)="saveInfo('username')" *ngIf="username != currentUsername"><fa-icon
-                    [icon]="faSave" /></button>
+            <button (click)="saveInfo('username')" *ngIf="username != currentUsername" [disabled]="!usernameForm.valid"><fa-icon [icon]="faSave"/></button>
         </div>
     </form>
     <div class="error-message">
@@ -45,13 +44,17 @@
     </div>
 
     <button class="reset-password-btn" (click)="togglePasswordForm()">Reset Password</button>
-    <form class="password-form" *ngIf="displayPasswordForm">
+    <form [formGroup]="passwordForm" class="password-form" *ngIf="displayPasswordForm"  (submit)="resetPassword()">
         <label>Old Password:</label>
-        <input type="text" name="oldPassword" formControlName="oldPassword" placeholder="Old password" required />
-
+        <input type="text" name="oldPassword" formControlName="oldPassword" placeholder="Old password" required/>
+    
         <label>New Password:</label>
-        <input type="text" name="newPassword" formControlName="newPassword" placeholder="New password" required />
+        <input type="password" name="newPassword" formControlName="newPassword" [class.error]="newPassword?.invalid && (newPassword?.dirty || newPassword?.touched) || passwordError"  required />
+        <div class="error-message">
+            <div *ngIf="newPassword?.errors?.['required']">This field is required.</div>
+            <div *ngIf="newPassword?.errors?.['required'] == null" >{{passwordError}}</div>
+        </div>
 
         <button (click)="resetPassword()">Save</button>
-    </form>
+    </form>     
 </div>
