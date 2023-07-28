@@ -1,17 +1,17 @@
-<div class="grid-container"> 
+<div class="grid-container">
     <div>
-        <li class="item.genres" style="list-style-type: none;" *ngFor='let genre of genres, index as i'>
-            <input type="checkbox" [id]="'checkbox-' + genre" (toggle)="checked(i)" [checked]="preferences[i]">
+        <div class="item.genres" style="list-style-type: none;" *ngFor="let genre of genres, index as i">
+            <input type="checkbox" [id]="'checkbox-' + genre" (change)="checked(i)" [checked]="preferences[i]">
             <label [for]="'checkbox-' + genre">
                 {{ genre }}
             </label>
-        </li>
+        </div>
     </div>
     <div>
         <input type="button" value="Done" (click)="sendPreferences()">
     </div>
     <div>
-        <input type="checkbox" [id]="'checkbox-'+ adult" (toggle)="checkedAdult()" [checked]="adult">
+        <input type="checkbox" [id]="'checkbox-'+ adult" (change)="checkedAdult()" [checked]="adult">
         <label [for]="'checkbox-' + adult">Adult</label>
     </div>
 </div>
