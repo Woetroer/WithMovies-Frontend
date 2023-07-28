@@ -1,4 +1,4 @@
-export default interface UserIdentifiers{
-    email: string,
-    name: string
+export default interface UserIdentifiers {
+    email: string;
+    username: string;
 }

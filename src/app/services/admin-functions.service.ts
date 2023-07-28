@@ -1,27 +1,25 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import UserIdentifiers from "../admin-page/UserIdentifiers";
+import { environment } from "../environments/environment";
 
 @Injectable({
     providedIn: "root",
 })
 export class AdminFunctionsService {
-    private blockUrl = "http://localhost:4200/api/User/block";
-    private revokeReviewRightUrl = "http://localhost:4200/api/User/reviewright";
-    private deleteUrl = "http://localhost:4200/api/User/delete";
+    private blockUrl = environment.apiUrl + "user/block";
+    private revokeReviewRightUrl = environment.apiUrl + "user/reviewright";
+    private deleteUrl = environment.apiUrl + "user/delete";
 
     constructor(private httpClient: HttpClient) {}
 
-    BlockUser(this: AdminFunctionsService, userIdentifiers: UserIdentifiers) {
+    BlockUser(userIdentifiers: UserIdentifiers) {
         return this.httpClient.post(this.blockUrl, userIdentifiers);
     }
-    RevokeReviewRightUser(
-        this: AdminFunctionsService,
-        userIdentifiers: UserIdentifiers
-    ) {
+    RevokeReviewRightUser(userIdentifiers: UserIdentifiers) {
         return this.httpClient.post(this.revokeReviewRightUrl, userIdentifiers);
     }
-    DeleteUser(this: AdminFunctionsService, userIdentifiers: UserIdentifiers) {
+    DeleteUser(userIdentifiers: UserIdentifiers) {
         return this.httpClient.post(this.deleteUrl, userIdentifiers);
     }
 }

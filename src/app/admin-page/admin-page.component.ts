@@ -13,10 +13,12 @@ export class AdminPageComponent {
 
     constructor(public adminFunctionService: AdminFunctionsService) {}
 
-    popup(callback: (_: { name: string; email: string }) => Observable<any>) {
+    popup(
+        callback: (_: { username: string; email: string }) => Observable<any>
+    ) {
         callback
             .call(this.adminFunctionService, {
-                name: this.targetWatcherTag,
+                username: this.targetWatcherTag,
                 email: this.targetEmail,
             })
             .subscribe();
