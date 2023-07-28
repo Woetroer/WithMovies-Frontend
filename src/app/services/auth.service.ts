@@ -80,4 +80,8 @@ export class AuthService {
     isRefreshSuccess = true;
     return isRefreshSuccess;
   }
+
+  resetPassword(formData: any){
+    return this._http.post(environment.apiUrl + "auth/reset-password/", formData)
+  }
 }
