@@ -4,12 +4,14 @@
     <form [formGroup]="emailForm" class="info">
         <span>Email:</span>
         <div class="current-info">
-            <input #emailAddress id="emailAddress" [class.error]="emailError || emailField?.invalid && (emailField?.dirty || emailField?.touched)" 
-            [(ngModel)]="email" [readonly]="isReadOnly" maxlength="30" type="text" name="email" formControlName="email" required>
+            <input #emailAddress id="emailAddress"
+                [class.error]="emailError || emailField?.invalid && (emailField?.dirty || emailField?.touched)"
+                [(ngModel)]="email" [readonly]="isReadOnly" maxlength="30" type="text" name="email"
+                formControlName="email" required>
             <button (click)="changeInfo('emailAddress')" *ngIf="email == currentEmail">
-                <fa-icon [icon]="faEdit"/>
+                <fa-icon [icon]="faEdit" />
             </button>
-            <button (click)="saveInfo('email')" *ngIf="email != currentEmail" ><fa-icon [icon]="faSave"/></button>
+            <button (click)="saveInfo('email')" *ngIf="email != currentEmail"><fa-icon [icon]="faSave" /></button>
         </div>
     </form>
     <div class="error-message">
@@ -25,12 +27,15 @@
     <form [formGroup]="usernameForm" class="info">
         <span>Username:</span>
         <div class="current-info">
-            <input id="username" [class.error]="usernameError || usernameField?.invalid && (usernameField?.dirty || usernameField?.touched)" 
-            [(ngModel)]="username" [readonly]="isReadOnly" maxlength="20" type="text" name="username" formControlName="username" required>
+            <input id="username"
+                [class.error]="usernameError || usernameField?.invalid && (usernameField?.dirty || usernameField?.touched)"
+                [(ngModel)]="username" [readonly]="isReadOnly" maxlength="20" type="text" name="username"
+                formControlName="username" required>
             <button (click)="changeInfo('username')" *ngIf="username == currentUsername">
-                <fa-icon [icon]="faEdit"/>
+                <fa-icon [icon]="faEdit" />
             </button>
-            <button (click)="saveInfo('username')" *ngIf="username != currentUsername" ><fa-icon [icon]="faSave"/></button>
+            <button (click)="saveInfo('username')" *ngIf="username != currentUsername"><fa-icon
+                    [icon]="faSave" /></button>
         </div>
     </form>
     <div class="error-message">
@@ -42,11 +47,11 @@
     <button class="reset-password-btn" (click)="togglePasswordForm()">Reset Password</button>
     <form class="password-form" *ngIf="displayPasswordForm">
         <label>Old Password:</label>
-        <input type="text" name="oldPassword" formControlName="oldPassword" placeholder="Old password" required/>
-    
+        <input type="text" name="oldPassword" formControlName="oldPassword" placeholder="Old password" required />
+
         <label>New Password:</label>
-        <input type="text" name="newPassword" formControlName="newPassword" placeholder="New password" required/>
+        <input type="text" name="newPassword" formControlName="newPassword" placeholder="New password" required />
 
         <button (click)="resetPassword()">Save</button>
-    </form>     
+    </form>
 </div>

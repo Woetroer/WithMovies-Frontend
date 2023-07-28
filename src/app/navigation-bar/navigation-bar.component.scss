@@ -68,7 +68,8 @@ div.profile {
 
     overflow: hidden;
 
-    button {
+    button,
+    a {
         cursor: pointer;
 
         font-size: inherit;
@@ -78,6 +79,11 @@ div.profile {
         border: none;
 
         padding: 8px 12px;
+        text-decoration: none;
+
+        &:visited {
+            color: $background;
+        }
 
         &:hover {
             background-color: $secondary-button;
