@@ -61,42 +61,32 @@ export class AuthService {
         }
     }
 
-    async tryRefreshingTokens(token: string): Promise<boolean> {
-        const refreshToken: any = localStorage.getItem("refreshToken");
-        if (!token || !refreshToken) {
-            return false;
-        }
-
-        const credentials = JSON.stringify({
-            accessToken: token,
-            refreshToken: refreshToken,
-        });
-        let isRefreshSuccess: boolean;
-        const refreshResponse = await new Promise<AuthenticatedResponse>(
-            (resolve, reject) => {
-                this._http
-                    .post<AuthenticatedResponse>(
-                        environment.apiUrl + "auth/refresh",
-                        credentials,
-                        {
-                            headers: new HttpHeaders({
-                                "Content-Type": "application/json",
-                            }),
-                        }
-                    )
-                    .subscribe({
-                        next: (res: AuthenticatedResponse) => resolve(res),
-                        error: (_) => {
-                            reject;
-                            isRefreshSuccess = false;
-                        },
-                    });
-            }
-        );
-        localStorage.setItem("jwt", refreshResponse.accessToken);
-        localStorage.setItem("refreshToken", refreshResponse.refreshToken);
-        console.log("refresh success");
-        isRefreshSuccess = true;
-        return isRefreshSuccess;
+  async tryRefreshingTokens(token: string): Promise<boolean> {
+    const refreshToken: any = localStorage.getItem("refreshToken");
+    if (!token || !refreshToken) { 
+      return false;
     }
+    
+    const credentials = JSON.stringify({ accessToken: token, refreshToken: refreshToken });
+    let isRefreshSuccess: boolean;
+    const refreshResponse = await new Promise<AuthenticatedResponse>((resolve, reject) => {
+      this._http.post<AuthenticatedResponse>(environment.apiUrl + "auth/refresh", credentials, {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json"
+        })
+      }).subscribe({
+        next: (res: AuthenticatedResponse) => resolve(res),
+        error: (_) => { reject; isRefreshSuccess = false;}
+      });
+    });
+    localStorage.setItem("jwt", refreshResponse.accessToken);
+    localStorage.setItem("refreshToken", refreshResponse.refreshToken);
+    console.log("refresh success")
+    isRefreshSuccess = true;
+    return isRefreshSuccess;
+  }
+
+  resetPassword(formData: any){
+    return this._http.post(environment.apiUrl + "auth/reset-password/", formData)
+  }
 }

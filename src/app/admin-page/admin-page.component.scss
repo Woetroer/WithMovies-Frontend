@@ -1,0 +1,21 @@
+@import "../../styles";
+
+div{
+    display: flex;
+    align-content:space-evenly;
+    justify-content: center;
+    color: whitesmoke;
+    margin: 10px;
+}
+
+.WatcherTagField{
+    margin-right: 5px;
+}
+
+.EmailField{
+    margin-left: 5px;
+}
+
+button {
+    margin: 15px;
+}

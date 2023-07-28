@@ -11,9 +11,11 @@ import { HomeComponent } from "./home/home.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { AnalyticsComponent } from "./analytics/analytics.component";
+import { PreferenceComponent } from "./preference/preference.component";
 import { MovieDetailsPageComponent } from "./movie-details-page/movie-details-page.component";
 import { AuthGuard } from "./guards/auth.guard";
 
+import { AdminPageComponent } from "./admin-page/admin-page.component";
 const routes: Routes = [
     {
         path: "",
@@ -24,13 +26,19 @@ const routes: Routes = [
     { path: "movie/:id", component: MovieDetailsPageComponent },
     { path: "login", component: LoginComponent },
     { path: "register", component: RegisterComponent },
-    { path: "Register", component: RegisterComponent },
-    { path: "Profile", component: ProfileComponent, canActivate: [AuthGuard] },
+    { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },
     {
-        path: "Settings",
+        path: "settings",
         component: SettingsComponent,
         canActivate: [AuthGuard],
     },
+    {
+        path: "admin-functions",
+        component: AdminPageComponent,
+        canActivate: [AuthGuard],
+    },
+    { path: "analytics", component: AnalyticsComponent },
+    { path: "preference", component: PreferenceComponent },
 ];
 
 @NgModule({
