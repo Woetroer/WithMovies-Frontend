@@ -15,6 +15,7 @@ import { PreferenceComponent } from "./preference/preference.component";
 import { MovieDetailsPageComponent } from "./movie-details-page/movie-details-page.component";
 import { AuthGuard } from "./guards/auth.guard";
 
+import { AdminPageComponent } from "./admin-page/admin-page.component";
 const routes: Routes = [
     {
         path: "",
@@ -29,6 +30,11 @@ const routes: Routes = [
     {
         path: "settings",
         component: SettingsComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: "admin-functions",
+        component: AdminPageComponent,
         canActivate: [AuthGuard],
     },
     { path: "analytics", component: AnalyticsComponent },

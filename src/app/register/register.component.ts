@@ -14,13 +14,8 @@ export class RegisterComponent {
 
     registerForm = new FormGroup({
         username: new FormControl("", Validators.required),
-        email: new FormControl("", [
-            Validators.required,
-            Validators.email,
-        ]),
-        password: new FormControl("", [
-            Validators.required
-        ]),
+        email: new FormControl("", [Validators.required, Validators.email]),
+        password: new FormControl("", [Validators.required]),
     });
 
     get username() {
@@ -33,18 +28,17 @@ export class RegisterComponent {
         return this.registerForm.get("password");
     }
 
-    constructor(private _authService:AuthService, private _router:Router) {}
+    constructor(private _authService: AuthService, private _router: Router) {}
 
-    submit(){
-      this._authService.register(this.registerForm.getRawValue()).subscribe(
-        {
-          next: () => {
-            this._router.navigate(['/login'])
-          },
-          error: (error) => {
-            console.log("Register error")
-            this.errors = error.error;
-          }
-        });;
+    submit() {
+        this._authService.register(this.registerForm.getRawValue()).subscribe({
+            next: () => {
+                this._router.navigate(["/login"]);
+            },
+            error: (error) => {
+                console.log("Register error");
+                this.errors = error.error;
+            },
+        });
     }
 }

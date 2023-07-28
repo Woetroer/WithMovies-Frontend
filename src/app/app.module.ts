@@ -15,6 +15,7 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { MovieDetailsPageComponent } from "./movie-details-page/movie-details-page.component";
 import { SearchbarComponent } from "./searchbar/searchbar.component";
 import { HttpClientModule } from "@angular/common/http";
+import { AdminPageComponent } from "./admin-page/admin-page.component";
 import { PreferenceComponent } from "./preference/preference.component";
 import { MovieCardComponent } from "./movie-card/movie-card.component";
 import { NgChartsModule } from "ng2-charts";
@@ -37,6 +38,7 @@ export function tokenGetter() {
         MovieDetailsPageComponent,
         SearchbarComponent,
         MovieCardComponent,
+        AdminPageComponent,
         PreferenceComponent,
     ],
     imports: [
