@@ -21,10 +21,12 @@ export class SettingsComponent implements OnInit{
     faEdit = faEdit;
     faSave = faSave;
     displayPasswordForm: boolean = false;
+    passwordError: string = "";
+    hasSubmitted = false;
 
     emailForm = new FormGroup({email: new FormControl("", Validators.email)});
     usernameForm = new FormGroup({username: new FormControl("", Validators.minLength(5))});
-    passwordForm = new FormGroup({oldPassword: new FormControl(), newPassword: new FormControl()});
+    passwordForm = new FormGroup({oldPassword: new FormControl("", Validators.required), newPassword: new FormControl("", Validators.required)});
 
     constructor(private _userService:UserService, private _authService:AuthService) {}
 
@@ -34,6 +36,15 @@ export class SettingsComponent implements OnInit{
     get usernameField() {
       return this.usernameForm.get("username");
     }
+
+    get oldPassword() {
+      return this.passwordForm.get("oldPassword");
+    }
+
+    get newPassword() {
+      return this.passwordForm.get("newPassword");
+    }
+    
 
     async ngOnInit(){
         this.currentUsername = await this._authService.getUsername();
@@ -59,7 +70,7 @@ export class SettingsComponent implements OnInit{
 
     async saveInfo(id: string){
         if(id == "email"){
-            this.emailError = undefined;
+            this.emailError = "";
             if(this.email != null){
                 this._userService.changeEmail(this.email).subscribe(            
                 {
@@ -69,14 +80,13 @@ export class SettingsComponent implements OnInit{
                       this.isReadOnly = true;
                     },
                     error: (error) => {
-                      console.log("Settings error");
                       this.emailError = error.error;
                     }
                   });
             }
         }
         else{
-            this.usernameError = undefined;
+            this.usernameError = "";
             if(this.username != null){
                 this._userService.changeUsername(this.username).subscribe(            
                 {
@@ -86,7 +96,6 @@ export class SettingsComponent implements OnInit{
                       this.isReadOnly = true;
                     },
                     error: (error) => {
-                      console.log("Settings error");
                       this.usernameError = error.error;
                     }
                   });
@@ -99,8 +108,19 @@ export class SettingsComponent implements OnInit{
     }
 
     resetPassword(){
-        this._userService.resetPassword(this.passwordForm.getRawValue()).subscribe();
-        this.displayPasswordForm = !this.displayPasswordForm;
+        this.passwordError = "";
+        this._authService.resetPassword(this.passwordForm.getRawValue()).subscribe(
+          {
+            next: () =>{
+              this.displayPasswordForm = !this.displayPasswordForm;
+              this.hasSubmitted = true;
+            },
+            error: (error) => {
+              this.passwordError = error.error;
+              console.log(this.passwordError)
+            }
+          }
+        );
     }
 }
 
