@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { IMoviePreview } from "src/interfaces/IMoviePreview";
+import { MoviePreview } from "src/interfaces/MoviePreview";
 import {
     ImageQuality,
     MovieImageType,
@@ -12,7 +12,7 @@ import {
     styleUrls: ["./movie-card.component.scss"],
 })
 export class MovieCardComponent implements OnInit {
-    @Input() movie!: IMoviePreview;
+    @Input() movie!: MoviePreview;
     poster?: string;
 
     constructor(private tmdbService: TmdbService) {}

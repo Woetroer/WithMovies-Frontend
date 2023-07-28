@@ -1,35 +1,38 @@
-<form class="flex-container" [formGroup]="registerForm">
+<form class="flex-container" [formGroup]="registerForm" (submit)="submit()">
     <div class="header">Register</div>
-    <label for="watchertag">Watcher Tag:</label>
-    <input type="text" name="watchertag" formControlName="watchertag" placeholder="FbiAgent" required
-        [class.error]="watchertag?.invalid && (watchertag?.dirty || watchertag?.touched)" id="watchertag" />
+
+    <label for="username">Watcher Tag:</label>
+    <input type="text" name="username" formControlName="username" placeholder="FbiAgent" required
+        [class.error]="errors.username || username?.invalid && (username?.dirty || username?.touched)" id="username" />
+
     <div class="error-message">
-        <div *ngIf="watchertag?.errors?.['required']">This field is required.</div>
+        <div *ngIf="username?.errors?.['required']">This field is required.</div>
+        <div *ngIf="errors?.username"><div *ngFor="let error of errors.username">{{error}}</div></div>
     </div>
-    <label for="emailaddress">E-mail address:</label>
-    <input type="text" name="emailaddress" formControlName="emailaddress" placeholder="agent10284@fbi.gov" required
-        [class.error]="emailaddress?.invalid && (emailaddress?.dirty || emailaddress?.touched)" id="emailaddress" />
+
+    <label for="email">E-mail address:</label>
+    <input type="text" name="email" formControlName="email" placeholder="agent10284@fbi.gov" required
+        [class.error]="errors.email || email?.invalid && (email?.dirty || email?.touched)" id="email" />
     <div class="error-message">
-        <div *ngIf="emailaddress?.errors?.['required']">
+        <div *ngIf="email?.errors?.['required']">
             This field is required.
         </div>
-        <div *ngIf="emailaddress?.errors?.['email']">
+        <div *ngIf="email?.errors?.['email']">
             This is not a valid email address.
         </div>
+        <div *ngIf="errors?.email"><div *ngFor="let error of errors.email">{{error}}</div></div>
     </div>
+
     <label for="password" name="password">Password:</label>
     <input type="password" name="password" formControlName="password" placeholder="ImWatchingYou123#" required
-        [class.error]="password?.invalid && (password?.dirty || password?.touched)" id="password" />
+        [class.error]="errors.password || password?.invalid && (password?.dirty || password?.touched)" id="password" />
     <div class="error-message">
         <div *ngIf="password?.errors?.['required']">
             This field is required.
         </div>
-        <div *ngIf="password?.errors?.['pattern']">
-            A password must be a minimum of 8 characters long and contain at
-            least one uppercase character, one lowercase character, a number and
-            a special character.
-        </div>
+        <div *ngIf="errors?.password"><div *ngFor="let error of errors.password">{{error}}</div></div>
     </div>
+
     <div class="buttons">
         <a [routerLink]="['/login']" class="alt-page-link">Login</a>
         <input type="submit" value="Register" />

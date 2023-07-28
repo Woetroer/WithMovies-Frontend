@@ -1,11 +1,11 @@
-<form class="flex-container" [formGroup]="loginForm">
+<form class="flex-container" [formGroup]="loginForm" (submit)="submit()">
     <div class="header">Login</div>
-    <label for="userInfo">Watcher Tag or E-mail:
+    <label for="username">WatcherTag:
     </label>
-    <input type="text" name="userInfo" formControlName="userInfo" placeholder="FbiAgent" required
-        [class.error]="userInfo?.invalid && (userInfo?.dirty || userInfo?.touched)" id="userInfo" />
+    <input type="text" name="username" formControlName="username" placeholder="FbiAgent" required
+        [class.error]="username?.invalid && (username?.dirty || username?.touched)" id="username" />
     <div class="error-message">
-        <div *ngIf="userInfo?.errors?.['required']">This field is required.</div>
+        <div *ngIf="username?.errors?.['required']">This field is required.</div>
     </div>
     <label for="password">Password:</label>
     <input type="password" name="password" formControlName="password" placeholder="ImWatchingYou123#" required
