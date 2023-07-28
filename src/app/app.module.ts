@@ -10,14 +10,19 @@ import { AnalyticsComponent } from "./analytics/analytics.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { HomeComponent } from "./home/home.component";
 import { NavigationBarComponent } from "./navigation-bar/navigation-bar.component";
-import { ExploreComponent } from "./explore/explore.component";
 import { CommonModule } from "@angular/common";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { MovieDetailsPageComponent } from "./movie-details-page/movie-details-page.component";
 import { SearchbarComponent } from "./searchbar/searchbar.component";
 import { HttpClientModule } from "@angular/common/http";
-import { MovieCardComponent } from './movie-card/movie-card.component';
-import { NgChartsModule } from 'ng2-charts';
-import { AdminPageComponent } from './admin-page/admin-page.component';
+import { AdminPageComponent } from "./admin-page/admin-page.component";
+import { MovieCardComponent } from "./movie-card/movie-card.component";
+import { NgChartsModule } from "ng2-charts";
+import { JwtModule } from "@auth0/angular-jwt";
+
+export function tokenGetter() {
+    return localStorage.getItem("jwt");
+}
 
 @NgModule({
     declarations: [
@@ -29,12 +34,19 @@ import { AdminPageComponent } from './admin-page/admin-page.component';
         SettingsComponent,
         HomeComponent,
         NavigationBarComponent,
-        ExploreComponent,
+        MovieDetailsPageComponent,
         SearchbarComponent,
         MovieCardComponent,
         AdminPageComponent,
     ],
     imports: [
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter,
+                allowedDomains: ["localhost:5186"],
+                disallowedRoutes: [],
+            },
+        }),
         CommonModule,
         BrowserModule,
         AppRoutingModule,

@@ -1,0 +1,1 @@
+export type MovieStatus = "None" | "Canceled" | "Rumored" | "Planned" | "InProduction" | "PostProduction" | "Released";

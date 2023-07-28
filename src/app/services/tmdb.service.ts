@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../environments/environment";
-import { ITmdbImagesResponse } from "src/interfaces/ITmdbImagesResponse";
+import { TmdbImagesResponse } from "src/interfaces/TmdbImagesResponse";
 import { Observable, map } from "rxjs";
-import { ITmdbImage } from "src/interfaces/ITmdbImage";
+import { TmdbImage } from "src/interfaces/TmdbImage";
 
 const API_ROOT = "https://api.themoviedb.org/3/";
 
@@ -36,6 +36,7 @@ function imageQualityUrlPrefix(
         "w154",
         "w185",
         "w300",
+        "w342",
         "w500",
         "w780",
         "w1280",
@@ -71,8 +72,8 @@ function imageQualityUrlPrefix(
     providedIn: "root",
 })
 export class TmdbService {
-    private imageCache: Map<number, ITmdbImagesResponse> = new Map();
-    private imageQueue: Map<number, Observable<ITmdbImagesResponse>> =
+    private imageCache: Map<number, TmdbImagesResponse> = new Map();
+    private imageQueue: Map<number, Observable<TmdbImagesResponse>> =
         new Map();
     private requestCounter: number = 5;
 
@@ -107,7 +108,7 @@ export class TmdbService {
         let poster = this.imageCache.get(id);
 
         if (!forceReload && poster) {
-            return new Observable<ITmdbImagesResponse>((subscriber) => {
+            return new Observable<TmdbImagesResponse>((subscriber) => {
                 subscriber.next(poster);
                 subscriber.complete();
             });
@@ -117,7 +118,7 @@ export class TmdbService {
             return this.imageQueue.get(id)!;
         }
 
-        let observable = this.request<ITmdbImagesResponse>(
+        let observable = this.request<TmdbImagesResponse>(
             "movie/" + id + "/images?language=en"
         );
         observable.subscribe((response) => {
@@ -143,8 +144,8 @@ export class TmdbService {
      */
     // prettier-ignore
     public getMovieImage(id: number, imageType: MovieImageType, quality: ImageQuality, forceReload: boolean = false) {
-        return this.getMovieImages(id, forceReload).pipe(map((response: ITmdbImagesResponse) => {
-            let images: ITmdbImage[] = [];
+        return this.getMovieImages(id, forceReload).pipe(map((response: TmdbImagesResponse) => {
+            let images: TmdbImage[] = [];
 
             switch (imageType) {
                 case MovieImageType.Logo: images = response.logos; break;
