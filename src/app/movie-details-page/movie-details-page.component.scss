@@ -26,9 +26,9 @@ header {
     gap: 96px;
 
     filter: drop-shadow(-4px 6px 12px rgba(34, 34, 35, 0.7)),
-            drop-shadow(0px 0px 4px rgba(34, 34, 35, 0.7));
+        drop-shadow(0px 0px 4px rgba(34, 34, 35, 0.7));
     text-shadow: -4px 6px 12px rgba(34, 34, 35, 0.3),
-                0px 0px 6px rgba(34, 34, 35, 0.3);
+        0px 0px 6px rgba(34, 34, 35, 0.3);
 }
 
 .left {
@@ -82,13 +82,55 @@ main {
     width: 1024px;
     padding: 32px 0 64px 0;
 
-    >p {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 96px;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    .section-title {
+        margin: 0 0 8px 0;
+        font-size: 32px;
+
+        padding-bottom: 4px;
+        border-bottom: 1px solid $secondary-button;
+    }
+
+    .section-content {
         margin: 0;
+        line-height: 1.4;
     }
 }
 
-.movie-description {
-    color: inherit;
+.sidebar {
+    position: sticky;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    > :not(:first-child) + * {
+        border-top: 1px solid $secondary-button;
+        margin-top: 8px;
+        padding-top: 8px;
+    }
+
+    > :nth-child(odd) {
+        font-weight: 700;
+    }
+
+    > :nth-child(even) {
+        text-align: right;
+        color: $primary-button;
+    }
+
+    .list {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .rating {
@@ -149,57 +191,6 @@ main {
                 color: $primary-button;
             }
         }
-    }
-}
-
-.collection {
-    padding: 32px 38px;
-    border-radius: 8px;
-
-    background-image: linear-gradient(
-            to left,
-            rgba(0, 0, 0, 0.3),
-            rgba(0, 0, 0, 0.6)
-        ),
-        var(--bg-image);
-    background-position: center;
-    background-size: cover;
-
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-
-    box-shadow: -2px 3px 12px rgba(0, 0, 0, 0.5);
-}
-
-.collection-title {
-    margin: 0;
-
-    font-size: 48px;
-    color: $text;
-}
-
-.view-collection-button {
-    align-self: flex-end;
-
-    display: inline-block;
-
-    color: $text;
-    background-color: rgba(100, 100, 100, 0.7);
-
-    padding: 12px 14px;
-    border-radius: 4px;
-
-    text-decoration: none;
-
-    transition: background-color 0.3s cubic-bezier(0.445, 0.05, 0.55, 0.95);
-
-    &:visited {
-        color: $text;
-    }
-
-    &:hover {
-        background-color: rgba(125, 125, 125, 0.7);
     }
 }
 

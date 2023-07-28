@@ -1,5 +1,4 @@
-export enum Genre
-{
+export enum Genre {
     Crime = 0,
     Adventure,
     Documentary,
@@ -22,25 +21,25 @@ export enum Genre
     Foreign,
 }
 
-export const GenreDescriptions: Record<Genre, string>={
-    [Genre.Crime]: 'Crime',
-    [Genre.Action]: 'Action',
-    [Genre.Adventure]: 'Adventure',
-    [Genre.Animation]: 'Animation',
-    [Genre.Comedy]: 'Comedy',
-    [Genre.Documentary]: 'Documentary',
-    [Genre.Drama]: 'Drama',
-    [Genre.Family]: 'Family',
-    [Genre.Fantasy]: 'Fantasy',
-    [Genre.Foreign]: 'Foreign',
-    [Genre.History]: 'History',
-    [Genre.Horror]: 'Horror',
-    [Genre.Music]: 'Music',
-    [Genre.Mystery]: 'Mystery',
-    [Genre.Romance]: 'Romance',
-    [Genre.ScienceFiction]: 'Science Fiction',
-    [Genre.Thriller]: 'Thriller',
-    [Genre.TvMovie]: 'Tv Movie',
-    [Genre.War]: 'War',
-    [Genre.Western]: 'Western'
-}
+export const GenreDescriptions: Record<number, string> = {
+    [Genre.Crime]: "Crime",
+    [Genre.Action]: "Action",
+    [Genre.Adventure]: "Adventure",
+    [Genre.Animation]: "Animation",
+    [Genre.Comedy]: "Comedy",
+    [Genre.Documentary]: "Documentary",
+    [Genre.Drama]: "Drama",
+    [Genre.Family]: "Family",
+    [Genre.Fantasy]: "Fantasy",
+    [Genre.Foreign]: "Foreign",
+    [Genre.History]: "History",
+    [Genre.Horror]: "Horror",
+    [Genre.Music]: "Music",
+    [Genre.Mystery]: "Mystery",
+    [Genre.Romance]: "Romance",
+    [Genre.ScienceFiction]: "Science Fiction",
+    [Genre.Thriller]: "Thriller",
+    [Genre.TvMovie]: "Tv Movie",
+    [Genre.War]: "War",
+    [Genre.Western]: "Western",
+};
