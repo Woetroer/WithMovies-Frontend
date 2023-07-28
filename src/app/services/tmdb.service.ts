@@ -82,26 +82,12 @@ export class TmdbService {
     }
 
     private request<T>(url: string) {
-        this.requestCounter -= 1;
-        if (this.requestCounter < 0) {
-            return new Observable<T>((subscriber) => {
-                console.log("Rate limited, trying again in 1sec");
-
-                setTimeout(() => {
-                    this.request<T>(url).subscribe((res) => {
-                        subscriber.next(res);
-                        subscriber.complete();
-                    });
-                }, 1000);
-            });
-        } else {
-            return this.httpClient.get<T>(API_ROOT + url, {
-                headers: {
-                    Authorization: "Bearer " + environment.tmdbApiAccessToken,
-                    accept: "application/json",
-                },
-            });
-        }
+        return this.httpClient.get<T>(API_ROOT + url, {
+            headers: {
+                Authorization: "Bearer " + environment.tmdbApiAccessToken,
+                accept: "application/json",
+            },
+        });
     }
 
     public getMovieImages(id: number, forceReload: boolean = false) {
@@ -111,6 +97,18 @@ export class TmdbService {
             return new Observable<TmdbImagesResponse>((subscriber) => {
                 subscriber.next(poster);
                 subscriber.complete();
+            });
+        }
+
+        this.requestCounter -= 1;
+        if (this.requestCounter < 0) {
+            return new Observable<TmdbImagesResponse>((subscriber) => {
+                setTimeout(() => {
+                    this.getMovieImages(id, forceReload).subscribe((res) => {
+                        subscriber.next(res);
+                        subscriber.complete();
+                    });
+                }, 100);
             });
         }
 

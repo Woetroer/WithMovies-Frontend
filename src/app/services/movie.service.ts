@@ -108,4 +108,13 @@ export class MovieService {
     getGenreNames(genre: Genre) {
         return Genre[genre];
     }
+
+    review(movieId: number, rating: number, message: string | undefined) {
+        message = message?.trim();
+
+        if (message?.length == 0)
+            message = undefined;
+
+        return this.httpClient.post(environment.apiUrl + "review/create", { movieId, rating, message });
+    }
 }
