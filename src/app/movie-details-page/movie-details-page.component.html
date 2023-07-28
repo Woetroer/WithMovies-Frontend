@@ -32,8 +32,7 @@
     <main *ngIf="movie">
         <p class="movie-description">{{movie.overview}}</p>
 
-        <div class="collection" *ngIf="movie.belongsToCollection"
-            [ngStyle]="{'--bg-image': 'url(https://image.tmdb.org/t/p/w500' + 
+        <div class="collection" *ngIf="movie.belongsToCollection" [ngStyle]="{'--bg-image': 'url(https://image.tmdb.org/t/p/w500' + 
             (movie.belongsToCollection.backdropPath ?? movie.belongsToCollection.posterPath) + ')'}">
             <h1 class="collection-title">Part of {{ getCollectionName(movie.belongsToCollection.name) }}</h1>
             <a [routerLink]="['/collection/' + movie.belongsToCollection.id]" class="view-collection-button">View
