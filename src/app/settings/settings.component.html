@@ -7,7 +7,7 @@
             <input #emailAddress id="emailAddress" [class.error]="emailError && (emailField?.dirty || emailField?.touched)" 
             [(ngModel)]="email" [readonly]="isReadOnly" maxlength="30" type="text" name="email" formControlName="email" required>
             <button (click)="changeInfo('emailAddress')" *ngIf="email == currentEmail">
-                <fa-icon [icon]="faEdit"/>
+                <fa-icon [icon]="faEdit" />
             </button>
             <button (click)="saveInfo('email')" *ngIf="email != currentEmail" [disabled]="!emailForm.valid"><fa-icon [icon]="faSave"/></button>
         </div>
@@ -28,7 +28,7 @@
             <input id="username" [class.error]="usernameError && (usernameField?.dirty || usernameField?.touched)" 
             [(ngModel)]="username" [readonly]="isReadOnly" maxlength="20" type="text" name="username" formControlName="username" required>
             <button (click)="changeInfo('username')" *ngIf="username == currentUsername">
-                <fa-icon [icon]="faEdit"/>
+                <fa-icon [icon]="faEdit" />
             </button>
             <button (click)="saveInfo('username')" *ngIf="username != currentUsername" [disabled]="!usernameForm.valid"><fa-icon [icon]="faSave"/></button>
         </div>
