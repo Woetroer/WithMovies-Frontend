@@ -1,12 +1,11 @@
 <div>
-    <input class="WatcherTagField" type="text" name="Watchertag" placeholder="WatcherTag" [(ngModel)]="targetWatcherTag"/>
-    <input class="EmailField" type="text" name="Email" placeholder="Email" [(ngModel)]="targetEmail"/>
+    <input class="WatcherTagField" type="text" name="Watchertag" placeholder="WatcherTag"
+        [(ngModel)]="targetWatcherTag" />
+    <input class="EmailField" type="text" name="Email" placeholder="Email" [(ngModel)]="targetEmail" />
 </div>
-    
+
 <div>
-    <button  (click)="popup(adminFunctionService.BlockUser)">Toggleable: Block User</button>
-    <button  (click)="popup(adminFunctionService.RevokeReviewRightUser)">Toggleable: User's Review Rights</button>
-    <button  (click)="popup(adminFunctionService.DeleteUser)">Definitive: Delete User</button>
+    <button (click)="popup(adminFunctionService.BlockUser)">Toggleable: Block User</button>
+    <button (click)="popup(adminFunctionService.RevokeReviewRightUser)">Toggleable: User's Review Rights</button>
+    <button (click)="popup(adminFunctionService.DeleteUser)">Definitive: Delete User</button>
 </div>
-
-
