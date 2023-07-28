@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit} from "@angular/core";
 import { UserService } from "../services/user.service";
 import { AuthService } from "../services/auth.service";
 import { faEdit, faSave } from "@fortawesome/free-solid-svg-icons";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 
 @Component({
@@ -19,8 +20,20 @@ export class SettingsComponent implements OnInit{
     isReadOnly: boolean = true;
     faEdit = faEdit;
     faSave = faSave;
+    displayPasswordForm: boolean = false;
+
+    emailForm = new FormGroup({email: new FormControl("", Validators.email)});
+    usernameForm = new FormGroup({username: new FormControl("", Validators.minLength(5))});
+    passwordForm = new FormGroup({oldPassword: new FormControl(), newPassword: new FormControl()});
 
     constructor(private _userService:UserService, private _authService:AuthService) {}
+
+    get emailField() {
+      return this.emailForm.get("email");
+    }
+    get usernameField() {
+      return this.usernameForm.get("username");
+    }
 
     async ngOnInit(){
         this.currentUsername = await this._authService.getUsername();
@@ -30,7 +43,7 @@ export class SettingsComponent implements OnInit{
     }
 
     changeInfo(id: string){
-        if(id == "email"){
+        if(id == 'emailAddress'){
             const element = document.getElementById(id);
             this.email = "";
             this.isReadOnly = false;
@@ -40,7 +53,8 @@ export class SettingsComponent implements OnInit{
             const element = document.getElementById(id);
             this.username = "";
             this.isReadOnly = false;
-            element?.focus();        }
+            element?.focus();        
+        }
     }
 
     async saveInfo(id: string){
@@ -79,4 +93,14 @@ export class SettingsComponent implements OnInit{
             }
         }
     }
+
+    togglePasswordForm(){
+        this.displayPasswordForm = !this.displayPasswordForm;
+    }
+
+    resetPassword(){
+        this._userService.resetPassword(this.passwordForm.getRawValue()).subscribe();
+        this.displayPasswordForm = !this.displayPasswordForm;
+    }
 }
+

@@ -38,8 +38,6 @@ export class RegisterComponent {
             error: (error) => {
                 console.log("Register error");
                 this.errors = error.error;
-                console.log(this.errors);
-                console.log(this.errors.username);
             },
         });
     }

@@ -16,4 +16,8 @@ export class UserService {
   changeEmail(email: string) {
     return this._http.put(environment.apiUrl + "user/change-email/"+ encodeURIComponent(email), "")
   }
+
+  resetPassword(formData: any){
+    return this._http.post(environment.apiUrl + "user/reset-password", formData)
+  }
 }
