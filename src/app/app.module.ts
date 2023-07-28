@@ -18,6 +18,11 @@ import { SearchbarComponent } from "./searchbar/searchbar.component";
 import { HttpClientModule } from "@angular/common/http";
 import { MovieCardComponent } from './movie-card/movie-card.component';
 import { NgChartsModule } from 'ng2-charts';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() { 
+    return localStorage.getItem("jwt"); 
+  }
 
 @NgModule({
     declarations: [
@@ -35,6 +40,13 @@ import { NgChartsModule } from 'ng2-charts';
         MovieCardComponent,
     ],
     imports: [
+        JwtModule.forRoot({
+            config: {
+              tokenGetter: tokenGetter,
+              allowedDomains: ["localhost:5186"],
+              disallowedRoutes: []
+            }
+          }),
         CommonModule,
         BrowserModule,
         AppRoutingModule,

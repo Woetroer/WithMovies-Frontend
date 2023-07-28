@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { ActivatedRoute, EventType, Route, Router } from "@angular/router";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { AuthService } from "../services/auth.service";
 
 function removeFirstSlash(str: string) {
     if (str.startsWith("/")) return str.slice(1);
@@ -19,10 +20,7 @@ export class NavigationBarComponent {
 
     public faUser = faUser;
 
-    constructor(
-        private router: Router,
-        private activatedRoute: ActivatedRoute
-    ) {
+    constructor(private router: Router, private _authService:AuthService) {
         this.routes = [...router.config].filter((r) =>
             r.data ? r.data["showInNavigationBar"] : false
         );
@@ -38,5 +36,13 @@ export class NavigationBarComponent {
     toggleDropdown(event: Event) {
         event.stopPropagation();
         this.open = !this.open;
+    }
+
+    logout(){
+        this._authService.logout();
+    }
+
+    isLoggedIn(){
+        return this._authService.isLoggedIn();
     }
 }

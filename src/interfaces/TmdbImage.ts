@@ -1,4 +1,4 @@
-export interface ITmdbImage {
+export interface TmdbImage {
     aspect_ratio: number;
     width: number;
     height: number;
