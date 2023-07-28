@@ -63,6 +63,7 @@ input {
     border-color: lighten($secondary-button, 10%);
     color: $text;
 
+    font-family: inherit;
     font-size: 16px;
 }
 
@@ -79,7 +80,7 @@ select {
     border-radius: 4px;
 }
 
-input[type="submit"] {
+input[type="submit"], button {
     padding: 12px 16px;
     border: none;
     border-radius: 4px;
@@ -135,12 +136,12 @@ form {
 }
 
 ::placeholder {
-    color: $secondary-button;
+    color: lighten($secondary-button, 30%);
     opacity: 0.8;
 }
 
 :-ms-input-placeholder,
 ::-ms-input-placeholder {
-    color: $background;
+    color: lighten($secondary-button, 30%);
     opacity: 0.8;
 }
