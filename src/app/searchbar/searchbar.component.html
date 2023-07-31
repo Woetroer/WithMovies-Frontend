@@ -1,9 +1,8 @@
 <div class="searchbar" (mousedown)="open ? null : toggle()" [class.open]="open"
     [class.has-suggestions]="suggestions.length > 0">
     <input type="text" name="search-input" id="search-input" class="search-input" placeholder="Search..."
-        (window:mousedown)="(open && searchValue.length == 0) ? toggle() : null" (focus)="open ? null : toggle()"
-        (ngModelChange)="searchKeydown()" [(ngModel)]="searchValue" (ngModelChange)="searchChange()"
-        (mousedown)="$event.stopPropagation()">
+        (window:mousedown)="open ? toggle() : null" (focus)="open ? null : toggle()" (ngModelChange)="searchKeydown()"
+        [(ngModel)]="searchValue" (ngModelChange)="searchChange()" (mousedown)="$event.stopPropagation()">
 
     <fa-icon [icon]="icon" class="search-icon"></fa-icon>
 

@@ -11,8 +11,8 @@ import {
 import { MovieService } from "../services/movie.service";
 import { movieTracker } from "../movie-card/movie-card.component";
 import { SearchResults } from "src/interfaces/SearchResults";
+import { SearchQuery, SortMethod } from "../searchbar/SeachQuery";
 
-type SortMethod = "for you" | "rating" | "relevancy" | "popularity";
 type FilterState = "positive" | "negative" | "pending";
 type FilterType = "boolean" | "range"; // Only boolean implemented, range not needed yet
 
@@ -39,7 +39,7 @@ export class SearchPageComponent {
 
     query?: string;
 
-    isLoading = true;
+    isLoading = false;
     results?: SearchResults;
 
     filters: Filter[] = [
@@ -50,23 +50,18 @@ export class SearchPageComponent {
         },
     ];
 
-    sortMethod: SortMethod = "for you";
+    sortMethod: SortMethod = "release date";
     sortDescending = true;
+
+    private timerId?: number;
 
     @Input("query") set setQuery(newQuery: string) {
         this.query = newQuery;
+
+        this.queueDispatch();
     }
 
-    constructor(private movieService: MovieService) {
-        this.movieService.getTrending(0, 50).subscribe((movies) => {
-            this.results = {
-                time: 0.3,
-                keywords: ["fight", "fight club", "club"],
-                movies,
-            };
-            this.isLoading = false;
-        });
-    }
+    constructor(private movieService: MovieService) {}
 
     plusFilter(filter: Filter) {
         if (filter.state == "positive") {
@@ -112,5 +107,43 @@ export class SearchPageComponent {
 
     setSorting(newSorting: string) {
         this.sortMethod = newSorting as SortMethod;
+
+        this.dispatchQuery();
+    }
+
+    dispatchQuery() {
+        if (!this.query || this.isLoading) return;
+
+        this.isLoading = true;
+
+        let query = new SearchQuery(this.query);
+
+        query.sortMethod = this.sortMethod;
+        query.sortDescending = this.sortDescending;
+
+        query.include = this.filters
+            .filter((f) => f.state == "positive")
+            .map((f) => f.name.toLowerCase());
+
+        query.exclude = this.filters
+            .filter((f) => f.state == "negative")
+            .map((f) => f.name.toLowerCase());
+
+        this.movieService.queryMovies(query, 0, 20).subscribe((results) => {
+            this.results = results;
+            this.isLoading = false;
+        });
+    }
+
+    private queueDispatch() {
+        if (this.timerId) {
+            clearTimeout(this.timerId);
+            this.timerId = undefined;
+        }
+
+        this.timerId = setTimeout(
+            () => this.dispatchQuery(),
+            400
+        ) as any as number;
     }
 }

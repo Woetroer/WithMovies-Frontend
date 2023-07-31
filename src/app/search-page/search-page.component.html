@@ -29,7 +29,7 @@
             <section>
                 <h3 class="section-title">Sort by:</h3>
                 <div class="sortings">
-                    <div class="sorting" *ngFor="let sorting of ['For You', 'Rating', 'Relevancy', 'Popularity']"
+                    <div class="sorting" *ngFor="let sorting of ['Release Date', 'Rating', 'Relevance', 'Popularity']"
                         [class.active]="sortMethod == sorting.toLowerCase()"
                         (click)="setSorting(sorting.toLowerCase())">
                         <span class="label">{{ sorting }}</span>

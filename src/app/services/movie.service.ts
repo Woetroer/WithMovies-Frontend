@@ -10,6 +10,7 @@ import { Genre } from "src/interfaces/Genre";
 import { IndexRange, LazyLoadedArray } from "src/LazyLoadedArray";
 import { AuthService } from "./auth.service";
 import { toObservable } from "src/ToObservable";
+import { SearchResults } from "src/interfaces/SearchResults";
 
 @Injectable({
     providedIn: "root",
@@ -21,6 +22,8 @@ export class MovieService {
     trendingRecommendedMovies: LazyLoadedArray<MoviePreview>;
     friendMovies: LazyLoadedArray<MoviePreview>;
     watchlist: LazyLoadedArray<MoviePreview>;
+
+    queryCache: Map<string, SearchResults> = new Map();
 
     public isLoadingDetails: boolean = false;
 
@@ -129,5 +132,29 @@ export class MovieService {
             rating,
             message,
         });
+    }
+
+    queryMovies(query: SearchQuery, start: number, limit: number) {
+        let jsonString = JSON.stringify(query);
+
+        let entry = this.queryCache.get(jsonString);
+
+        if (entry) {
+            return new Observable<SearchResults>((sub) => {
+                sub.next(entry);
+                sub.complete();
+            });
+        }
+
+        let observable = this.httpClient.post<SearchResults>(
+            environment.apiUrl + `movie/query/${start}/${limit}`,
+            query
+        );
+
+        observable.subscribe((results) =>
+            this.queryCache.set(jsonString, results)
+        );
+
+        return observable;
     }
 }
