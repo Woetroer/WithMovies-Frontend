@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { faClose, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { KeywordService } from "../services/keyword.service";
 import { KeywordSuggestion } from "src/interfaces/KeywordSuggestion";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-searchbar",
@@ -23,7 +24,10 @@ export class SearchbarComponent {
 
     lastClickedSuggestionWordCount?: number = undefined;
 
-    constructor(private keywordService: KeywordService) {}
+    constructor(
+        private keywordService: KeywordService,
+        private router: Router
+    ) {}
 
     toggle() {
         this.open = !this.open;
@@ -63,6 +67,14 @@ export class SearchbarComponent {
         }, 400) as any;
     }
 
+    searchChange() {
+        this.router
+            .navigate(["search", this.searchValue], {
+                replaceUrl: !this.router.url.includes("search"),
+            })
+            .catch(console.error);
+    }
+
     searchSubmit() {
         this.suggestions = [];
 
@@ -93,6 +105,7 @@ export class SearchbarComponent {
                 .join(" ") +
             " " +
             suggestion.keyword;
+        this.searchValue = this.searchValue.trim();
 
         this.lastClickedSuggestionWordCount = wordCount;
     }

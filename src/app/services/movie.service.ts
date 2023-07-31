@@ -22,6 +22,8 @@ export class MovieService {
     friendMovies: LazyLoadedArray<MoviePreview>;
     watchlist: LazyLoadedArray<MoviePreview>;
 
+    public isLoadingDetails: boolean = false;
+
     constructor(
         private httpClient: HttpClient,
         private authService: AuthService
@@ -87,12 +89,20 @@ export class MovieService {
     }
 
     getMovieDetails(id: number) {
-        return this.httpClient.get<IMovieDto>(
+        this.isLoadingDetails = true;
+
+        let observable = this.httpClient.get<IMovieDto>(
             environment.apiUrl +
                 "Movie/" +
                 id.toString() +
                 (this.authService.isLoggedIn() ? "/authorized" : "")
         );
+
+        observable.subscribe(() =>
+            setTimeout(() => (this.isLoadingDetails = false), 300)
+        );
+
+        return observable;
     }
 
     convertMStoHM(milliseconds: number) {
@@ -112,9 +122,12 @@ export class MovieService {
     review(movieId: number, rating: number, message: string | undefined) {
         message = message?.trim();
 
-        if (message?.length == 0)
-            message = undefined;
+        if (message?.length == 0) message = undefined;
 
-        return this.httpClient.post(environment.apiUrl + "review/create", { movieId, rating, message });
+        return this.httpClient.post(environment.apiUrl + "review/create", {
+            movieId,
+            rating,
+            message,
+        });
     }
 }

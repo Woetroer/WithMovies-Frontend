@@ -16,29 +16,67 @@ import { MovieDetailsPageComponent } from "./movie-details-page/movie-details-pa
 import { AuthGuard } from "./guards/auth.guard";
 
 import { AdminPageComponent } from "./admin-page/admin-page.component";
+import { SearchPageComponent } from "./search-page/search-page.component";
 const routes: Routes = [
     {
         path: "",
         component: HomeComponent,
         title: "Home",
-        data: { showInNavigationBar: true },
+        data: { showInNavigationBar: true, animation: "HomePage" },
     },
-    { path: "movie/:id", component: MovieDetailsPageComponent },
-    { path: "login", component: LoginComponent },
-    { path: "register", component: RegisterComponent },
-    { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },
+    {
+        path: "movie/:id",
+        component: MovieDetailsPageComponent,
+        data: { animation: "MovieDetailsPage" },
+    },
+    {
+        path: "movie/:movie",
+        component: MovieDetailsPageComponent,
+        data: { animation: "MovieDetailsPage" },
+    },
+    {
+        path: "login",
+        component: LoginComponent,
+        data: { animation: "LoginPage" },
+    },
+    {
+        path: "register",
+        component: RegisterComponent,
+        data: { animation: "RegisterPage" },
+    },
+    {
+        path: "profile",
+        component: ProfileComponent,
+        canActivate: [AuthGuard],
+        data: { animation: "ProfilePage" },
+    },
     {
         path: "settings",
         component: SettingsComponent,
         canActivate: [AuthGuard],
+        data: { animation: "SettingsPage" },
     },
     {
         path: "admin-functions",
         component: AdminPageComponent,
         canActivate: [AuthGuard],
+        data: { animation: "AdminFunctionsPage" },
     },
-    { path: "analytics", component: AnalyticsComponent },
-    { path: "preference", component: PreferenceComponent },
+    {
+        path: "analytics",
+        component: AnalyticsComponent,
+        data: { animation: "AnalyticsPage" },
+    },
+    {
+        path: "preference",
+        component: PreferenceComponent,
+        data: { animation: "PreferencePage" },
+    },
+    {
+        path: "search/:query",
+        component: SearchPageComponent,
+        data: { animation: "SearchPage" },
+    },
 ];
 
 @NgModule({

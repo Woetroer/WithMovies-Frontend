@@ -1,4 +1,4 @@
-<div class="movie-card" [routerLink]="['/movie', movie.id]" [ngStyle]="{'--url': 'url(' + poster + ')'}"
-    [id]="'movie-card-' + movie.id">
+<div class="movie-card" (click)="onClick()" [ngStyle]="{'--url': 'url(' + poster + ')'}" [id]="'movie-card-' + movie.id"
+    [class.loading]="movieService.isLoadingDetails && !isLoading">
     <h1>{{movie.title}}</h1>
 </div>

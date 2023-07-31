@@ -50,6 +50,11 @@
         }
     }
 
+    ::placeholder {
+        color: $secondary-button;
+        opacity: 1;
+    }
+
     &.open {
         cursor: initial;
 

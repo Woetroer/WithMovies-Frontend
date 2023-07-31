@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -21,6 +22,7 @@ import { PreferenceComponent } from "./preference/preference.component";
 import { MovieCardComponent } from "./movie-card/movie-card.component";
 import { NgChartsModule } from "ng2-charts";
 import { JwtModule } from "@auth0/angular-jwt";
+import { SearchPageComponent } from "./search-page/search-page.component";
 
 export function tokenGetter() {
     return localStorage.getItem("jwt");
@@ -42,6 +44,7 @@ export function tokenGetter() {
         MovieCollectionBannerComponent,
         AdminPageComponent,
         PreferenceComponent,
+        SearchPageComponent,
     ],
     imports: [
         JwtModule.forRoot({
@@ -53,6 +56,7 @@ export function tokenGetter() {
         }),
         CommonModule,
         BrowserModule,
+        BrowserAnimationsModule,
         AppRoutingModule,
         FormsModule,
         ReactiveFormsModule,

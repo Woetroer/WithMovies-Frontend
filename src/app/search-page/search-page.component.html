@@ -1,0 +1,55 @@
+<main class="search-page">
+    <div class="sidebar-wrapper">
+        <div class="sidebar">
+            <section *ngIf="results">
+                <h3 class="section-title">Keywords:</h3>
+                <div class="keywords">
+                    <div class="keyword" *ngFor="let keyword of results.keywords;">{{ keyword }}</div>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="section-title">Filters:</h3>
+                <div class="filters">
+                    <div [class]="'filter ' + filter.valueType" *ngFor="let filter of filters"
+                        [class.positive]="filter.state == 'positive' && filter.valueType == 'boolean'"
+                        [class.negative]="filter.state == 'negative' && filter.valueType == 'boolean'"
+                        [class.pending]="filter.state == 'pending' && filter.valueType == 'boolean'">
+
+                        <!-- Boolean -->
+                        <div class="inner" *ngIf="filter.valueType == 'boolean'">
+                            <fa-icon [icon]="minus" class="bchoice minus" (click)="minusFilter(filter)" />
+                            <fa-icon [icon]="plus" class="bchoice plus" (click)="plusFilter(filter)" />
+                            <span class="label">{{ filter.name }}</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="section-title">Sort by:</h3>
+                <div class="sortings">
+                    <div class="sorting" *ngFor="let sorting of ['For You', 'Rating', 'Relevancy', 'Popularity']"
+                        [class.active]="sortMethod == sorting.toLowerCase()"
+                        (click)="setSorting(sorting.toLowerCase())">
+                        <span class="label">{{ sorting }}</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="content" [class.loading]="isLoading">
+            <h1 *ngIf="results" class="results-title">Results for "{{ query }}"
+                <span class="query-time">took {{ results.time }} seconds</span>
+            </h1>
+            <div class="results" *ngIf="results">
+                <app-movie-card *ngFor="let movie of results.movies; trackBy: movieTracker"
+                    [movie]="movie"></app-movie-card>
+                <div class="fill-space"></div>
+            </div>
+            <fa-icon [icon]="spinner" animation="spin" size="2xl" class="loading-spinner" />
+        </div>
+    </div>
+</main>
