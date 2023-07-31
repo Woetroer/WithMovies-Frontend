@@ -4,6 +4,7 @@ import { IndexRange, LazyLoadedArray } from 'src/LazyLoadedArray';
 import { toObservable } from 'src/ToObservable';
 import { environment } from '../environments/environment';
 import { MoviePreview } from 'src/interfaces/MoviePreview';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -37,8 +38,8 @@ return new Promise<MoviePreview[]>((res) =>
 );
 }
 
-public getTrendingGenres(start: number, limit: number) {
-  return AnalyticsService.client.get<Number[]>( 
-  environment.apiUrl + `movie/trending/genres/${start}/${limit}` );
+public getTrendingGenres(start: number, limit: number): Observable<number[]> {
+  return AnalyticsService.client.get<number[]>(
+  environment.apiUrl + `movie/trending/genres/${start}/${limit}`);
   }
 }

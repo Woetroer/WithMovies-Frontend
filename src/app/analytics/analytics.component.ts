@@ -2,9 +2,8 @@ import { Component } from "@angular/core";
 import { AnalyticsService } from "../services/analytics.service";
 import { MoviePreview } from "src/interfaces/MoviePreview";
 import { environment } from "../environments/environment";
-import { Genre } from "src/interfaces/Genre";
 
-type MovieKind = "trending" | "trending-recommended" | "friends" | "watchlist";
+type MovieKind = "trending";
 
 
 @Component({
@@ -14,23 +13,23 @@ type MovieKind = "trending" | "trending-recommended" | "friends" | "watchlist";
 })
 export class AnalyticsComponent {
 
-movies = new Map<MovieKind, MoviePreview[]>();
-genres = environment.genres;
+    movies = new Map<MovieKind, MoviePreview[]>();
+    genres = environment.genres;
 
-trendingGenresInInt: number[] = [];
+    trendingGenres: string[] = [];
 
-trendingGenre: Genre[] = ;
+    //genreOrder = for each number in trendingGenres: genres[number] add to trending  
 
-//genreOrder = for each number in trendingGenres: genres[number] add to trending  
+    constructor(private analyticsService: AnalyticsService){this.movies.set("trending", this.movies.get("trending") ?? []);}
 
-constructor(private analyticsService: AnalyticsService){}
+    getTendingMovies(){
+        this.analyticsService.getTrending(0, 10).subscribe((res) => this.movies.set("trending", res));
+    }
 
-getTendingMovies(){
-    this.analyticsService.getTrending(0, 10).subscribe();
+    getTrendingGenres(){
+        this.analyticsService.getTrendingGenres(0, 10).subscribe(res => {
+            this.trendingGenres = res.map(i => this.genres[i]);
+        });    
+    };
 }
-
-getTrendingGenres(){
-    this.analyticsService.getTrendingGenres(0, 10).subscribe();
-}
-
-}
+                
