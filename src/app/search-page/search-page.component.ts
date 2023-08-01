@@ -12,6 +12,8 @@ import { MovieService } from "../services/movie.service";
 import { movieTracker } from "../movie-card/movie-card.component";
 import { SearchResults } from "src/interfaces/SearchResults";
 import { SearchQuery, SortMethod } from "../searchbar/SeachQuery";
+import { KeywordSuggestion } from "src/interfaces/KeywordSuggestion";
+import { KeywordService } from "../services/keyword.service";
 
 type FilterState = "positive" | "negative" | "pending";
 type FilterType = "boolean" | "range"; // Only boolean implemented, range not needed yet
@@ -53,6 +55,11 @@ export class SearchPageComponent {
     sortMethod: SortMethod = "release date";
     sortDescending = true;
 
+    addKeywordValue: string = "";
+    keywordSuggestions: KeywordSuggestion[] = [];
+    updateSuggestionsTimer?: number;
+    keywordsShown = false;
+
     private timerId?: number;
 
     @Input("query") set setQuery(newQuery: string) {
@@ -61,7 +68,10 @@ export class SearchPageComponent {
         this.queueDispatch();
     }
 
-    constructor(private movieService: MovieService) {}
+    constructor(
+        private movieService: MovieService,
+        private keywordService: KeywordService
+    ) {}
 
     plusFilter(filter: Filter) {
         if (filter.state == "positive") {
@@ -103,6 +113,8 @@ export class SearchPageComponent {
 
             return result;
         });
+
+        this.dispatchQuery();
     }
 
     setSorting(newSorting: string) {
@@ -145,5 +157,55 @@ export class SearchPageComponent {
             () => this.dispatchQuery(),
             400
         ) as any as number;
+    }
+
+    showKeywords() {
+        this.keywordsShown = true;
+    }
+
+    hideKeywords() {
+        this.keywordsShown = false;
+    }
+
+    suggestionClicked(event: Event, suggestion: KeywordSuggestion) {
+        event.stopPropagation();
+
+        this.keywordSuggestions = [];
+        this.addKeywordValue = "";
+
+        this.filters.push({
+            name: suggestion.keyword,
+            state: "positive",
+            valueType: "boolean",
+        });
+
+        this.updateFilters();
+    }
+
+    suggestionsKeydown() {
+        if (this.updateSuggestionsTimer) {
+            clearTimeout(this.updateSuggestionsTimer);
+            this.updateSuggestionsTimer = undefined;
+        }
+
+        this.updateSuggestionsTimer = setTimeout(() => {
+            this.updateSuggestions();
+            this.updateSuggestionsTimer = undefined;
+        }, 100) as any;
+    }
+
+    updateSuggestions() {
+        this.keywordSuggestions = [];
+
+        let value = this.addKeywordValue.trim();
+
+        if (value.length < 3) {
+            return;
+        }
+
+        this.keywordService.findSuggestions(value.trim()).subscribe((s) => {
+            this.keywordSuggestions = s.sort((a, b) => b.weight - a.weight);
+            this.keywordsShown = true;
+        });
     }
 }

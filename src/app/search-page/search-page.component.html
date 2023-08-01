@@ -1,15 +1,20 @@
 <main class="search-page">
     <div class="sidebar-wrapper">
         <div class="sidebar">
-            <section *ngIf="results">
-                <h3 class="section-title">Keywords:</h3>
-                <div class="keywords">
-                    <div class="keyword" *ngFor="let keyword of results.keywords;">{{ keyword }}</div>
-                </div>
-            </section>
-
             <section>
                 <h3 class="section-title">Filters:</h3>
+                <input type="text" name="add-filter" id="add-filter" [(ngModel)]="addKeywordValue"
+                    (blur)="hideKeywords()" placeholder="Add filter..." class="add-filter-input"
+                    (ngModelChange)="suggestionsKeydown()" (focus)="showKeywords()">
+                <div class="suggestions" *ngIf="keywordsShown">
+                    <div class="suggestions-inner">
+                        <button for="search-input" class="suggestion" *ngFor="let s of keywordSuggestions;"
+                            (mousedown)="suggestionClicked($event, s)">
+                            <span *ngFor="let c of s.keyword.split(''); index as i"
+                                [class.highlighted]="s.matches[i] == c">{{c}}</span>
+                        </button>
+                    </div>
+                </div>
                 <div class="filters">
                     <div [class]="'filter ' + filter.valueType" *ngFor="let filter of filters"
                         [class.positive]="filter.state == 'positive' && filter.valueType == 'boolean'"

@@ -33,13 +33,13 @@ import { ChildrenOutletContexts } from "@angular/router";
                 group([
                     query(":leave", [
                         animate(
-                            "0.3s cubic-bezier(0.23, 1, 0.320, 1)",
+                            "0.6s cubic-bezier(0.23, 1, 0.320, 1)",
                             style({ right: "100%", opacity: 0 })
                         ),
                     ]),
                     query(":enter", [
                         animate(
-                            "0.3s cubic-bezier(0.23, 1, 0.320, 1)",
+                            "0.5s cubic-bezier(0.23, 1, 0.320, 1)",
                             style({ transform: "*", opacity: 1 })
                         ),
                     ]),
