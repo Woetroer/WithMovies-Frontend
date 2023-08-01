@@ -73,6 +73,11 @@ const routes: Routes = [
         data: { animation: "PreferencePage" },
     },
     {
+        path: "search",
+        component: SearchPageComponent,
+        data: { animation: "SearchPage" },
+    },
+    {
         path: "search/:query",
         component: SearchPageComponent,
         data: { animation: "SearchPage" },

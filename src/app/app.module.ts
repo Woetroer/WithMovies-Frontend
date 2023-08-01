@@ -23,6 +23,7 @@ import { MovieCardComponent } from "./movie-card/movie-card.component";
 import { NgChartsModule } from "ng2-charts";
 import { JwtModule } from "@auth0/angular-jwt";
 import { SearchPageComponent } from "./search-page/search-page.component";
+import { SuggestionBoxComponent } from './suggestion-box/suggestion-box.component';
 
 export function tokenGetter() {
     return localStorage.getItem("jwt");
@@ -45,6 +46,7 @@ export function tokenGetter() {
         AdminPageComponent,
         PreferenceComponent,
         SearchPageComponent,
+        SuggestionBoxComponent,
     ],
     imports: [
         JwtModule.forRoot({

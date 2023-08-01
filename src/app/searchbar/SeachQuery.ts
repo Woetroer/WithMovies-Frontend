@@ -6,6 +6,10 @@ export class SearchQuery {
     public include: string[] = [];
     public exclude: string[] = [];
 
+    public productionCompanies: string[] = [];
+    public genres: string[] = [];
+    public collection: string[] = [];
+
     public sortMethod: SortMethod = "release date";
     public sortDescending: boolean = true;
 

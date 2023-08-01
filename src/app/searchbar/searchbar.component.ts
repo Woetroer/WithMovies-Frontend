@@ -54,6 +54,7 @@ export class SearchbarComponent {
         this.router
             .navigate(["search", this.searchValue], {
                 replaceUrl: !this.router.url.includes("search"),
+                queryParamsHandling: "preserve",
             })
             .catch(console.error);
     }

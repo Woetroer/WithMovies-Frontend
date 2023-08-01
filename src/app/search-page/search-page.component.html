@@ -3,18 +3,9 @@
         <div class="sidebar">
             <section>
                 <h3 class="section-title">Filters:</h3>
-                <input type="text" name="add-filter" id="add-filter" [(ngModel)]="addKeywordValue"
-                    (blur)="hideKeywords()" placeholder="Add filter..." class="add-filter-input"
-                    (ngModelChange)="suggestionsKeydown()" (focus)="showKeywords()">
-                <div class="suggestions" *ngIf="keywordsShown">
-                    <div class="suggestions-inner">
-                        <button for="search-input" class="suggestion" *ngFor="let s of keywordSuggestions;"
-                            (mousedown)="suggestionClicked($event, s)">
-                            <span *ngFor="let c of s.keyword.split(''); index as i"
-                                [class.highlighted]="s.matches[i] == c">{{c}}</span>
-                        </button>
-                    </div>
-                </div>
+                <app-suggestion-box [provider]="filterSuggestionProvider" placeholder="Add filter..."
+                    (added)="filterAdded($event)"></app-suggestion-box>
+
                 <div class="filters">
                     <div [class]="'filter ' + filter.valueType" *ngFor="let filter of filters"
                         [class.positive]="filter.state == 'positive' && filter.valueType == 'boolean'"
@@ -38,6 +29,10 @@
                         [class.active]="sortMethod == sorting.toLowerCase()"
                         (click)="setSorting(sorting.toLowerCase())">
                         <span class="label">{{ sorting }}</span>
+                        <div class="direction" *ngIf="sortMethod == sorting.toLowerCase()">
+                            <fa-icon [icon]="descIcon" *ngIf="sortDescending"></fa-icon>
+                            <fa-icon [icon]="ascIcon" *ngIf="!sortDescending"></fa-icon>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -46,7 +41,8 @@
 
     <div class="content-wrapper">
         <div class="content" [class.loading]="isLoading">
-            <h1 *ngIf="results" class="results-title">Results for "{{ query }}"
+            <h1 *ngIf="results" class="results-title">Results
+                <span *ngIf="query.trim().length > 0">for "{{ query }}"</span>
                 <span class="query-time">took {{ results.time }} seconds</span>
             </h1>
             <div class="results" *ngIf="results">

@@ -5,6 +5,8 @@ import {
     faMinus,
     faPlus,
     faSort,
+    faSortAmountAsc,
+    faSortAmountDesc,
     faSortAsc,
     faSortDesc,
 } from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +16,7 @@ import { SearchResults } from "src/interfaces/SearchResults";
 import { SearchQuery, SortMethod } from "../searchbar/SeachQuery";
 import { KeywordSuggestion } from "src/interfaces/KeywordSuggestion";
 import { KeywordService } from "../services/keyword.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 type FilterState = "positive" | "negative" | "pending";
 type FilterType = "boolean" | "range"; // Only boolean implemented, range not needed yet
@@ -24,6 +27,10 @@ interface Filter {
     valueType: FilterType;
     min?: number;
     max?: number;
+}
+
+function cmp<T>(x: T, y: T) {
+    return x > y ? 1 : x < y ? -1 : 0;
 }
 
 @Component({
@@ -38,8 +45,10 @@ export class SearchPageComponent {
     minus = faMinus;
     filtersIcon = faFilter;
     sortIcon = faSort;
+    descIcon = faSortAmountDesc;
+    ascIcon = faSortAmountAsc;
 
-    query?: string;
+    query: string = "";
 
     isLoading = false;
     results?: SearchResults;
@@ -52,13 +61,15 @@ export class SearchPageComponent {
         },
     ];
 
-    sortMethod: SortMethod = "release date";
+    sortMethod: SortMethod = "rating";
     sortDescending = true;
 
     addKeywordValue: string = "";
     keywordSuggestions: KeywordSuggestion[] = [];
     updateSuggestionsTimer?: number;
     keywordsShown = false;
+
+    page = 0;
 
     private timerId?: number;
 
@@ -70,8 +81,58 @@ export class SearchPageComponent {
 
     constructor(
         private movieService: MovieService,
-        private keywordService: KeywordService
-    ) {}
+        private keywordService: KeywordService,
+        private route: ActivatedRoute,
+        private router: Router
+    ) {
+        this.route.queryParamMap.subscribe((params) => {
+            let includes = params.getAll("include");
+            let excludes = params.getAll("exclude");
+            let order = params.get("order");
+            let dir = params.get("order-direction");
+            let page = params.get("page");
+
+            for (const include of includes) {
+                if (this.filters.find((f) => f.name == include)) continue;
+
+                this.filters.push({
+                    name: include,
+                    state: "positive",
+                    valueType: "boolean",
+                });
+            }
+
+            for (const exclude of excludes) {
+                if (this.filters.find((f) => f.name == exclude)) continue;
+
+                this.filters.push({
+                    name: exclude,
+                    state: "positive",
+                    valueType: "boolean",
+                });
+            }
+
+            if (order) {
+                this.sortMethod = (order as SortMethod) ?? "popularity";
+            }
+
+            if (dir) {
+                this.sortDescending = dir == "desc";
+            }
+
+            if (page) {
+                this.page = parseInt(page);
+            }
+
+            this.updateFilters(false);
+            this.dispatchQuery();
+
+            if (this.timerId) {
+                clearTimeout(this.timerId);
+                this.timerId = undefined;
+            }
+        });
+    }
 
     plusFilter(filter: Filter) {
         if (filter.state == "positive") {
@@ -93,38 +154,47 @@ export class SearchPageComponent {
         this.updateFilters();
     }
 
-    updateFilters() {
+    updateFilters(dispatch: boolean = true) {
         this.filters.sort((a, b) => {
-            let result = 0;
-
             let types = ["boolean", "range"];
+            let states = ["positive", "negative", "pending"];
 
-            result += types.indexOf(a.valueType) - types.indexOf(b.valueType);
-            result *= 10;
-
-            if (a.valueType == "boolean") {
-                let states = ["positive", "negative", "pending"];
-
-                result += states.indexOf(a.state) - types.indexOf(a.state);
-                result *= 10;
-            }
-
-            result += a.name.localeCompare(b.name);
-
-            return result;
+            return (
+                cmp(types.indexOf(a.valueType), types.indexOf(b.valueType)) ||
+                cmp(states.indexOf(a.state), states.indexOf(b.state)) ||
+                cmp(a.name, b.name)
+            );
         });
 
-        this.dispatchQuery();
+        if (dispatch) this.dispatchQuery();
     }
 
     setSorting(newSorting: string) {
-        this.sortMethod = newSorting as SortMethod;
+        if (this.sortMethod == (newSorting as SortMethod)) {
+            this.sortDescending = !this.sortDescending;
+        } else {
+            this.sortMethod = newSorting as SortMethod;
+        }
 
         this.dispatchQuery();
     }
 
     dispatchQuery() {
-        if (!this.query || this.isLoading) return;
+        this.router.navigate(["search", this.query?.trim() ?? ""], {
+            queryParams: {
+                include: this.filters
+                    .filter((f) => f.state == "positive")
+                    .map((f) => f.name),
+                exclude: this.filters
+                    .filter((f) => f.state == "negative")
+                    .map((f) => f.name),
+                order: this.sortMethod,
+                dir: this.sortDescending ? "desc" : "asc",
+                page: this.page,
+            },
+        });
+
+        if (this.isLoading) return;
 
         this.isLoading = true;
 
@@ -141,10 +211,12 @@ export class SearchPageComponent {
             .filter((f) => f.state == "negative")
             .map((f) => f.name.toLowerCase());
 
-        this.movieService.queryMovies(query, 0, 20).subscribe((results) => {
-            this.results = results;
-            this.isLoading = false;
-        });
+        this.movieService
+            .queryMovies(query, this.page * 20, 20)
+            .subscribe((results) => {
+                this.results = results;
+                this.isLoading = false;
+            });
     }
 
     private queueDispatch() {
@@ -159,53 +231,17 @@ export class SearchPageComponent {
         ) as any as number;
     }
 
-    showKeywords() {
-        this.keywordsShown = true;
+    filterSuggestionProvider(input: string) {
+        return this.keywordService.findSuggestions(input);
     }
 
-    hideKeywords() {
-        this.keywordsShown = false;
-    }
-
-    suggestionClicked(event: Event, suggestion: KeywordSuggestion) {
-        event.stopPropagation();
-
-        this.keywordSuggestions = [];
-        this.addKeywordValue = "";
-
+    filterAdded(filter: KeywordSuggestion) {
         this.filters.push({
-            name: suggestion.keyword,
+            name: filter.keyword,
             state: "positive",
             valueType: "boolean",
         });
 
         this.updateFilters();
-    }
-
-    suggestionsKeydown() {
-        if (this.updateSuggestionsTimer) {
-            clearTimeout(this.updateSuggestionsTimer);
-            this.updateSuggestionsTimer = undefined;
-        }
-
-        this.updateSuggestionsTimer = setTimeout(() => {
-            this.updateSuggestions();
-            this.updateSuggestionsTimer = undefined;
-        }, 100) as any;
-    }
-
-    updateSuggestions() {
-        this.keywordSuggestions = [];
-
-        let value = this.addKeywordValue.trim();
-
-        if (value.length < 3) {
-            return;
-        }
-
-        this.keywordService.findSuggestions(value.trim()).subscribe((s) => {
-            this.keywordSuggestions = s.sort((a, b) => b.weight - a.weight);
-            this.keywordsShown = true;
-        });
     }
 }
