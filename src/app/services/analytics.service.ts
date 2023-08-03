@@ -5,6 +5,7 @@ import { toObservable } from 'src/ToObservable';
 import { environment } from '../environments/environment';
 import { MoviePreview } from 'src/interfaces/MoviePreview';
 import { Observable } from 'rxjs';
+import { User } from 'src/interfaces/User';
 
 @Injectable({
   providedIn: 'root'
@@ -14,32 +15,47 @@ export class AnalyticsService {
 
   trendingMovies: LazyLoadedArray<MoviePreview>;
   trendingGenres: number[] = [];
-  
+
   constructor(private httpClient: HttpClient) {
-  AnalyticsService.client = httpClient;
-  
-  this.trendingMovies = new LazyLoadedArray(AnalyticsService._getTrending);
+    AnalyticsService.client = httpClient;
+
+    this.trendingMovies = new LazyLoadedArray(AnalyticsService._getTrending);
   }
 
-public getTrending(start: number, limit: number) {
-return toObservable(
-    this.trendingMovies.getRange(new IndexRange(start, start + limit))
-);
-}
+  public getTrending(start: number, limit: number) {
+    return toObservable(
+      this.trendingMovies.getRange(new IndexRange(start, start + limit))
+    );
+  }
 
-private static _getTrending(range: IndexRange) {
-return new Promise<MoviePreview[]>((res) =>
-    AnalyticsService.client
+  private static _getTrending(range: IndexRange) {
+    return new Promise<MoviePreview[]>((res) =>
+      AnalyticsService.client
         .get<MoviePreview[]>(
-            environment.apiUrl +
-                `movie/trending/${range.start}/${range.count()}`
+          environment.apiUrl +
+          `movie/trending/${range.start}/${range.count()}`
         )
         .subscribe(res)
-);
-}
+    );
+  }
 
-public getTrendingGenres(start: number, limit: number): Observable<number[]> {
-  return AnalyticsService.client.get<number[]>(
-  environment.apiUrl + `movie/trending/genres/${start}/${limit}`);
+  public getTrendingGenres(start: number, limit: number): Observable<number[]> {
+    return AnalyticsService.client.get<number[]>(
+      environment.apiUrl + `movie/trending/genres/${start}/${limit}`);
+  }
+
+  public getAllUsers(): Observable<number> {
+    return AnalyticsService.client.get<number>(
+      environment.apiUrl + `user/all-users`);
+  }
+
+  public getAverageReviewsPerUser(): Observable<number> {
+    return AnalyticsService.client.get<number>(
+      environment.apiUrl + `user/avg-reviews`);
+  }
+
+  public getUsersWithMostReviews(amount: number): Observable<User[]> {
+    return AnalyticsService.client.get<User[]>(
+      environment.apiUrl + `user/users-most-reviews/${amount}`);
   }
 }
