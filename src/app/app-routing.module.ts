@@ -14,8 +14,9 @@ import { AnalyticsComponent } from "./analytics/analytics.component";
 import { PreferenceComponent } from "./preference/preference.component";
 import { MovieDetailsPageComponent } from "./movie-details-page/movie-details-page.component";
 import { AuthGuard } from "./guards/auth.guard";
-
 import { AdminPageComponent } from "./admin-page/admin-page.component";
+import { AuthService } from "./services/auth.service";
+
 const routes: Routes = [
     {
         path: "",
@@ -27,18 +28,10 @@ const routes: Routes = [
     { path: "login", component: LoginComponent },
     { path: "register", component: RegisterComponent },
     { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },
-    {
-        path: "settings",
-        component: SettingsComponent,
-        canActivate: [AuthGuard],
-    },
-    {
-        path: "admin-functions",
-        component: AdminPageComponent,
-        canActivate: [AuthGuard],
-    },
-    { path: "analytics", component: AnalyticsComponent },
+    { path: "settings", component: SettingsComponent, canActivate: [AuthGuard] },
     { path: "preference", component: PreferenceComponent },
+    { path: "analytics", component: AnalyticsComponent },
+    { path: "admin-functions", component: AdminPageComponent },
 ];
 
 @NgModule({

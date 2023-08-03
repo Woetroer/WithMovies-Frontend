@@ -1,5 +1,9 @@
 <div class="grid-container">
-    <div class="item trending-genres"></div>
+    <div class="item trending-genres">
+            <li *ngFor='let g of trendingGenres'>
+                <div>{{g}}</div>
+            </li>
+    </div>
     <div class="item user-growth"></div>
     <div class="item highest-rating-film"></div>
 </div>
