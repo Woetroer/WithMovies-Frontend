@@ -72,6 +72,7 @@ const routes: Routes = [
         path: "preference",
         component: PreferenceComponent,
         data: { animation: "PreferencePage" },
+        canActivate: [AuthGuard],
     },
     {
         path: "search",
