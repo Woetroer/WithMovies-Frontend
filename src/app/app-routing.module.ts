@@ -29,7 +29,7 @@ const routes: Routes = [
     { path: "register", component: RegisterComponent },
     { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },
     { path: "settings", component: SettingsComponent, canActivate: [AuthGuard] },
-    { path: "preference", component: PreferenceComponent },
+    { path: "preference", component: PreferenceComponent, canActivate: [AuthGuard] },
     { path: "analytics", component: AnalyticsComponent },
     { path: "admin-functions", component: AdminPageComponent },
 ];

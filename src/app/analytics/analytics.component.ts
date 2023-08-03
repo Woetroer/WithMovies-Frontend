@@ -4,6 +4,7 @@ import { MoviePreview } from "src/interfaces/MoviePreview";
 import { environment } from "../environments/environment";
 import { Chart, ChartData, ChartOptions } from 'chart.js';
 import { Genre } from "src/interfaces/Genre";
+import { User } from "src/interfaces/User";
 
 type MovieKind = "trending";
 
@@ -16,11 +17,16 @@ type MovieKind = "trending";
 export class AnalyticsComponent {
 
     movies = new Map<MovieKind, MoviePreview[]>();
+
     genres = environment.genres;
     chart: any;
     trendingGenres: string[] = [];
     trendingGenresData?: ChartData;
     trendingGenresChartOptions: ChartOptions;
+
+    allUsers: number = 0;
+    averageReviewsPerUser: number = 0;
+    mostActiveUsers: User[] = [];
 
     //genreOrder = for each number in trendingGenres: genres[number] add to trending  
 
@@ -98,13 +104,21 @@ export class AnalyticsComponent {
         this.analyticsService.getTrending(0, 10).subscribe((res) => this.movies.set("trending", res));
     }
 
-    createPie() {
-        
-        // this.chart = new Chart("Trending genres", {
-        //     type: 'pie',
-        //     data: 
-        // })
-    }
+    getTrendingGenres(){
+        this.analyticsService.getTrendingGenres(0, 10).subscribe(res => {
+            this.trendingGenres = res.map(i => this.genres[i]);
+        });    
+    };
 
-    ngOnInit() { this.createPie(); }
-}        
+    public getAllUsers() {
+        this.analyticsService.getAllUsers().subscribe(res => this.allUsers = res)
+    };
+    public getAverageReviewsPerUser() {
+        this.analyticsService.getAverageReviewsPerUser().subscribe(res => this.averageReviewsPerUser = res)
+    };
+    public getUsersWithMostReviews(amount: number) {
+        this.analyticsService.getUsersWithMostReviews(10).subscribe(res => this.mostActiveUsers = res)
+    };
+    
+}
+                
