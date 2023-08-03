@@ -31,6 +31,10 @@ export class AnalyticsComponent {
     //genreOrder = for each number in trendingGenres: genres[number] add to trending  
 
     constructor(private analyticsService: AnalyticsService) {
+        this.getAllUsers();
+        this.getAverageReviewsPerUser();
+        this.getUsersWithMostReviews(10);
+
         this.movies.set("trending", this.movies.get("trending") ?? []);
 
         this.analyticsService.getTrendingGenres(0, 10).subscribe((data) => {
