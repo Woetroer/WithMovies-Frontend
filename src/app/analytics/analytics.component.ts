@@ -38,13 +38,13 @@ export class AnalyticsComponent {
     };
 
     public getAllUsers() {
-        this.analyticsService.getAllUsers().subscribe(res => this.allUsers)
+        this.analyticsService.getAllUsers().subscribe(res => this.allUsers = res)
     };
     public getAverageReviewsPerUser() {
-        this.analyticsService.getAverageReviewsPerUser().subscribe(res => this.averageReviewsPerUser)
+        this.analyticsService.getAverageReviewsPerUser().subscribe(res => this.averageReviewsPerUser = res)
     };
     public getUsersWithMostReviews(amount: number) {
-        this.analyticsService.getUsersWithMostReviews(10).subscribe(res => this.mostActiveUsers)
+        this.analyticsService.getUsersWithMostReviews(10).subscribe(res => this.mostActiveUsers = res)
     };
     
 }
