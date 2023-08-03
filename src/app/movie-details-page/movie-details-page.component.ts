@@ -86,7 +86,7 @@ export class MovieDetailsPageComponent {
 
     giveRating() {
         this.activeStar = this.lastHovered;
-        this.ratingScore = this.activeStar;
+        this.ratingScore = this.activeStar * 2.0;
 
         this.popupOpen = true;
     }
