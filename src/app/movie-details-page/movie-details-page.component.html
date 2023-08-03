@@ -83,7 +83,8 @@
 
             <div *ngIf="movie.productionCompanies">Produced by:</div>
             <div *ngIf="movie.productionCompanies" class="list">
-                <div *ngFor="let company of movie.productionCompanies">
+                <div *ngFor="let company of movie.productionCompanies" [routerLink]="['/search']"
+                    [queryParams]="{ includeCompany: company.name }" style="cursor: pointer">
                     {{ company.name }}
                 </div>
             </div>

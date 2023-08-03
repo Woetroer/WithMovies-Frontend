@@ -6,12 +6,14 @@ import { environment } from "../environments/environment";
 @Injectable({
     providedIn: "root",
 })
-export class KeywordService {
+export class ProductionCompanyService {
     constructor(private httpClient: HttpClient) {}
 
     public findSuggestions(text: string) {
         return this.httpClient.get<Suggestion[]>(
-            environment.apiUrl + "suggestion/keywords/" + encodeURI(text)
+            environment.apiUrl +
+                "suggestion/companies/" +
+                encodeURIComponent(text)
         );
     }
 }

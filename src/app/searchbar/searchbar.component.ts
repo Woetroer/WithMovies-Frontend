@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { faClose, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { KeywordService } from "../services/keyword.service";
-import { KeywordSuggestion } from "src/interfaces/KeywordSuggestion";
+import { Suggestion } from "src/interfaces/Suggestion";
 import { EventType, Router } from "@angular/router";
 
 @Component({

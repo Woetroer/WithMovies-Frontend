@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Observable } from "rxjs";
-import { KeywordSuggestion } from "src/interfaces/KeywordSuggestion";
+import { Suggestion } from "src/interfaces/Suggestion";
 
-export type SuggestionProvider = (
-    value: string
-) => Observable<KeywordSuggestion[]>;
+export type SuggestionProvider = (value: string) => Observable<Suggestion[]>;
 
 @Component({
     selector: "app-suggestion-box",
@@ -12,13 +10,11 @@ export type SuggestionProvider = (
     styleUrls: ["./suggestion-box.component.scss"],
 })
 export class SuggestionBoxComponent {
-    @Input("values") @Output("values") values: string[] = [];
     @Input("provider") provider!: SuggestionProvider;
     @Input("placeholder") placeholder?: string = undefined;
-    @Output("added") added: EventEmitter<KeywordSuggestion> =
-        new EventEmitter();
+    @Output("added") added: EventEmitter<Suggestion> = new EventEmitter();
 
-    suggestions: KeywordSuggestion[] = [];
+    suggestions: Suggestion[] = [];
     suggestionsShown = false;
     inputValue: string = "";
 
@@ -44,11 +40,10 @@ export class SuggestionBoxComponent {
         }, 100) as any;
     }
 
-    suggestionClicked(suggestion: KeywordSuggestion) {
+    suggestionClicked(suggestion: Suggestion) {
         this.suggestions = [];
         this.inputValue = "";
 
-        this.values.push(suggestion.keyword);
         this.added.emit(suggestion);
     }
 

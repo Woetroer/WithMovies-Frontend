@@ -7,16 +7,20 @@ import {
     faSort,
     faSortAmountAsc,
     faSortAmountDesc,
-    faSortAsc,
-    faSortDesc,
+    faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import { MovieService } from "../services/movie.service";
 import { movieTracker } from "../movie-card/movie-card.component";
 import { SearchResults } from "src/interfaces/SearchResults";
 import { SearchQuery, SortMethod } from "../searchbar/SeachQuery";
-import { KeywordSuggestion } from "src/interfaces/KeywordSuggestion";
+import { Suggestion } from "src/interfaces/Suggestion";
 import { KeywordService } from "../services/keyword.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import { SuggestionProvider } from "../suggestion-box/suggestion-box.component";
+import { Genre } from "src/interfaces/Genre";
+import { ProductionCompanyService } from "../services/production-company.service";
+import { MovieCollectionService } from "../services/movie-collection.service";
+import { IMovieCollectionDto } from "src/interfaces/IMovieCollectionDto";
 
 type FilterState = "positive" | "negative" | "pending";
 type FilterType = "boolean" | "range"; // Only boolean implemented, range not needed yet
@@ -47,6 +51,7 @@ export class SearchPageComponent {
     sortIcon = faSort;
     descIcon = faSortAmountDesc;
     ascIcon = faSortAmountAsc;
+    deleteIcon = faTrashCan;
 
     query: string = "";
 
@@ -61,13 +66,17 @@ export class SearchPageComponent {
         },
     ];
 
+    genreFilters: Filter[];
+    companyFilters: Filter[] = [];
+    belongsToCollection?: string;
+    collectionData?: IMovieCollectionDto;
+
     sortMethod: SortMethod = "rating";
     sortDescending = true;
 
-    addKeywordValue: string = "";
-    keywordSuggestions: KeywordSuggestion[] = [];
-    updateSuggestionsTimer?: number;
-    keywordsShown = false;
+    filterSuggestionProviderBound: SuggestionProvider;
+    movieCollectionSuggestionProviderBound: SuggestionProvider;
+    productionCompanySuggestionProviderBound: SuggestionProvider;
 
     page = 0;
 
@@ -82,35 +91,66 @@ export class SearchPageComponent {
     constructor(
         private movieService: MovieService,
         private keywordService: KeywordService,
+        private productionCompanyService: ProductionCompanyService,
+        private movieCollectionService: MovieCollectionService,
         private route: ActivatedRoute,
         private router: Router
     ) {
+        this.genreFilters = Object.keys(Genre)
+            .filter((k) => Number.isNaN(Number(k)))
+            .map((name) => ({
+                name,
+                state: "pending",
+                valueType: "boolean",
+            })) as Filter[];
+
+        this.filterSuggestionProviderBound =
+            this.filterSuggestionProvider.bind(this);
+
+        this.movieCollectionSuggestionProviderBound =
+            this.movieCollectionSuggestionProvider.bind(this);
+
+        this.productionCompanySuggestionProviderBound =
+            this.productionCompanySuggestionProvider.bind(this);
+
         this.route.queryParamMap.subscribe((params) => {
             let includes = params.getAll("include");
             let excludes = params.getAll("exclude");
             let order = params.get("order");
             let dir = params.get("order-direction");
             let page = params.get("page");
+            let genreIncludes = params.getAll("includeGenre");
+            let genreExcludes = params.getAll("excludeGenre");
+            let companyIncludes = params.getAll("includeCompany");
+            let companyExcludes = params.getAll("excludeCompany");
+            let collection = params.get("collection");
 
-            for (const include of includes) {
-                if (this.filters.find((f) => f.name == include)) continue;
+            const addFilters = (
+                filterArray: Filter[],
+                state: FilterState,
+                input: string[]
+            ) => {
+                for (const name of input) {
+                    const existing = filterArray.find((f) => f.name == name);
 
-                this.filters.push({
-                    name: include,
-                    state: "positive",
-                    valueType: "boolean",
-                });
-            }
+                    if (existing) {
+                        existing.state = state;
+                    } else {
+                        filterArray.push({
+                            name,
+                            state,
+                            valueType: "boolean",
+                        });
+                    }
+                }
+            };
 
-            for (const exclude of excludes) {
-                if (this.filters.find((f) => f.name == exclude)) continue;
-
-                this.filters.push({
-                    name: exclude,
-                    state: "positive",
-                    valueType: "boolean",
-                });
-            }
+            addFilters(this.filters, "positive", includes);
+            addFilters(this.filters, "negative", excludes);
+            addFilters(this.genreFilters, "positive", genreIncludes);
+            addFilters(this.genreFilters, "negative", genreExcludes);
+            addFilters(this.companyFilters, "positive", companyIncludes);
+            addFilters(this.companyFilters, "negative", companyExcludes);
 
             if (order) {
                 this.sortMethod = (order as SortMethod) ?? "popularity";
@@ -122,6 +162,10 @@ export class SearchPageComponent {
 
             if (page) {
                 this.page = parseInt(page);
+            }
+
+            if (collection) {
+                this.setMovieCollection(collection, false);
             }
 
             this.updateFilters(false);
@@ -155,16 +199,27 @@ export class SearchPageComponent {
     }
 
     updateFilters(dispatch: boolean = true) {
-        this.filters.sort((a, b) => {
-            let types = ["boolean", "range"];
-            let states = ["positive", "negative", "pending"];
+        const filterArrays = [
+            this.filters,
+            this.genreFilters,
+            this.companyFilters,
+        ];
 
-            return (
-                cmp(types.indexOf(a.valueType), types.indexOf(b.valueType)) ||
-                cmp(states.indexOf(a.state), states.indexOf(b.state)) ||
-                cmp(a.name, b.name)
-            );
-        });
+        for (const filterArray of filterArrays) {
+            filterArray.sort((a, b) => {
+                let types = ["boolean", "range"];
+                let states = ["positive", "negative", "pending"];
+
+                return (
+                    cmp(
+                        types.indexOf(a.valueType),
+                        types.indexOf(b.valueType)
+                    ) ||
+                    cmp(states.indexOf(a.state), states.indexOf(b.state)) ||
+                    cmp(a.name, b.name)
+                );
+            });
+        }
 
         if (dispatch) this.dispatchQuery();
     }
@@ -188,6 +243,19 @@ export class SearchPageComponent {
                 exclude: this.filters
                     .filter((f) => f.state == "negative")
                     .map((f) => f.name),
+                includeGenre: this.genreFilters
+                    .filter((f) => f.state == "positive")
+                    .map((f) => f.name),
+                excludeGenre: this.genreFilters
+                    .filter((f) => f.state == "negative")
+                    .map((f) => f.name),
+                includeCompany: this.companyFilters
+                    .filter((f) => f.state == "positive")
+                    .map((f) => f.name),
+                excludeCompany: this.companyFilters
+                    .filter((f) => f.state == "negative")
+                    .map((f) => f.name),
+                collection: this.belongsToCollection,
                 order: this.sortMethod,
                 dir: this.sortDescending ? "desc" : "asc",
                 page: this.page,
@@ -210,6 +278,24 @@ export class SearchPageComponent {
         query.exclude = this.filters
             .filter((f) => f.state == "negative")
             .map((f) => f.name.toLowerCase());
+
+        query.includeGenres = this.genreFilters
+            .filter((f) => f.state == "positive")
+            .map((f) => f.name);
+
+        query.excludeGenres = this.genreFilters
+            .filter((f) => f.state == "negative")
+            .map((f) => f.name);
+
+        query.includeProductionCompanies = this.companyFilters
+            .filter((f) => f.state == "positive")
+            .map((f) => f.name);
+
+        query.excludeProductionCompanies = this.companyFilters
+            .filter((f) => f.state == "negative")
+            .map((f) => f.name);
+
+        query.collection = this.belongsToCollection;
 
         this.movieService
             .queryMovies(query, this.page * 20, 20)
@@ -235,7 +321,15 @@ export class SearchPageComponent {
         return this.keywordService.findSuggestions(input);
     }
 
-    filterAdded(filter: KeywordSuggestion) {
+    movieCollectionSuggestionProvider(input: string) {
+        return this.movieCollectionService.findSuggestions(input);
+    }
+
+    productionCompanySuggestionProvider(input: string) {
+        return this.productionCompanyService.findSuggestions(input);
+    }
+
+    filterAdded(filter: Suggestion) {
         this.filters.push({
             name: filter.keyword,
             state: "positive",
@@ -243,5 +337,32 @@ export class SearchPageComponent {
         });
 
         this.updateFilters();
+    }
+
+    companyFilterAdded(filter: Suggestion) {
+        this.companyFilters.push({
+            name: filter.keyword,
+            state: "positive",
+            valueType: "boolean",
+        });
+
+        this.updateFilters();
+    }
+
+    setMovieCollection(collectionName: string, dispatch: boolean = true) {
+        this.belongsToCollection = collectionName;
+
+        this.movieCollectionService
+            .getByName(collectionName)
+            .subscribe((collection) => (this.collectionData = collection));
+
+        if (dispatch) this.dispatchQuery();
+    }
+
+    unsetMovieCollection() {
+        this.belongsToCollection = undefined;
+        this.collectionData = undefined;
+
+        this.dispatchQuery();
     }
 }

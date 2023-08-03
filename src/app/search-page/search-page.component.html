@@ -3,7 +3,7 @@
         <div class="sidebar">
             <section>
                 <h3 class="section-title">Filters:</h3>
-                <app-suggestion-box [provider]="filterSuggestionProvider" placeholder="Add filter..."
+                <app-suggestion-box [provider]="filterSuggestionProviderBound" placeholder="Add filter..."
                     (added)="filterAdded($event)"></app-suggestion-box>
 
                 <div class="filters">
@@ -20,6 +20,61 @@
                         </div>
                     </div>
                 </div>
+            </section>
+
+            <!-- <section>
+                <h3 class="section-title">Genres:</h3>
+                <div class="filters">
+                    <div [class]="'filter ' + filter.valueType" *ngFor="let filter of genreFilters"
+                        [class.positive]="filter.state == 'positive' && filter.valueType == 'boolean'"
+                        [class.negative]="filter.state == 'negative' && filter.valueType == 'boolean'"
+                        [class.pending]="filter.state == 'pending' && filter.valueType == 'boolean'">
+
+                        <div class="inner" *ngIf="filter.valueType == 'boolean'">
+                            <fa-icon [icon]="minus" class="bchoice minus" (click)="minusFilter(filter)" />
+                            <fa-icon [icon]="plus" class="bchoice plus" (click)="plusFilter(filter)" />
+                            <span class="label">{{ filter.name }}</span>
+                        </div>
+                    </div>
+                </div>
+            </section> -->
+
+            <section>
+                <h3 class="section-title">Produced By:</h3>
+                <app-suggestion-box [provider]="productionCompanySuggestionProviderBound"
+                    placeholder="Search companies..." (added)="companyFilterAdded($event)"></app-suggestion-box>
+
+                <div class="filters">
+                    <div [class]="'filter ' + filter.valueType" *ngFor="let filter of companyFilters"
+                        [class.positive]="filter.state == 'positive' && filter.valueType == 'boolean'"
+                        [class.negative]="filter.state == 'negative' && filter.valueType == 'boolean'"
+                        [class.pending]="filter.state == 'pending' && filter.valueType == 'boolean'">
+
+                        <!-- Boolean -->
+                        <div class="inner" *ngIf="filter.valueType == 'boolean'">
+                            <fa-icon [icon]="minus" class="bchoice minus" (click)="minusFilter(filter)" />
+                            <fa-icon [icon]="plus" class="bchoice plus" (click)="plusFilter(filter)" />
+                            <span class="label">{{ filter.name }}</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="section-title">
+                    Belongs to collection:
+                    <div class="fill-space"></div>
+                    <span (click)="unsetMovieCollection()" *ngIf="belongsToCollection">
+                        <fa-icon [icon]="deleteIcon" class="remove-collection"></fa-icon>
+                    </span>
+                </h3>
+
+                <app-suggestion-box [provider]="movieCollectionSuggestionProviderBound"
+                    placeholder="Search collections..." (added)="setMovieCollection($event.keyword)"
+                    *ngIf="!belongsToCollection"></app-suggestion-box>
+
+                <app-movie-collection-banner *ngIf="collectionData && belongsToCollection" [collection]="collectionData"
+                    [small]="true"></app-movie-collection-banner>
             </section>
 
             <section>

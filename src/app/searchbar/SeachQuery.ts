@@ -6,9 +6,13 @@ export class SearchQuery {
     public include: string[] = [];
     public exclude: string[] = [];
 
-    public productionCompanies: string[] = [];
-    public genres: string[] = [];
-    public collection: string[] = [];
+    public includeGenres: string[] = [];
+    public excludeGenres: string[] = [];
+
+    public includeProductionCompanies: string[] = [];
+    public excludeProductionCompanies: string[] = [];
+
+    public collection?: string;
 
     public sortMethod: SortMethod = "release date";
     public sortDescending: boolean = true;
