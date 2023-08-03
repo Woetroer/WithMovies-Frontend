@@ -14,8 +14,9 @@ import { AnalyticsComponent } from "./analytics/analytics.component";
 import { PreferenceComponent } from "./preference/preference.component";
 import { MovieDetailsPageComponent } from "./movie-details-page/movie-details-page.component";
 import { AuthGuard } from "./guards/auth.guard";
-
 import { AdminPageComponent } from "./admin-page/admin-page.component";
+import { AuthService } from "./services/auth.service";
+
 import { SearchPageComponent } from "./search-page/search-page.component";
 const routes: Routes = [
     {

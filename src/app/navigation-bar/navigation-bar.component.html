@@ -13,6 +13,8 @@
         <button routerLink="/profile" *ngIf="isLoggedIn()">Profile</button>
         <button routerLink="/settings" *ngIf="isLoggedIn()">Account Settings</button>
         <button (click)="logout()" *ngIf="isLoggedIn()">Logout</button>
+        <button routerLink="/analytics" *ngIf="isLoggedIn() && isAdmin()">Analytics</button>
+        <button routerLink="/admin-functions" *ngIf="isLoggedIn() && isAdmin()">Admin-Functions</button>
         <a [routerLink]="['/login']" *ngIf="!isLoggedIn()">Login</a>
         <a [routerLink]="['/register']" *ngIf="!isLoggedIn()">Register</a>
     </div>
