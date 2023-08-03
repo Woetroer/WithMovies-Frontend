@@ -4,6 +4,7 @@ import { MoviePreview } from "src/interfaces/MoviePreview";
 import { AuthService } from "../services/auth.service";
 import { Observable } from "rxjs";
 import { LazyLoadedArray } from "src/LazyLoadedArray";
+import { movieTracker } from "../movie-card/movie-card.component";
 
 type MovieKind = "trending" | "trending-recommended" | "friends" | "watchlist";
 
@@ -14,6 +15,7 @@ type MovieKind = "trending" | "trending-recommended" | "friends" | "watchlist";
 })
 export class HomeComponent {
     isLoggedIn = false;
+    movieTracker = movieTracker;
 
     movies = new Map<MovieKind, MoviePreview[]>();
 

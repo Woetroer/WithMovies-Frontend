@@ -10,6 +10,9 @@ export class MovieCollectionBannerComponent {
     @Input("collection")
     public collection!: IMovieCollectionDto;
 
+    @Input("small")
+    public small: boolean = false;
+
     collectionName() {
         let words = this.collection.name.split(" ");
         if (

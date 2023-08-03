@@ -25,7 +25,8 @@ $transition: cubic-bezier(0.165, 0.84, 0.44, 1);
     border-radius: 4px;
 
     transition: background-position 0.6s $transition,
-        transform 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+        transform 0.1s cubic-bezier(0.19, 1, 0.22, 1),
+        opacity 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 
     > h1 {
         font-size: 22px;
@@ -56,5 +57,13 @@ $transition: cubic-bezier(0.165, 0.84, 0.44, 1);
 
     &:active {
         transform: scale(0.99);
+    }
+
+    &.loading {
+        transition: background-position 0.6s $transition,
+            transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1),
+            opacity 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transform: scale(0.8);
+        opacity: 0;
     }
 }

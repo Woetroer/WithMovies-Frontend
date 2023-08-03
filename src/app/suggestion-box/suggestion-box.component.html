@@ -1,0 +1,13 @@
+<div class="input-container">
+    <input type="text" name="add-item" id="add-item" [(ngModel)]="inputValue" (blur)="hideSuggestions()"
+        [placeholder]="placeholder" class="input" (ngModelChange)="inputChanged()" (focus)="showSuggestions()">
+    <div class="suggestions" *ngIf="suggestionsShown">
+        <div class="suggestions-inner">
+            <button for="search-input" class="suggestion" *ngFor="let s of suggestions;"
+                (mousedown)="suggestionClicked(s)">
+                <span *ngFor="let c of s.keyword.split(''); index as i"
+                    [class.highlighted]="s.matches[i] == c">{{c}}</span>
+            </button>
+        </div>
+    </div>
+</div>

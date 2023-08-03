@@ -5,6 +5,12 @@ import {
     MovieImageType,
     TmdbService,
 } from "../services/tmdb.service";
+import { MovieService } from "../services/movie.service";
+import { Router } from "@angular/router";
+
+export function movieTracker(idx: number, moviePreview: MoviePreview) {
+    return moviePreview.id;
+}
 
 @Component({
     selector: "app-movie-card",
@@ -15,7 +21,13 @@ export class MovieCardComponent implements OnInit {
     @Input() movie!: MoviePreview;
     poster?: string;
 
-    constructor(private tmdbService: TmdbService) {}
+    isLoading: boolean = false;
+
+    constructor(
+        private tmdbService: TmdbService,
+        public movieService: MovieService,
+        private router: Router
+    ) {}
 
     ngOnInit(): void {
         this.tmdbService
@@ -25,5 +37,15 @@ export class MovieCardComponent implements OnInit {
                 ImageQuality.W780
             )
             .subscribe((poster) => (this.poster = poster));
+    }
+
+    onClick() {
+        if (this.movieService.isLoadingDetails) return;
+
+        this.isLoading = true;
+
+        this.movieService.getMovieDetails(this.movie.id).subscribe((_) => {
+            this.router.navigate(["movie", this.movie.id]).catch(console.error);
+        });
     }
 }
