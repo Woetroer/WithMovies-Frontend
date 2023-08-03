@@ -8,13 +8,20 @@
 }
 
 .item {
-    height: 300px;
+    background-color: $secondary-button;
 
-    box-shadow: inset 0px 0px 0px 1px aqua;
+    padding: 16px 24px;
+    border-radius: 8px;
+}
+
+.item-title {
+    margin: 0 0 8px 0;
+    font-size: 24px !important;
 }
 
 .item.trending-genres {
     grid-area: 1/1/2/3;
+    padding-bottom: 48px;
 }
 
 .item.user-growth{
@@ -22,5 +29,31 @@
 }
 
 .item.highest-rating-film{
+    background-color: transparent;
+    padding: 0;
+
     grid-area: 2/1/2/6;
+
+    .item-title {
+        margin-left: 24px;
+        margin-bottom: 16px;
+    }
+}
+
+.highest-rating-film-list {
+    overflow-x: auto;
+
+    display: flex;
+    gap: 10px;
+    
+    max-width: 100%;
+    width: 100%;
+
+    box-sizing: border-box;
+}
+
+.pie-chart {
+    max-width: 100%;
+    max-height: 200px;
+
 }
