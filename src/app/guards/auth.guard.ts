@@ -27,21 +27,4 @@ export class AuthGuard {
       }
       return isRefreshSuccess;
     }
-
-    // async canActivateAdmin(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    //   const token = localStorage.getItem("jwt")!;
-
-    //   if (JSON.parse(token.split(".")[1])["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role"] == "Admin"){
-    //     if (token && !this.jwtHelper.isTokenExpired(token)){
-    //       console.log(this.jwtHelper.decodeToken(token))
-    //       return true;
-    //     }
-    //     const isRefreshSuccess = await this._authService.tryRefreshingTokens(token); 
-    //     if (!isRefreshSuccess) { 
-    //       this.router.navigate(["login"]); 
-    //     }
-    //     return isRefreshSuccess;
-    //   }
-    //   return false;
-    // }
 }

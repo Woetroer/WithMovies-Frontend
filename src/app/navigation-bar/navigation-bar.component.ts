@@ -21,7 +21,7 @@ export class NavigationBarComponent {
 
     public faUser = faUser;
 
-    constructor(private router: Router, private _authService:AuthService, private jwtHelper: JwtHelperService) { 
+    constructor(private router: Router, private _authService: AuthService, private jwtHelper: JwtHelperService) {
         this.routes = [...router.config].filter((r) =>
             r.data ? r.data["showInNavigationBar"] : false
         );
@@ -39,28 +39,21 @@ export class NavigationBarComponent {
         this.open = !this.open;
     }
 
-    logout(){
+    logout() {
         this._authService.logout();
     }
 
-    isLoggedIn(){
+    isLoggedIn() {
         return this._authService.isLoggedIn();
     }
 
-        async isAdmin() {
-      const token = localStorage.getItem("jwt")!;
+    isAdmin() {
+        const token = localStorage.getItem("jwt");
 
-      if (JSON.parse(token.split(".")[1])["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role"] == "Admin"){
-        if (token && !this.jwtHelper.isTokenExpired(token)){
-          console.log(this.jwtHelper.decodeToken(token))
-          return true;
-        }
-        const isRefreshSuccess = await this._authService.tryRefreshingTokens(token); 
-        if (!isRefreshSuccess) { 
-          this.router.navigate(["login"]); 
-        }
-        return isRefreshSuccess;
-      }
-      return false;
+        if (!token)
+            return false;
+
+        const value = JSON.parse(atob(token.split(".")[1]))["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+        return value == "Admin" || value.includes("Admin");
     }
 }
