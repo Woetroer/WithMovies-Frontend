@@ -1,6 +1,8 @@
 <div class="collection" [ngStyle]="{'--bg-image': 'url(https://image.tmdb.org/t/p/w500' + 
-    (collection.backdropPath ?? collection.posterPath) + ')'}">
-    <h1 class="collection-title">Part of {{ collectionName() }}</h1>
-    <a [routerLink]="['/collection/' + collection.id]" class="view-collection-button">View
+    (collection.backdropPath ?? collection.posterPath) + ')'}" [class.small]="small">
+    <h1 class="collection-title" *ngIf="!small">Part of {{ collectionName() }}</h1>
+    <h1 class="collection-title" *ngIf="small">{{ collection.name }}</h1>
+    <a [routerLink]="['/search']" [queryParams]="{ collection: collection.name }" class="view-collection-button"
+        *ngIf="!small">View
         Collection</a>
 </div>

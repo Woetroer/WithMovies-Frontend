@@ -10,6 +10,7 @@ import { Genre } from "src/interfaces/Genre";
 import { IndexRange, LazyLoadedArray } from "src/LazyLoadedArray";
 import { AuthService } from "./auth.service";
 import { toObservable } from "src/ToObservable";
+import { SearchResults } from "src/interfaces/SearchResults";
 
 @Injectable({
     providedIn: "root",
@@ -21,6 +22,10 @@ export class MovieService {
     trendingRecommendedMovies: LazyLoadedArray<MoviePreview>;
     friendMovies: LazyLoadedArray<MoviePreview>;
     watchlist: LazyLoadedArray<MoviePreview>;
+
+    queryCache: Map<string, SearchResults> = new Map();
+
+    public isLoadingDetails: boolean = false;
 
     constructor(
         private httpClient: HttpClient,
@@ -87,12 +92,20 @@ export class MovieService {
     }
 
     getMovieDetails(id: number) {
-        return this.httpClient.get<IMovieDto>(
+        this.isLoadingDetails = true;
+
+        let observable = this.httpClient.get<IMovieDto>(
             environment.apiUrl +
                 "Movie/" +
                 id.toString() +
                 (this.authService.isLoggedIn() ? "/authorized" : "")
         );
+
+        observable.subscribe(() =>
+            setTimeout(() => (this.isLoadingDetails = false), 300)
+        );
+
+        return observable;
     }
 
     convertMStoHM(milliseconds: number) {
@@ -112,9 +125,36 @@ export class MovieService {
     review(movieId: number, rating: number, message: string | undefined) {
         message = message?.trim();
 
-        if (message?.length == 0)
-            message = undefined;
+        if (message?.length == 0) message = undefined;
 
-        return this.httpClient.post(environment.apiUrl + "review/create", { movieId, rating, message });
+        return this.httpClient.post(environment.apiUrl + "review/create", {
+            movieId,
+            rating,
+            message,
+        });
+    }
+
+    queryMovies(query: SearchQuery, start: number, limit: number) {
+        let jsonString = JSON.stringify(query);
+
+        let entry = this.queryCache.get(jsonString);
+
+        if (entry) {
+            return new Observable<SearchResults>((sub) => {
+                sub.next(entry);
+                sub.complete();
+            });
+        }
+
+        let observable = this.httpClient.post<SearchResults>(
+            environment.apiUrl + `movie/query/${start}/${limit}`,
+            query
+        );
+
+        observable.subscribe((results) =>
+            this.queryCache.set(jsonString, results)
+        );
+
+        return observable;
     }
 }
