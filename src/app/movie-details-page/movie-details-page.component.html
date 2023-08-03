@@ -33,7 +33,8 @@
             <div class="spacer"></div>
 
             <div class="keywords">
-                <div class="keyword" *ngFor="let keyword of movie.keywords;">{{ keyword }}</div>
+                <div class="keyword" *ngFor="let keyword of movie.keywords;" [routerLink]="['/search']"
+                    [queryParams]="{ include: keyword.trim() }">{{ keyword }}</div>
             </div>
         </div>
     </div>
@@ -82,7 +83,8 @@
 
             <div *ngIf="movie.productionCompanies">Produced by:</div>
             <div *ngIf="movie.productionCompanies" class="list">
-                <div *ngFor="let company of movie.productionCompanies">
+                <div *ngFor="let company of movie.productionCompanies" [routerLink]="['/search']"
+                    [queryParams]="{ includeCompany: company.name }" style="cursor: pointer">
                     {{ company.name }}
                 </div>
             </div>

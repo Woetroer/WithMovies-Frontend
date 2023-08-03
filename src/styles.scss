@@ -44,9 +44,17 @@ app-root {
     overflow: hidden;
 }
 
-::ng-deep app-root > :not(router-outlet):not(app-navigation-bar) {
+::ng-deep .__router {
+    min-height: calc(100vh - 76px);
+    max-height: calc(100vh - 76px);
+
+    overflow: hidden;
+}
+
+::ng-deep app-root > .__router > :not(router-outlet):not(app-navigation-bar) {
     display: block;
 
+    min-height: calc(100vh - 76px);
     max-height: calc(100vh - 76px);
 
     overflow: auto;
@@ -80,7 +88,8 @@ select {
     border-radius: 4px;
 }
 
-input[type="submit"], button {
+input[type="submit"],
+button {
     padding: 12px 16px;
     border: none;
     border-radius: 4px;
