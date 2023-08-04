@@ -1,3 +1,5 @@
+@import "../../styles.scss";
+
 $transition: cubic-bezier(0.165, 0.84, 0.44, 1);
 
 .movie-card {
@@ -21,6 +23,10 @@ $transition: cubic-bezier(0.165, 0.84, 0.44, 1);
                 rgba(0, 0, 0, 0.6) 100%
             ),
         center / cover var(--url);
+
+    &.placeholder {
+        background: $secondary-button;
+    }
 
     border-radius: 4px;
 

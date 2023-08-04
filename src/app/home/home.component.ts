@@ -31,9 +31,13 @@ export class HomeComponent {
         this.movies.set("friends", this.movies.get("friends") ?? []);
         this.movies.set("watchlist", this.movies.get("watchlist") ?? []);
 
+        this.movieService
+            .getTrending(0, 25)
+            .subscribe((res) => this.movies.set("trending", res));
+
         if (this.isLoggedIn) {
             this.movieService
-                .getTrendingRecommended(0, 50)
+                .getTrendingRecommended(0, 25)
                 .subscribe((res) =>
                     this.movies.set("trending-recommended", res)
                 );
@@ -43,10 +47,6 @@ export class HomeComponent {
             this.movieService
                 .getWatchlist(0, 10)
                 .subscribe((res) => this.movies.set("watchlist", res));
-        } else {
-            this.movieService
-                .getTrending(0, 10)
-                .subscribe((res) => this.movies.set("trending", res));
         }
     }
 }

@@ -1,29 +1,28 @@
-<main *ngIf="!isLoggedIn">
+<main>
+    <h1 class="header" *ngIf="movies.get('trending-recommended')?.length && isLoggedIn">Recommended for you</h1>
+    <div class="items-wrapper" *ngIf="movies.get('trending-recommended')?.length && isLoggedIn">
+        <div class="items">
+            <app-movie-card *ngFor="let movie of movies.get('trending-recommended')!" [movie]="movie"></app-movie-card>
+        </div>
+    </div>
     <h1 class="header" *ngIf="movies.get('trending')?.length">Trending</h1>
     <div class="items-wrapper" *ngIf="movies.get('trending')?.length">
         <div class="items">
             <app-movie-card *ngFor="let movie of movies.get('trending')!" [movie]="movie"></app-movie-card>
         </div>
     </div>
-</main>
-
-<main *ngIf="isLoggedIn">
-    <h1 class="header" *ngIf="movies.get('trending-recommended')?.length">Recommended for you</h1>
-    <div class="items-wrapper" *ngIf="movies.get('trending-recommended')?.length">
+    <h1 class="header" *ngIf="movies.get('watchlist')?.length && isLoggedIn">My List</h1>
+    <div class="items-wrapper" *ngIf="movies.get('watchlist')?.length && isLoggedIn">
         <div class="items">
-            <app-movie-card *ngFor="let movie of movies.get('trending-recommended')!" [movie]="movie"></app-movie-card>
+            <app-movie-card *ngFor="let movie of movies.get('watchlist')!" [movie]="movie"
+                [placeholder]="true"></app-movie-card>
         </div>
     </div>
-    <h1 class="header" *ngIf="movies.get('watchlist')?.length">My List</h1>
-    <div class="items-wrapper" *ngIf="movies.get('watchlist')?.length">
+    <h1 class="header" *ngIf="movies.get('friends')?.length && isLoggedIn">Your friends recommended you</h1>
+    <div class="items-wrapper" *ngIf="movies.get('friends')?.length && isLoggedIn">
         <div class="items">
-            <app-movie-card *ngFor="let movie of movies.get('watchlist')!" [movie]="movie"></app-movie-card>
-        </div>
-    </div>
-    <h1 class="header" *ngIf="movies.get('friends')?.length">Your friends recommended you</h1>
-    <div class="items-wrapper" *ngIf="movies.get('friends')?.length">
-        <div class="items">
-            <app-movie-card *ngFor="let movie of movies.get('friends')!" [movie]="movie"></app-movie-card>
+            <app-movie-card *ngFor="let movie of movies.get('friends')!" [movie]="movie"
+                [placeholder]="true"></app-movie-card>
         </div>
     </div>
 </main>

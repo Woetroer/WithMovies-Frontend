@@ -10,7 +10,6 @@
         <fa-icon [icon]="faUser" />
     </div>
     <div class="dropdown" [class.open]="open" (window:click)="open ? toggleDropdown($event) : null">
-        <button routerLink="/profile" *ngIf="isLoggedIn()">Profile</button>
         <button routerLink="/settings" *ngIf="isLoggedIn()">Account Settings</button>
         <button (click)="logout()" *ngIf="isLoggedIn()">Logout</button>
         <button routerLink="/analytics" *ngIf="isLoggedIn() && isAdmin()">Analytics</button>
