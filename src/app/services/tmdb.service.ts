@@ -74,7 +74,7 @@ function imageQualityUrlPrefix(
 export class TmdbService {
     private imageCache: Map<number, TmdbImagesResponse> = new Map();
     private imageQueue: Map<number, Observable<TmdbImagesResponse>> = new Map();
-    private requestCounter: number = 30;
+    private requestCounter: number = 5;
 
     constructor(private httpClient: HttpClient) {
         setInterval(() => (this.requestCounter = 5), 1000);
