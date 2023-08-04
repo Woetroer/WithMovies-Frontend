@@ -17,6 +17,8 @@ export class SearchQuery {
     public sortMethod: SortMethod = "release date";
     public sortDescending: boolean = true;
 
+    public page: number = 0;
+
     public constructor(rawText: string) {
         this.rawText = rawText;
     }

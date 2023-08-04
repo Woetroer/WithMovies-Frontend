@@ -24,6 +24,7 @@ import { NgChartsModule } from "ng2-charts";
 import { JwtModule } from "@auth0/angular-jwt";
 import { SearchPageComponent } from "./search-page/search-page.component";
 import { SuggestionBoxComponent } from './suggestion-box/suggestion-box.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 export function tokenGetter() {
     return localStorage.getItem("jwt");
@@ -47,6 +48,7 @@ export function tokenGetter() {
         PreferenceComponent,
         SearchPageComponent,
         SuggestionBoxComponent,
+        PaginationComponent,
     ],
     imports: [
         JwtModule.forRoot({

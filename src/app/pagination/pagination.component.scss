@@ -1,0 +1,48 @@
+@import "../../styles.scss";
+
+.pagination {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+}
+
+.page-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    border: 2px solid $secondary-button;
+    border-radius: 4px;
+
+    box-sizing: border-box;
+
+    cursor: pointer;
+
+    &:hover {
+        border: 2px solid lighten($secondary-button, 10%);
+    }
+}
+
+.page-breadcrumb {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.page-number {
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    &.current {
+        font-weight: 700;
+        color: $primary-button;
+    }
+}

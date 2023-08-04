@@ -96,7 +96,7 @@
 
     <div class="content-wrapper">
         <div class="content" [class.loading]="isLoading">
-            <h1 *ngIf="results" class="results-title">Results
+            <h1 *ngIf="results" class="results-title">{{ results.resultCount}} Results
                 <span *ngIf="query.trim().length > 0">for "{{ query }}"</span>
                 <span class="query-time">took {{ results.time }} seconds</span>
             </h1>
@@ -106,6 +106,8 @@
                 <div class="fill-space"></div>
             </div>
             <fa-icon [icon]="spinner" animation="spin" size="2xl" class="loading-spinner" />
+            <app-pagination [(page)]="page" (pageChange)="pageChanged()" [max-pages]="maxPageCount" class="pagination"
+                *ngIf="results"></app-pagination>
         </div>
     </div>
 </main>

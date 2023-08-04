@@ -1,0 +1,21 @@
+<nav class="pagination">
+    <div class="page-button left" *ngIf="page > 0" (click)="setPage(page - 1)">
+        <fa-icon [icon]="leftIcon"></fa-icon>
+    </div>
+
+    <div class="page-breadcrumb">
+        <div class="page-number" *ngIf="page > 2" (click)="setPage(0)">1</div>
+        <div class="page-elipsis" *ngIf="page > 2">&hellip;</div>
+        <div class="page-number" *ngIf="page > 1" (click)="setPage(page - 2)">{{ page - 1 }}</div>
+        <div class="page-number" *ngIf="page > 0" (click)="setPage(page - 1)">{{ page }}</div>
+        <div class="page-number current">{{ page + 1 }}</div>
+        <div class="page-number" *ngIf="page < maxPages" (click)="setPage(page + 1)">{{ page + 2 }}</div>
+        <div class="page-number" *ngIf="page < maxPages - 1" (click)="setPage(page + 2)">{{ page + 3 }}</div>
+        <div class="page-elipsis" *ngIf="page < maxPages - 2">&hellip;</div>
+        <div class="page-number" *ngIf="page < maxPages - 2" (click)="setPage(maxPages)">{{ maxPages }}</div>
+    </div>
+
+    <div class="page-button right" *ngIf="page < maxPages" (click)="setPage(page + 1)">
+        <fa-icon [icon]="rightIcon"></fa-icon>
+    </div>
+</nav>

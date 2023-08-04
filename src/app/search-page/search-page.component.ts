@@ -79,6 +79,7 @@ export class SearchPageComponent {
     productionCompanySuggestionProviderBound: SuggestionProvider;
 
     page = 0;
+    maxPageCount = 0;
 
     private timerId?: number;
 
@@ -221,6 +222,8 @@ export class SearchPageComponent {
             });
         }
 
+        this.page = 0;
+
         if (dispatch) this.dispatchQuery();
     }
 
@@ -230,6 +233,8 @@ export class SearchPageComponent {
         } else {
             this.sortMethod = newSorting as SortMethod;
         }
+
+        this.page = 0;
 
         this.dispatchQuery();
     }
@@ -297,11 +302,14 @@ export class SearchPageComponent {
 
         query.collection = this.belongsToCollection;
 
+        query.page = this.page;
+
         this.movieService
             .queryMovies(query, this.page * 20, 20)
             .subscribe((results) => {
                 this.results = results;
                 this.isLoading = false;
+                this.maxPageCount = Math.floor(results.resultCount / 20.0);
             });
     }
 
@@ -363,6 +371,10 @@ export class SearchPageComponent {
         this.belongsToCollection = undefined;
         this.collectionData = undefined;
 
+        this.dispatchQuery();
+    }
+
+    pageChanged() {
         this.dispatchQuery();
     }
 }
