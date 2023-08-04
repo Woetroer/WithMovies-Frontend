@@ -1,5 +1,5 @@
 export interface User{
-    name: string,
+    userName: string,
     reviews: number,
     lastOnline: string,
     isBlocked: boolean
