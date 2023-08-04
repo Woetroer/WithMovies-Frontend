@@ -21,6 +21,8 @@ export class MovieCardComponent implements OnInit {
     @Input() movie!: MoviePreview;
     poster?: string;
 
+    @Input() placeholder: boolean = false;
+
     isLoading: boolean = false;
 
     constructor(
