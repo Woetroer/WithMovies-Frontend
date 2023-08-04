@@ -18,6 +18,7 @@ import { AdminPageComponent } from "./admin-page/admin-page.component";
 import { AuthService } from "./services/auth.service";
 
 import { SearchPageComponent } from "./search-page/search-page.component";
+import { MovieReviewsPageComponent } from "./movie-reviews-page/movie-reviews-page.component";
 const routes: Routes = [
     {
         path: "",
@@ -34,6 +35,11 @@ const routes: Routes = [
         path: "movie/:movie",
         component: MovieDetailsPageComponent,
         data: { animation: "MovieDetailsPage" },
+    },
+    {
+        path: "movie/:movie/reviews",
+        component: MovieReviewsPageComponent,
+        data: { animation: "MovieReviewsPage" },
     },
     {
         path: "login",

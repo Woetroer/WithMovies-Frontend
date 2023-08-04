@@ -1,0 +1,55 @@
+@import "../../styles.scss";
+
+.review {
+    padding: 16px 24px;
+
+    background-color: $secondary-button;
+
+    border-radius: 8px;
+
+    // display: flex;
+    // flex-direction: column;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background: lighten($secondary-button, 20%);
+    margin: 8px 0;
+}
+
+header {
+    display: flex;
+}
+
+.username {
+    display: inline;
+    font-weight: 700;
+}
+
+.posted-time {
+    color: darken($text, 20%);
+}
+
+.stars {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    shape-rendering: geometricPrecision;
+
+    // prettier-ignore
+    @for $i from 0 through 5 {
+        ::ng-deep fa-icon:nth-child(5n + #{$i})>svg {
+            --progress: calc(max(0.0, (var(--rating) / 2.0) - #{$i - 1}.0) * 100%);
+            mask-image: linear-gradient(to right, white var(--progress), transparent calc(var(--progress) + 0.001%));
+            color: $accent;
+
+            transition: color 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+    }
+}
+
+.spacer {
+    flex-grow: 1;
+}

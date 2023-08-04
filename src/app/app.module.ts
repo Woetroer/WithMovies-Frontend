@@ -25,6 +25,8 @@ import { JwtModule } from "@auth0/angular-jwt";
 import { SearchPageComponent } from "./search-page/search-page.component";
 import { SuggestionBoxComponent } from './suggestion-box/suggestion-box.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { MovieReviewsPageComponent } from './movie-reviews-page/movie-reviews-page.component';
+import { ReviewDisplayComponent } from './review-display/review-display.component';
 
 export function tokenGetter() {
     return localStorage.getItem("jwt");
@@ -49,6 +51,8 @@ export function tokenGetter() {
         SearchPageComponent,
         SuggestionBoxComponent,
         PaginationComponent,
+        MovieReviewsPageComponent,
+        ReviewDisplayComponent,
     ],
     imports: [
         JwtModule.forRoot({

@@ -1,0 +1,12 @@
+<div class="review-page" [class.empty]="reviews && reviews.length == 0">
+    <div class="loading" *ngIf="!reviews">
+
+    </div>
+    <div class="content" *ngIf="reviews">
+        <app-review-display *ngFor="let review of reviews" [review]="review"></app-review-display>
+        <div class="nothing-here" *ngIf="reviews.length == 0">
+            <img src="/assets/tenor2.gif" alt="cow" class="polish-dancing-cow">
+            <span>No reviews found &#xaf;&#x5c;&#x5f;&#x28;&#x30c4;&#x29;&#x5f;&#x2f;&#xaf;</span>
+        </div>
+    </div>
+</div>

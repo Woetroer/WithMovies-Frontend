@@ -1,0 +1,20 @@
+<div class="review">
+    <header>
+        <div class="left">
+            <h3 class="username">{{ review.watcherTag }}</h3>
+            <span class="posted-time"> - {{ timeDisplay }}</span>
+        </div>
+        <div class="spacer"></div>
+        <div class="right" [ngStyle]="{'--rating': review.rating.toFixed(3)}">
+            <div class="stars">
+                <fa-icon [icon]="faStar"></fa-icon>
+                <fa-icon [icon]="faStar"></fa-icon>
+                <fa-icon [icon]="faStar"></fa-icon>
+                <fa-icon [icon]="faStar"></fa-icon>
+                <fa-icon [icon]="faStar"></fa-icon>
+            </div>
+        </div>
+    </header>
+    <hr *ngIf="review.message">
+    <div class="message" *ngIf="review.message">{{ review.message }}</div>
+</div>

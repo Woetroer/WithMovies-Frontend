@@ -1,0 +1,40 @@
+@import "../../styles.scss";
+
+.review-page {
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+
+    &.empty {
+        .content {
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+
+    width: 1024px;
+
+    padding: 32px 0;
+}
+
+.nothing-here {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    span {
+        font-weight: 600;
+        font-size: 24px;
+
+        color: darken($text, 30%);
+    }
+}
