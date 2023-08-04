@@ -45,21 +45,32 @@ export class MovieDetailsPageComponent {
         this.fetchMovie();
     }
 
+    @Input("movie") set setMovie(newMovie: IMovieDto) {
+        this.movie = newMovie;
+        this.fetchMovie(false);
+    }
+
     constructor(
         private movieService: MovieService,
         private tmdbService: TmdbService
     ) {}
 
-    fetchMovie() {
-        this.movieService
-            .getMovieDetails(this.id)
-            .subscribe((movie: IMovieDto) => {
-                this.movie = movie;
-                this.movie.productionCountries?.filter((c) => c != undefined);
+    fetchMovie(api: boolean = true) {
+        if (api) {
+            this.movieService
+                .getMovieDetails(this.id)
+                .subscribe((movie: IMovieDto) => {
+                    this.movie = movie;
+                    this.movie.productionCountries?.filter(
+                        (c) => c != undefined
+                    );
 
-                if (this.movie.releaseDate)
-                    this.movie.releaseDate = new Date(this.movie.releaseDate);
-            });
+                    if (this.movie.releaseDate)
+                        this.movie.releaseDate = new Date(
+                            this.movie.releaseDate
+                        );
+                });
+        }
 
         this.tmdbService
             .getMovieImage(
@@ -86,7 +97,7 @@ export class MovieDetailsPageComponent {
 
     giveRating() {
         this.activeStar = this.lastHovered;
-        this.ratingScore = this.activeStar;
+        this.ratingScore = this.activeStar * 2.0;
 
         this.popupOpen = true;
     }

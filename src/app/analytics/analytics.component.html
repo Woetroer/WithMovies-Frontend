@@ -1,9 +1,25 @@
 <div class="grid-container">
     <div class="item trending-genres">
-            <li *ngFor='let g of trendingGenres'>
-                <div>{{g}}</div>
-            </li>
+        <h3 style="font-size: small;" class="item-title">Trending genres</h3>
+        <canvas id="trending-genres" class="pie-chart" *ngIf="trendingGenresData" baseChart [data]="trendingGenresData" [options]="trendingGenresChartOptions" [type]="'pie'"></canvas>
     </div>
-    <div class="item user-info"></div>
-    <div class="item highest-rating-film"></div>
+    <div class="item user-info">
+        <h3 style="font-size: small;" class="item-title">User Info</h3>
+            <div class="user-info-details">
+                    <div>Number of users: {{allUsers}}</div>
+                    <div>Average reviews per user: {{averageReviewsPerUser}}</div>
+                    <div>
+                        Users with most reviews:
+                        <div class="user-list">
+                            <div *ngFor="let user of mostActiveUsers">{{user.userName}}</div>
+                        </div>
+                    </div>               
+            </div>
+    </div>
+    <div class="item highest-rating-film">
+        <h3 style="font-size: small;" class="item-title">Highest Rating Movies</h3>
+        <div class="highest-rating-film-list">
+            <app-movie-card *ngFor="let movie of movies.get('trending')!" [movie]="movie"></app-movie-card>
+        </div>
+    </div>
 </div>
